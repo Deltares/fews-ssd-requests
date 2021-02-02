@@ -26,6 +26,7 @@ eslint-to-html:
     - npm install
     - npm run lint-to-html
   artifacts:
+    when: always
     paths:
       - eslint-output.html
 
