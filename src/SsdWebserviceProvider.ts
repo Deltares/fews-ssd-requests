@@ -41,12 +41,12 @@ export class SsdWebserviceProvider implements WebserviceProvider{
     return encodeURI(this.getUrl() + request)
   }
 
-  urlForActions (panelId: string, objecId: string): string {
+  urlForActions (panelId: string, objectId: string): string {
     // SSD (required): the name of the SSD "DisplayPanel" to query. Only one SSD can be queried at a time.
     // OBJECTID: the id of the SVG object to retrieve the configured actions for.
     // ACTION: the type of user interaction, can be either LEFTSINGLECLICK or LEFTDOUBLECLICK (case insensitive)
     // FORMAT (optional) : the requested output format. ( 'application/xml' or 'application/json')  The default format is XML.
-    const request = '?request=GetAction' + '&ssd=' + panelId + '&action=leftsingleclick' + '&objectid=' + objecId + '&format=application/json'
+    const request = '?request=GetAction' + '&ssd=' + panelId + '&action=leftsingleclick' + '&objectid=' + objectId + '&format=application/json'
     return encodeURI(this.getUrl() + request)
   }
 

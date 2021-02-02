@@ -33,5 +33,14 @@ describe("ssd", function() {
     const expected = baseUrl + apiEndpoint + "?request=GetDisplay&ssd=" + panel + "&time=" + today;
     expect(url).toEqual(expected);
   });
+
+  it("gives the correct url to an action", function() {
+    const provider = new SsdWebserviceProvider(baseUrl, exclude);
+    const panelId = "SomePanelId";
+    const objectId = "SomeObjectId";
+    const url = provider.urlForActions(panelId, objectId);
+    const expected = baseUrl + apiEndpoint + "?request=GetAction&ssd=" + panelId + "&action=leftsingleclick&objectid=" + objectId + "&format=application/json";
+    expect(url).toEqual(expected);
+  });
 });
 
