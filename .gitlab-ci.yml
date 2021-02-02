@@ -1,0 +1,51 @@
+# use as many of the Auto DevOps templates as useful
+# see https://gitlab.com/gitlab-org/gitlab/blob/master/lib/gitlab/ci/templates/Auto-DevOps.gitlab-ci.yml
+include:
+  #- template: Auto-DevOps.gitlab-ci.yml  # this runs ALL DevOps templates, we specify the ones we need below for finetuning
+  #- template: Jobs/Build.gitlab-ci.yml  # a build is done to run the tests, so we skip this to speed up testing
+  - template: Jobs/Test.gitlab-ci.yml
+  - template: Jobs/Code-Quality.gitlab-ci.yml
+  - template: Security/Secret-Detection.gitlab-ci.yml
+  - template: Security/SAST.gitlab-ci.yml
+
+# override the code quality output to HTML
+code_quality:
+  variables:
+    REPORT_FORMAT: html
+  artifacts:
+    when: always
+    paths:
+      - gl-code-quality-report.html
+
+# can't get eslint to work with Auto DevOps for some reason
+# so let's define the job manually
+eslint-to-html:
+  stage: test
+  image: node:latest
+  script:
+    - npm install
+    - npm run lint-to-html
+  artifacts:
+    when: always
+    paths:
+      - eslint-output.html
+
+# the secret detection is only done on the master branch
+# the secret detection template has 2 sub-jobs:
+# secret_detection_default_branch (is triggered on master only)
+# secret_detection (is triggered on brances only)
+# we disable the secret detection on branches:
+secret_detection:
+  rules:
+     - when: never
+
+# the eslint SAST test is only done on the master branch
+eslint-sast:
+  rules:
+     - if: '$CI_COMMIT_BRANCH == "master"'
+
+# the NodeJS SAST scan is only done on the master branch
+nodejs-scan-sast:
+  rules:
+     - if: '$CI_COMMIT_BRANCH == "master"'
+

@@ -1,8 +1,10 @@
+import { WebserviceProvider } from './interfaces/WebserviceProvider'
+
 /**
  * The SsdWebserviceProvider class is used to obtain
  * Schematic Status Display (SSD) data and process it
  */
-export class SsdWebserviceProvider {
+export class SsdWebserviceProvider implements WebserviceProvider{
   baseUrl: URL
   readonly API_ENDPOINT = 'FewsWebServices/ssd'
 
@@ -18,7 +20,7 @@ export class SsdWebserviceProvider {
     this.baseUrl = new URL('', url)
   }
 
-  getUrl(): any {
+  getUrl(): string {
     return this.baseUrl.toString()
   }
 }
