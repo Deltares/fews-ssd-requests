@@ -9,6 +9,7 @@
     "clean": "shx rm -rf dist",
     "doc": "typedoc --out doc src",
     "lint": "eslint src/**.ts",
+    "lint-to-html": "eslint -o eslint-output.html -f html --max-warnings 0 'src/**/*.ts'",
     "lint:fix": "eslint src/**.ts --fix",
     "prepare": "npm run build",
     "test": "jest"
