@@ -11,7 +11,7 @@ import { getHttp, HttpResponse } from './utils'
 export class SsdWebserviceProvider implements WebserviceProvider{
   baseUrl: URL
   excludedGroupsNames: string[]
-  readonly API_ENDPOINT = 'FewsWebServices/ssd/'
+  readonly API_ENDPOINT = 'FewsWebServices/ssd'
 
   /**
    * Constructor for SsdWebserviceProvider
@@ -31,13 +31,13 @@ export class SsdWebserviceProvider implements WebserviceProvider{
   }
 
   urlForCapabilities (): string {
-    const request = 'ssd?request=GetCapabilities&format=application/json'
+    const request = '?request=GetCapabilities&format=application/json'
     return encodeURI(this.getUrl() + request)
   }
 
   urlForPanel (panelName: string, date: Date): string {
     const dateString = date.toISOString().split('.')[0] + 'Z'
-    const request = 'ssd?request=GetDisplay&ssd=' + panelName + '&time=' + dateString
+    const request = '?request=GetDisplay&ssd=' + panelName + '&time=' + dateString
     return encodeURI(this.getUrl() + request)
   }
 
@@ -46,7 +46,7 @@ export class SsdWebserviceProvider implements WebserviceProvider{
     // OBJECTID: the id of the SVG object to retrieve the configured actions for.
     // ACTION: the type of user interaction, can be either LEFTSINGLECLICK or LEFTDOUBLECLICK (case insensitive)
     // FORMAT (optional) : the requested output format. ( 'application/xml' or 'application/json')  The default format is XML.
-    const request = 'ssd?request=GetAction' + '&ssd=' + panelId + '&action=leftsingleclick' + '&objectid=' + objecId + '&format=application/json'
+    const request = '?request=GetAction' + '&ssd=' + panelId + '&action=leftsingleclick' + '&objectid=' + objecId + '&format=application/json'
     return encodeURI(this.getUrl() + request)
   }
 

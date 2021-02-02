@@ -1,7 +1,7 @@
 import {SsdWebserviceProvider} from '../src/SsdWebserviceProvider';
 
 const baseUrl = "https://rwsos.webservices.deltares.nl/iwp/";
-const apiEndpoint = "FewsWebServices/ssd/";
+const apiEndpoint = "FewsWebServices/ssd";
 const exclude = {
   displayGroups: []
 };
@@ -21,7 +21,16 @@ describe("ssd", function() {
   it("gives the correct url to the capabilities", function() {
     const provider = new SsdWebserviceProvider(baseUrl, exclude);
     const url = provider.urlForCapabilities();
-    const expected = baseUrl + apiEndpoint + "ssd?request=GetCapabilities&format=application/json";
+    const expected = baseUrl + apiEndpoint + "?request=GetCapabilities&format=application/json";
+    expect(url).toEqual(expected);
+  });
+
+  it("gives the correct url to a panel", function() {
+    const provider = new SsdWebserviceProvider(baseUrl, exclude);
+    const panel = "SomePanelName";
+    const today = "2021-01-01T12:34:56Z";
+    const url = provider.urlForPanel(panel, new Date(today));
+    const expected = baseUrl + apiEndpoint + "?request=GetDisplay&ssd=" + panel + "&time=" + today;
     expect(url).toEqual(expected);
   });
 });
