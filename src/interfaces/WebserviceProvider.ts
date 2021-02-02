@@ -3,5 +3,12 @@
  */
 export interface WebserviceProvider {
   getUrl (): string;
+  urlForCapabilities (): string;
+  urlForPanel (panelName: string, date: Date): string;
+  urlForActions (panelId: string, objecId: string): string;
+}
+
+export interface ExcludeGroups {
+  displayGroups: {name: string}[];
 }
 
