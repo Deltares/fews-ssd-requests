@@ -1,6 +1,7 @@
-import { WebserviceProvider, ExcludeGroups } from './interfaces'
+import { WebserviceProvider, ExcludeGroups, ExcludeGroupsDisplayName } from './interfaces'
 import { Action } from './interfaces'
 import { Capabilities } from './interfaces'
+import { TimeSeriesResponse as FewsPiTimeSeriesResponse} from './interfaces'
 import { getHttp, HttpResponse } from './utils'
 
 /**
@@ -10,7 +11,7 @@ import { getHttp, HttpResponse } from './utils'
 export class SsdWebserviceProvider implements WebserviceProvider{
   baseUrl: URL
   excludedGroupsNames: string[]
-  readonly API_ENDPOINT = 'FewsWebServices/ssd'
+  readonly API_ENDPOINT = 'FewsWebServices/ssd/'
 
   /**
    * Constructor for SsdWebserviceProvider
@@ -21,8 +22,8 @@ export class SsdWebserviceProvider implements WebserviceProvider{
     if (!url.endsWith('/')) {
       url += '/'
     }
-    this.baseUrl = new URL('', url)
-    this.excludedGroupsNames = excludeGroups.displayGroups.map((group: any) => { return group.name })
+    this.baseUrl = new URL(this.API_ENDPOINT, url)
+    this.excludedGroupsNames = excludeGroups.displayGroups.map((group: ExcludeGroupsDisplayName) => { return group.name })
   }
 
   getUrl(): string {
@@ -58,10 +59,10 @@ export class SsdWebserviceProvider implements WebserviceProvider{
     })
   }
 
-  fetchPiRequest (request: string): Promise<any> {
-    return new Promise<any>((resolve) => {
-      getHttp<any>(this.getUrl + '/' + request)
-        .then((response: HttpResponse<any>) => {
+  fetchPiRequest (request: string): Promise<FewsPiTimeSeriesResponse> {
+    return new Promise<FewsPiTimeSeriesResponse>((resolve) => {
+      getHttp<FewsPiTimeSeriesResponse>(this.getUrl() + '/' + request)
+        .then((response: HttpResponse<FewsPiTimeSeriesResponse>) => {
           resolve(response.parsedBody)
         })
     })
@@ -72,8 +73,8 @@ export class SsdWebserviceProvider implements WebserviceProvider{
       getHttp<Capabilities>(this.urlForCapabilities())
         .then((response: HttpResponse<Capabilities>) => {
           if (response.parsedBody) {
-            response.parsedBody.displayGroups = response.parsedBody.displayGroups.filter((group: any) => {
-              const index = this.excludedGroupsNames.findIndex((name:string) => {
+            response.parsedBody.displayGroups = response.parsedBody.displayGroups.filter((group: ExcludeGroupsDisplayName) => {
+              const index = this.excludedGroupsNames.findIndex((name: string) => {
                 return name === group.name
               })
               return index === -1

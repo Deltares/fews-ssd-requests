@@ -9,6 +9,10 @@ export interface WebserviceProvider {
 }
 
 export interface ExcludeGroups {
-  displayGroups: {name: string}[];
+  displayGroups: ExcludeGroupsDisplayName[];
+}
+
+export interface ExcludeGroupsDisplayName {
+  name: string;
 }
 
