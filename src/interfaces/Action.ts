@@ -1,10 +1,10 @@
 export interface Action {
-  results: Result[]
+  results: Result[];
 }
 
 export interface Result {
   type: ActionType;
-  requests: IRequest[];
+  requests: ResultRequest[];
 }
 
 export enum ActionType {
@@ -14,7 +14,7 @@ export enum ActionType {
   URL = 'URL',
 }
 
-export interface IRequest {
+export interface ResultRequest {
   request: string;
 }
 

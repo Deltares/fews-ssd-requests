@@ -1,7 +1,3 @@
-export async function getHttp<T> ( path: string, args: RequestInit = { method: 'get' } ): Promise<HttpResponse<T>> {
-  return http<T>(new Request(path, args))
-}
-
 export interface HttpResponse<T> extends Response {
   parsedBody?: T;
 }
@@ -12,5 +8,9 @@ export async function http<T> ( request: RequestInfo ): Promise<HttpResponse<T>>
   )
   response.parsedBody = await response.json()
   return response
+}
+
+export async function getHttp<T> ( path: string, args: RequestInit = { method: 'get' } ): Promise<HttpResponse<T>> {
+  return http<T>(new Request(path, args))
 }
 
