@@ -20,7 +20,7 @@ export class SsdWebserviceProvider implements WebserviceProvider{
     this.baseUrl = new URL('', url)
   }
 
-  getUrl(): any {
+  getUrl(): string {
     return this.baseUrl.toString()
   }
 }

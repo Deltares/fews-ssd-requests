@@ -1,4 +1,4 @@
-import {SsdWebserviceProvider} from '../src/ssd-webservice-requests'
+import {SsdWebserviceProvider} from '../src/SsdWebserviceProvider'
 
 describe("ssd", function() {
   it("stores the base url on creation", function() {
