@@ -1,0 +1,42 @@
+{
+  "name": "fews-ssd-requests",
+  "version": "0.1.0",
+  "main": "./dist/fews-ssd-requests.umd.js",
+  "typings": "./dist/types/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "npm run clean && tsc && webpack",
+    "clean": "shx rm -rf dist",
+    "doc": "typedoc --out doc src",
+    "lint": "eslint src/**.ts",
+    "lint:fix": "eslint src/**.ts --fix",
+    "prepare": "npm run build",
+    "test": "jest"
+  },
+  "dependencies": {
+    "core-js": "^3.6.4"
+  },
+  "devDependencies": {
+    "@types/jest": "^26.0.15",
+    "@typescript-eslint/eslint-plugin": "^2.18.0",
+    "@typescript-eslint/parser": "^2.18.0",
+    "eslint": "^6.8.0",
+    "jest": "^26.6.1",
+    "shx": "^0.3.2",
+    "ts-jest": "^26.4.3",
+    "ts-loader": "^6.2.1",
+    "typedoc": "^0.19.2",
+    "typescript": "^3.8.3",
+    "webpack": "^4.42.0",
+    "webpack-cli": "^3.3.11",
+    "xhr-mock": "^2.5.1"
+  },
+  "engines": {
+    "node": ">=0.14"
+  },
+  "files": [
+    "dist/*",
+    "src/*"
+  ]
+}
+
