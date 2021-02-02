@@ -13,6 +13,7 @@ code_quality:
   variables:
     REPORT_FORMAT: html
   artifacts:
+    when: always
     paths:
       - gl-code-quality-report.html
 
