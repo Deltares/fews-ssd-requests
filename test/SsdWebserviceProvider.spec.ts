@@ -5,6 +5,29 @@ const apiEndpoint = "FewsWebServices/ssd";
 const exclude = {
   displayGroups: []
 };
+const displayName1 = "ScadaMeppelerdiep";
+const displayName2 = "ScadaNDB";
+
+const dimensionFormat = {
+  name: expect.any(String),
+  units: expect.any(String),
+  default: expect.any(String),
+  period: expect.any(String)
+};
+const displayPanelFormat = {
+  name: expect.any(String),
+  title: expect.any(String),
+  dimension: expect.objectContaining(dimensionFormat)
+};
+const displayGroupFormat = {
+  name: expect.any(String),
+  title: expect.any(String),
+  displayPanels: expect.arrayContaining([expect.objectContaining(displayPanelFormat)])
+};
+const capabilitiesFormat = {
+  title: expect.any(String),
+  displayGroups: expect.arrayContaining([expect.objectContaining(displayGroupFormat)])
+};
 
 describe("ssd", function() {
   it("creates the api url on creation", function() {
@@ -47,28 +70,30 @@ describe("ssd", function() {
     const provider = new SsdWebserviceProvider(baseUrl, exclude);
     const promise = provider.getCapabilities();
     const capabilities = await promise;
+    expect(capabilities).toMatchObject(capabilitiesFormat);
 
-    const dimensionFormat = {
-      name: expect.any(String),
-      units: expect.any(String),
-      default: expect.any(String),
-      period: expect.any(String)
+    // check that 'displayName1' and 'displayName1' are in the results
+    const names = capabilities.displayGroups.map(x => x.name);
+    expect(names).toContain(displayName1);
+    expect(names).toContain(displayName2);
+  });
+
+  it("retrieves capabilities with exclude groups", async function() {
+    const excludeGroup = {
+      displayGroups: [
+        {name: displayName1},
+        {name: displayName2}
+        ]
     };
-    const displayPanelFormat = {
-      name: expect.any(String),
-      title: expect.any(String),
-      dimension: expect.objectContaining(dimensionFormat)
-    };
-    const displayGroupFormat = {
-      name: expect.any(String),
-      title: expect.any(String),
-      displayPanels: expect.arrayContaining([expect.objectContaining(displayPanelFormat)])
-    };
-    const capabilitiesFormat = {
-      title: expect.any(String),
-      displayGroups: expect.arrayContaining([expect.objectContaining(displayGroupFormat)])
-    };
-    expect(capabilities).toMatchObject(capabilitiesFormat)
+    const provider = new SsdWebserviceProvider(baseUrl, excludeGroup);
+    const promise = provider.getCapabilities();
+    const capabilities = await promise;
+    expect(capabilities).toMatchObject(capabilitiesFormat);
+
+    // check that 'displayName1' and 'displayName1' are NOT in the results
+    const names = capabilities.displayGroups.map(x => x.name);
+    expect(names).not.toContain(displayName1);
+    expect(names).not.toContain(displayName2);
   });
 });
 
