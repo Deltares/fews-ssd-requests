@@ -29,6 +29,17 @@ const capabilitiesFormat = {
   displayGroups: expect.arrayContaining([expect.objectContaining(displayGroupFormat)])
 };
 
+const actionResultRequestFormat = {
+  request: expect.any(String)
+};
+const actionResultFormat = {
+  type: expect.any(String),
+  requests: expect.arrayContaining([expect.objectContaining(actionResultRequestFormat)])
+};
+const actionFormat = {
+  results: expect.arrayContaining([expect.objectContaining(actionResultFormat)])
+};
+
 describe("ssd", function() {
   it("creates the api url on creation", function() {
     const provider = new SsdWebserviceProvider(baseUrl, exclude);
@@ -114,6 +125,45 @@ describe("ssd", function() {
     const names = capabilities.displayGroups.map(x => x.name);
     expect(names).not.toContain(displayName1);
     expect(names).not.toContain(displayName2);
+  });
+
+  it("retrieves actions", async function() {
+    // download a real action that exists in the capabilities
+    // first get the capabilities
+    const provider = new SsdWebserviceProvider(baseUrl, exclude);
+    const promise = provider.getCapabilities();
+    const capabilities = await promise;
+    // from the capabilities get info for a panel
+    const group = capabilities.displayGroups[0];
+    const panel = group.displayPanels[0];
+    const panelName = panel.name;
+    let panelDate: string = (new Date()).toISOString();
+    if (panel.dimension) {
+      const panelPeriod = panel.dimension.period;
+      panelDate = panelPeriod.split("/")[0];
+    };
+    // get the panel SVG
+    const url = provider.urlForPanel(panelName, new Date(panelDate));
+    const request = new Request(url);
+    const response = await fetch(request);
+    const blob = await response.blob();
+    const svg = await (new Response(blob)).text();
+    // get a valid object id
+    const allIds = svg.match(new RegExp('fews:id="(.*?)"', "g"));
+    if (allIds) {
+      const allObjectNames = allIds.map(x => x.split('"')[1]);
+      // get an object with name "Pijl"
+      let objectName = "";
+      allObjectNames.forEach(name => {
+        if (name.includes("Pijl")) {
+          objectName = name;
+        };
+      });
+      // get the action
+      const promise2 = provider.getLeftClickAction(panelName, objectName);
+      const action = await promise2;
+      expect(action).toMatchObject(actionFormat);
+    }
   });
 });
 
