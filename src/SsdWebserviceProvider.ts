@@ -9,9 +9,11 @@ import { getHttp, HttpResponse } from './utils'
  * Schematic Status Display (SSD) data and process it
  */
 export class SsdWebserviceProvider implements WebserviceProvider{
-  baseUrl: URL
+  ssdUrl: URL
+  piUrl: URL
   excludedGroupsNames: string[]
-  readonly API_ENDPOINT = 'FewsWebServices/ssd'
+  readonly SSD_ENDPOINT = 'FewsWebServices/ssd'
+  readonly PI_ENDPOINT = 'FewsWebServices'
 
   /**
    * Constructor for SsdWebserviceProvider
@@ -22,12 +24,17 @@ export class SsdWebserviceProvider implements WebserviceProvider{
     if (!url.endsWith('/')) {
       url += '/'
     }
-    this.baseUrl = new URL(this.API_ENDPOINT, url)
+    this.ssdUrl = new URL(this.SSD_ENDPOINT, url)
+    this.piUrl = new URL(this.PI_ENDPOINT, url)
     this.excludedGroupsNames = excludeGroups.displayGroups.map((group: ExcludeGroupsDisplayName) => { return group.name })
   }
 
   getUrl(): string {
-    return this.baseUrl.toString()
+    return this.ssdUrl.toString()
+  }
+
+  getPiUrl(): string {
+    return this.piUrl.toString()
   }
 
   urlForCapabilities (): string {
@@ -61,7 +68,7 @@ export class SsdWebserviceProvider implements WebserviceProvider{
 
   fetchPiRequest (request: string): Promise<FewsPiTimeSeriesResponse> {
     return new Promise<FewsPiTimeSeriesResponse>((resolve) => {
-      getHttp<FewsPiTimeSeriesResponse>(this.getUrl() + '/' + request)
+      getHttp<FewsPiTimeSeriesResponse>(this.getPiUrl() + '/' + request)
         .then((response: HttpResponse<FewsPiTimeSeriesResponse>) => {
           resolve(response.parsedBody)
         })
