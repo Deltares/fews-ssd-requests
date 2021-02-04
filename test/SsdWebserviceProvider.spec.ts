@@ -57,6 +57,26 @@ describe("ssd", function() {
     expect(url).toEqual(expected);
   });
 
+  it("gives the correct url to a panel, with download check", async function() {
+    // download a real panel that exists in the capabilities
+    const provider = new SsdWebserviceProvider(baseUrl, exclude);
+    const promise = provider.getCapabilities();
+    const capabilities = await promise;
+    const group = capabilities.displayGroups[0];
+    const panel = group.displayPanels[0];
+    const panelName = panel.name;
+    let panelDate: string = (new Date()).toISOString();
+    if (panel.dimension) {
+      const panelPeriod = panel.dimension.period;
+      panelDate = panelPeriod.split("/")[0];
+    };
+    const url = provider.urlForPanel(panelName, new Date(panelDate));
+    const request = new Request(url);
+    const result = await fetch(request);
+    expect(result.status).toEqual(200);
+    expect(result.headers.get("content-type")).toMatch("image/svg+xml");
+  });
+
   it("gives the correct url to an action", function() {
     const provider = new SsdWebserviceProvider(baseUrl, exclude);
     const panelId = "SomePanelId";
