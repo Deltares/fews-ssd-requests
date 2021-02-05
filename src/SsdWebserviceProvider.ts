@@ -29,25 +29,40 @@ export class SsdWebserviceProvider implements WebserviceProvider{
     this.excludedGroupsNames = excludeGroups.displayGroups.map((group: ExcludeGroupsDisplayName) => { return group.name })
   }
 
+  /**
+   * Get the base url for SSD requests
+   */
   getUrl(): string {
     return this.ssdUrl.toString()
   }
 
+  /**
+   * Get the base url for PI requests
+   */
   getPiUrl(): string {
     return this.piUrl.toString()
   }
 
+  /**
+   * Get the url to retrieve SSD capabilities
+   */
   urlForCapabilities (): string {
     const request = '?request=GetCapabilities&format=application/json'
     return encodeURI(this.getUrl() + request)
   }
 
+  /**
+   * Get the url to retrieve an SSD panel
+   */
   urlForPanel (panelName: string, date: Date): string {
     const dateString = date.toISOString().split('.')[0] + 'Z'
     const request = '?request=GetDisplay&ssd=' + panelName + '&time=' + dateString
     return encodeURI(this.getUrl() + request)
   }
 
+  /**
+   * Get the url to retrieve a SSD actions for a specific object on a specific panel
+   */
   urlForActions (panelId: string, objectId: string): string {
     // SSD (required): the name of the SSD "DisplayPanel" to query. Only one SSD can be queried at a time.
     // OBJECTID: the id of the SVG object to retrieve the configured actions for.
@@ -57,6 +72,9 @@ export class SsdWebserviceProvider implements WebserviceProvider{
     return encodeURI(this.getUrl() + request)
   }
 
+  /**
+   * Retrieve the SSD actions for a specific object on a specific panel
+   */
   getLeftClickAction (panelId: string, objectId: string): Promise<Action> {
     return new Promise<Action>((resolve) => {
       getJsonUsingHttp<Action>(this.urlForActions(panelId, objectId))
@@ -66,6 +84,9 @@ export class SsdWebserviceProvider implements WebserviceProvider{
     })
   }
 
+  /**
+   * Retrieve a PI timeseries using the request path supplied in a action
+   */
   fetchPiRequest (request: string): Promise<FewsPiTimeSeriesResponse> {
     return new Promise<FewsPiTimeSeriesResponse>((resolve) => {
       getJsonUsingHttp<FewsPiTimeSeriesResponse>(this.getPiUrl() + '/' + request)
@@ -75,6 +96,9 @@ export class SsdWebserviceProvider implements WebserviceProvider{
     })
   }
 
+  /**
+   * Retrieve the SSD capabilities
+   */
   getCapabilities (): Promise<Capabilities> {
     return new Promise<Capabilities>((resolve) => {
       getJsonUsingHttp<Capabilities>(this.urlForCapabilities())
