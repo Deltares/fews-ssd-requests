@@ -1,9 +1,17 @@
 import { Duration } from '../interfaces'
 
-const iso8601DurationRegex = /(-)?P(?:([.,\d]+)Y)?(?:([.,\d]+)M)?(?:([.,\d]+)W)?(?:([.,\d]+)D)?T(?:([.,\d]+)H)?(?:([.,\d]+)M)?(?:([.,\d]+)S)?/
+const sign = "(-)?";
+const year =   "(?:([.,\\d]+)Y)?";
+const month =  "(?:([.,\\d]+)M)?";
+const week =   "(?:([.,\\d]+)W)?";
+const day =    "(?:([.,\\d]+)D)?";
+const hour =   "(?:([.,\\d]+)H)?";
+const minute = "(?:([.,\\d]+)M)?";
+const second = "(?:([.,\\d]+)S)?";
+const iso8601DurationRegex = sign + "P" + year + month + week + day + "(?:T" + hour + minute + second + ")?";
 
 function parseIso8601Duration (iso8601Duration: string): Duration | undefined {
-  const matches = iso8601Duration.match(iso8601DurationRegex)
+  const matches = iso8601Duration.match(new RegExp(iso8601DurationRegex))
   if (matches) {
     return {
       sign: matches[1] === undefined ? '+' : '-',
@@ -18,9 +26,17 @@ function parseIso8601Duration (iso8601Duration: string): Duration | undefined {
   }
 }
 
+/**
+ * convert a duration to ms
+ * NOTE: the returned value ignores the years & months in the duration object
+ */
 function durationToMillis (duration: Duration | undefined): number {
   if (!duration) return NaN
-  const offset = +(duration.sign += '1') * ((duration.hours * 60 + duration.minutes) * 60 + duration.seconds) * 1000
+  const days = duration.weeks * 7 + duration.days;
+  const hours = days * 24 + duration.hours;
+  const minutes = hours * 60 + duration.minutes;
+  const seconds = minutes * 60 + duration.seconds;
+  const offset = +(duration.sign += '1') * seconds * 1000
   return offset
 }
 
