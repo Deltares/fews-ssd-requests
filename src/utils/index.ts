@@ -1,3 +1,3 @@
-export * from './timeUtils'
-export * from './webUtils'
+export * from './datesFromPeriod'
+export * from './getJsonUsingHttp'
 

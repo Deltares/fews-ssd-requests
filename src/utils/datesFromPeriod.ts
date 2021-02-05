@@ -10,6 +10,9 @@ const minute = "(?:([.,\\d]+)M)?";
 const second = "(?:([.,\\d]+)S)?";
 const iso8601DurationRegex = sign + "P" + year + month + week + day + "(?:T" + hour + minute + second + ")?";
 
+/**
+ * parse a duration string and return a Duration object (i.e. # years, # months, # weeks, etc.)
+ */
 function parseIso8601Duration (iso8601Duration: string): Duration | undefined {
   const matches = iso8601Duration.match(new RegExp(iso8601DurationRegex))
   if (matches) {
@@ -27,7 +30,7 @@ function parseIso8601Duration (iso8601Duration: string): Duration | undefined {
 }
 
 /**
- * convert a duration to ms
+ * Convert a duration (in # seconds, # minutes, # hours, etc) to ms
  * NOTE: the returned value ignores the years & months in the duration object
  */
 function durationToMillis (duration: Duration | undefined): number {
@@ -40,6 +43,9 @@ function durationToMillis (duration: Duration | undefined): number {
   return offset
 }
 
+/**
+ * parse a period string and return all possible dates in the period
+ */
 export function datesFromPeriod (period: string): Date[] {
   const periodParts = period.split('/', 3)
 
