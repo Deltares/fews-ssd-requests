@@ -5,5 +5,6 @@ module.exports = {
     },
     testRegex: "\.spec\.(ts|tsx|js)$",
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+    setupFiles: ["whatwg-fetch"]
 }
 
