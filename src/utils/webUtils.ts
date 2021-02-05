@@ -10,7 +10,7 @@ export async function http<T> ( request: RequestInfo ): Promise<HttpResponse<T>>
   return response
 }
 
-export async function getHttp<T> ( path: string, args: RequestInit = { method: 'get' } ): Promise<HttpResponse<T>> {
+export async function getJsonUsingHttp<T> ( path: string, args: RequestInit = { method: 'get' } ): Promise<HttpResponse<T>> {
   return http<T>(new Request(path, args))
 }
 

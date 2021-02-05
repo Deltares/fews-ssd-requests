@@ -2,7 +2,7 @@ import { WebserviceProvider, ExcludeGroups, ExcludeGroupsDisplayName } from './i
 import { Action } from './interfaces'
 import { Capabilities } from './interfaces'
 import { TimeSeriesResponse as FewsPiTimeSeriesResponse} from './interfaces'
-import { getHttp, HttpResponse } from './utils'
+import { getJsonUsingHttp, HttpResponse } from './utils'
 
 /**
  * The SsdWebserviceProvider class is used to obtain
@@ -59,7 +59,7 @@ export class SsdWebserviceProvider implements WebserviceProvider{
 
   getLeftClickAction (panelId: string, objectId: string): Promise<Action> {
     return new Promise<Action>((resolve) => {
-      getHttp<Action>(this.urlForActions(panelId, objectId))
+      getJsonUsingHttp<Action>(this.urlForActions(panelId, objectId))
         .then((response: HttpResponse<Action>) => {
           resolve(response.parsedBody)
         })
@@ -68,7 +68,7 @@ export class SsdWebserviceProvider implements WebserviceProvider{
 
   fetchPiRequest (request: string): Promise<FewsPiTimeSeriesResponse> {
     return new Promise<FewsPiTimeSeriesResponse>((resolve) => {
-      getHttp<FewsPiTimeSeriesResponse>(this.getPiUrl() + '/' + request)
+      getJsonUsingHttp<FewsPiTimeSeriesResponse>(this.getPiUrl() + '/' + request)
         .then((response: HttpResponse<FewsPiTimeSeriesResponse>) => {
           resolve(response.parsedBody)
         })
@@ -77,7 +77,7 @@ export class SsdWebserviceProvider implements WebserviceProvider{
 
   getCapabilities (): Promise<Capabilities> {
     return new Promise<Capabilities>((resolve) => {
-      getHttp<Capabilities>(this.urlForCapabilities())
+      getJsonUsingHttp<Capabilities>(this.urlForCapabilities())
         .then((response: HttpResponse<Capabilities>) => {
           if (response.parsedBody) {
             response.parsedBody.displayGroups = response.parsedBody.displayGroups.filter((group: ExcludeGroupsDisplayName) => {
