@@ -1,4 +1,7 @@
-// All numbers in the response are quoted, and hence of data type 'string'.
+/**
+ * Interface definitions for the response of a Fews PI request
+ * All numbers in the response are quoted, and hence of data type 'string'.
+ */
 
 export interface TimeSeriesResponse {
   version? : string;
