@@ -69,6 +69,23 @@ describe("datesFromPeriod", function() {
     }
   });
 
+  it("works for 1 week period strings", function() {
+    const start = "2021-01-01T05:00:00Z";
+    const end = "2021-01-15T05:00:00Z";
+    const period = start + "/" + end + "/P1W";
+    const dates = datesFromPeriod(period);
+    // check the start and end
+    expect(dates[0]).toEqual(new Date(start));
+    expect(dates[dates.length - 1]).toEqual(new Date(end));
+    // check the spacing between dates
+    let previous = dates[0].getTime();
+    for(let i=1; i<dates.length; i++) {
+      const value = dates[i].getTime();
+      expect(value - previous).toEqual(1000 * 60 * 60 * 24 * 7);
+      previous = value;
+    }
+  });
+
   it("works for crazy period strings", function() {
     const start = "2021-01-01T00:00:00Z";
     const end = "2021-01-25T03:06:09Z";
