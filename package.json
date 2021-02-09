@@ -15,7 +15,8 @@
     "test": "jest"
   },
   "dependencies": {
-    "core-js": "^3.6.4"
+    "core-js": "^3.6.4",
+    "fews-pi-requests": "git+https://gitlab+deploy-token-9:U1ueQfYCsijoA_vwpzRA@gitlab.vortech.nl/deltares/rwsos-viewer/fews-pi-requests"
   },
   "devDependencies": {
     "@types/jest": "^26.0.15",
