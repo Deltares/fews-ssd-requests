@@ -9,6 +9,7 @@ import {Capabilities} from '../src';
 import {Action} from '../src';
 import {Duration} from '../src';
 import {FewsPiTimeSeriesResponse} from '../src';
+import {addLeftClickAction} from '../src';
 
 describe("exports", function() {
   // note that interfaces cannot be tested in this way
@@ -19,6 +20,10 @@ describe("exports", function() {
 
   it("exports datesFromPeriod", function() {
     expect(datesFromPeriod).toBeDefined();
+  });
+
+  it("exports addLeftClickAction", function() {
+    expect(addLeftClickAction).toBeDefined();
   });
 
 });
