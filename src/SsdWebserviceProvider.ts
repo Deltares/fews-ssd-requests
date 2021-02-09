@@ -1,7 +1,7 @@
 import { WebserviceProvider, ExcludeGroups, ExcludeGroupsDisplayName } from './interfaces'
 import { Action } from './interfaces'
 import { Capabilities } from './interfaces'
-import { TimeSeriesResponse as FewsPiTimeSeriesResponse} from './interfaces'
+import { TimeSeriesResponse as FewsPiTimeSeriesResponse} from 'fews-pi-requests'
 import { getJsonUsingHttp, HttpResponse } from './utils'
 
 /**
