@@ -8,7 +8,7 @@ import {ExcludeGroups} from '../src';
 import {Capabilities} from '../src';
 import {Action} from '../src';
 import {Duration} from '../src';
-import {TimeSeriesResponse} from '../src';
+import {FewsPiTimeSeriesResponse} from '../src';
 
 describe("exports", function() {
   // note that interfaces cannot be tested in this way
