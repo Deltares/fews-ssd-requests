@@ -36,7 +36,8 @@ Available interfaces:
 * ```Capabilities``` (interface for the objects returned by a 'getCapabilities' SSD request)
 * ```Action``` (interface for the objects returned by a 'getAction' SSD request)
 * ```Duration``` (interface for defining a duration in years/months/weeks/days/hours/minutes/seconds)
-* ```TimeSeriesResponse``` (interface for the objects returned by a FEWS PI request)
+* ```FewsPiTimeSeriesResponse``` (interface for the objects returned by a FEWS PI request)
+  - this interface is imported from the fews-pi-requests library
 
 Definition of the provider class:
 
