@@ -51,6 +51,7 @@ nodejs-scan-sast:
 
 pages:
   stage: deploy
+  image: node:latest
   script:
     - npm install
     - npm run doc
