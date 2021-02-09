@@ -1,4 +1,4 @@
-import {addLeftClickAction} from '../../src/utils';
+import {addLeftClickAction, FEWS_NAMESPACE} from '../../src/utils';
 
 let svg: SVGElement;
 const ssdName = "Meppelerdiep_10min";
@@ -23,9 +23,27 @@ describe("addLeftClickAction", function() {
   });
 
   it("works", function() {
+    let callbackCounter = 0;
     function callback() {
-      console.log("callback called")
+      callbackCounter += 1;
     };
     addLeftClickAction(svg, callback);
+
+    // now check the results
+    let expectedCallbacks = 0;
+    svg.querySelectorAll('*').forEach(function(el: Element) {
+      const style = el.getAttribute("style");
+      if (el.hasAttributeNS(FEWS_NAMESPACE, 'id')) {
+        // simulate a click
+        var evObj = document.createEvent('Events');
+        evObj.initEvent("click", true, false);
+        el.dispatchEvent(evObj);
+        expectedCallbacks += 1;
+        expect(style).toEqual("cursor: pointer");
+      } else {
+        expect(style).toEqual("cursor: default");
+      };
+    });
+    expect(callbackCounter).toEqual(expectedCallbacks);
   });
 });
