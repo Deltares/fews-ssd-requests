@@ -73,6 +73,9 @@ Provider methods:
 * ```getLeftClickAction```
   - takes a panel id and an object id
   - returns the SSD actions associated with that panel/object
+* ```getLeftClickActionFromElement```
+  - takes a panel id and an SVG element
+  - returns the SSD actions associated with that element
 * ```fetchPiRequest```
   - takes a request string (i.e. as given in an Action object)
   - returns the PI timeseries
@@ -83,3 +86,5 @@ Utility functions:
 * ```datesFromPeriod(period: string)```
   - parses a period string (as supplied by a 'getAction' SSD request)
     and returns a list of ```Date``` objects
+* ```addLeftClickAction (svg: SVGElement, clickCallback: Function)
+  - Add left click action to all SVG elements in the FEWS namespace

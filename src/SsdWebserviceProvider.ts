@@ -3,6 +3,7 @@ import { Action } from './interfaces'
 import { Capabilities } from './interfaces'
 import { TimeSeriesResponse as FewsPiTimeSeriesResponse} from 'fews-pi-requests'
 import { getJsonUsingHttp, HttpResponse } from './utils'
+import { FEWS_NAMESPACE } from './utils'
 
 /**
  * The SsdWebserviceProvider class is used to obtain
@@ -73,7 +74,7 @@ export class SsdWebserviceProvider implements WebserviceProvider{
   }
 
   /**
-   * Retrieve the SSD actions for a specific object on a specific panel
+   * Retrieve the SSD actions for a specific object id on a specific panel
    */
   getLeftClickAction (panelId: string, objectId: string): Promise<Action> {
     return new Promise<Action>((resolve) => {
@@ -82,6 +83,18 @@ export class SsdWebserviceProvider implements WebserviceProvider{
           resolve(response.parsedBody)
         })
     })
+  }
+
+  /**
+   * Retrieve the SSD actions for a specific SVG element on a specific panel
+   * Raises an error if the element is not part of the FEWS namespace
+   */
+  getLeftClickActionFromElement (panelId: string, svg: SVGElement): Promise<Action> {
+    const objectId = svg.getAttributeNS(FEWS_NAMESPACE, "id")
+    if (objectId == null) {
+      throw new Error("SVG element is not part of the FEWS namespace")
+    }
+    return this.getLeftClickAction(panelId, objectId as string)
   }
 
   /**
