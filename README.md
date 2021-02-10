@@ -73,6 +73,9 @@ Provider methods:
 * ```getLeftClickAction```
   - takes a panel id and an object id
   - returns the SSD actions associated with that panel/object
+* ```getLeftClickActionFromElement```
+  - takes a panel id and an SVG element
+  - returns the SSD actions associated with that element
 * ```fetchPiRequest```
   - takes a request string (i.e. as given in an Action object)
   - returns the PI timeseries

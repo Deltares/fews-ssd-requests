@@ -1,4 +1,5 @@
 import {SsdWebserviceProvider} from '../src/SsdWebserviceProvider';
+import {FEWS_NAMESPACE} from '../src/utils/addLeftClickAction';
 
 const baseUrl = "https://rwsos.webservices.deltares.nl/iwp/";
 const apiEndpoint = "FewsWebServices/ssd";
@@ -139,7 +140,7 @@ describe("ssd", function() {
     expect(names).not.toContain(displayName2);
   });
 
-  it("retrieves actions", async function() {
+  it("retrieves actions from object id", async function() {
     // download a real action that exists in the capabilities
     // first get the capabilities
     const provider = new SsdWebserviceProvider(baseUrl, exclude);
@@ -179,6 +180,41 @@ describe("ssd", function() {
     } else {
       fail("it should not reach here");
     };
+  });
+
+  it("retrieves actions from svg element", async function() {
+    // first get a fresh SVG for midnight yesterday
+    const ssdName = "Meppelerdiep_10min";
+    const date = new Date();
+    date.setDate(date.getDate() - 1);
+    const yesterday = date.toISOString().split("T")[0];
+    const url = "https://rwsos.webservices.deltares.nl/iwp/FewsWebServices/ssd?request=GetDisplay&ssd=" + ssdName + "&time=" + yesterday + "T00:00:00Z";
+
+    const request = new XMLHttpRequest();
+    request.open('GET', url, false)
+    request.send()
+    const xmlSvg = request.responseXML;
+    let svg: SVGElement;
+    if (xmlSvg) {
+      svg = xmlSvg.documentElement as unknown as SVGElement;
+    } else {
+      fail("failed to get svg from:" + url);
+    }
+
+    // extract a single svg element in the FEWS namespace
+    let element: any = undefined;
+    svg.querySelectorAll('*').forEach(function(el: Element) {
+      if (el.hasAttributeNS(FEWS_NAMESPACE, 'id')) {
+        element = el;
+      }
+    })
+    expect(element).toBeDefined();
+    element = element as SVGElement;
+
+    const provider = new SsdWebserviceProvider(baseUrl, exclude);
+    const promise = provider.getLeftClickActionFromElement(ssdName, element);
+    const action = await promise;
+    expect(action).toMatchObject(actionFormat);
   });
 
   it("retrieves timeseries", async function() {
