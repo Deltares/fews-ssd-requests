@@ -86,5 +86,5 @@ Utility functions:
 * ```datesFromPeriod(period: string)```
   - parses a period string (as supplied by a 'getAction' SSD request)
     and returns a list of ```Date``` objects
-* ```addLeftClickAction (svg: SVGElement, clickCallback: Function)
+* ```addLeftClickAction (svg: SVGElement, clickCallback: Function)```
   - Add left click action to all SVG elements in the FEWS namespace
