@@ -44,7 +44,7 @@ Definition of the provider class:
 
 ```
 class SsdWebserviceProvider implements WebserviceProvider
-  constructor(url: string, excludeGroups: ExcludeGroups)
+  constructor(url: string)
   getUrl(): string
   getPiUrl(): string
   urlForCapabilities (): string
@@ -53,13 +53,12 @@ class SsdWebserviceProvider implements WebserviceProvider
   getLeftClickAction (panelId: string, objectId: string): Promise<Action>
   getLeftClickActionFromElement (panelId: string, svg: SVGElement): Promise<Action>
   fetchPiRequest (request: string): Promise<TimeSeriesResponse>
-  getCapabilities (): Promise<Capabilities>
+  getCapabilities (excludeGroups: ExcludeGroups = {displayGroups: []}): Promise<Capabilities>
 ```
 
 Provider methods:
 * ```constructor(url: string, excludeGroups: ExcludeGroups)```
   - takes a string url pointing to the base of the provider (i.e. without the 'FewsWebServices/ssd' part)
-  - takes an ```ExcludeGroups``` object to define which display groups to exclude
 * ```getUrl(): string```
   - returns the base url to the SSD service
 * ```getPiUrl(): string```
@@ -81,7 +80,8 @@ Provider methods:
 * ```fetchPiRequest (request: string): Promise<FewsPiTimeSeriesResponse>```
   - takes a request string (i.e. as given in an Action object)
   - returns the PI timeseries
-* ```getCapabilities (): Promise<Capabilities>```
+* ```getCapabilities (excludeGroups: ExcludeGroups = {displayGroups: []}): Promise<Capabilities>```
+  - takes an optional ```ExcludeGroups``` argument to define which display groups to exclude (if ommitted, defaults to using all groups)
   - returns the SSD capabilities
 
 Utility functions:
