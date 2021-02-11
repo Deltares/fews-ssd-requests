@@ -225,7 +225,9 @@ describe("ssd", function() {
 
     const provider = new SsdWebserviceProvider(baseUrl);
     const promise = provider.getLeftClickActionFromElement(ssdName, element);
-    const action = await promise;
+    const {id, action} = await promise;
+    const expectedId = element.getAttributeNS(FEWS_NAMESPACE, "id")
+    expect(id).toEqual(expectedId);
     expect(action).toMatchObject(actionFormat);
   });
 

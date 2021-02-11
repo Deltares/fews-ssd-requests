@@ -6,7 +6,7 @@ import {datesFromPeriod} from '../src';
 import {WebserviceProvider} from '../src';
 import {ExcludeGroups} from '../src';
 import {Capabilities} from '../src';
-import {Action} from '../src';
+import {Action, ElementAction} from '../src';
 import {Duration} from '../src';
 import {FewsPiTimeSeriesResponse} from '../src';
 import {addLeftClickAction} from '../src';
