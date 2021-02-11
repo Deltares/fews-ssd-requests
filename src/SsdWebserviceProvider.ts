@@ -1,5 +1,5 @@
 import { WebserviceProvider, ExcludeGroups, ExcludeGroupsDisplayName } from './interfaces'
-import { Action } from './interfaces'
+import { Action, ElementAction } from './interfaces'
 import { Capabilities } from './interfaces'
 import { TimeSeriesResponse as FewsPiTimeSeriesResponse} from 'fews-pi-requests'
 import { getJsonUsingHttp, HttpResponse } from './utils'
@@ -87,12 +87,15 @@ export class SsdWebserviceProvider implements WebserviceProvider{
    * Retrieve the SSD actions for a specific SVG element on a specific panel
    * Raises an error if the element is not part of the FEWS namespace
    */
-  getLeftClickActionFromElement (panelId: string, svg: SVGElement): Promise<Action> {
+  getLeftClickActionFromElement (panelId: string, svg: SVGElement): Promise<ElementAction> {
     const objectId = svg.getAttributeNS(FEWS_NAMESPACE, "id")
     if (objectId == null) {
       throw new Error("SVG element is not part of the FEWS namespace")
     }
-    return this.getLeftClickAction(panelId, objectId as string)
+    const promise = this.getLeftClickAction(panelId, objectId as string)
+    return promise.then((action: Action) => {
+      return {id: objectId, action: action}
+    })
   }
 
   /**
