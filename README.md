@@ -35,6 +35,7 @@ Available interfaces:
 * ```ExcludeGroups``` (interface for defining display groups that are excluded)
 * ```Capabilities``` (interface for the objects returned by a 'getCapabilities' SSD request)
 * ```Action``` (interface for the objects returned by a 'getAction' SSD request)
+* ```ElementAction``` (interface for the object returned by 'getLeftClickActionFromElement')
 * ```Duration``` (interface for defining a duration in years/months/weeks/days/hours/minutes/seconds)
 * ```FewsPiTimeSeriesResponse``` (interface for the objects returned by a FEWS PI request)
   - this interface is imported from the fews-pi-requests library
@@ -51,7 +52,7 @@ class SsdWebserviceProvider implements WebserviceProvider
   urlForPanel (panelName: string, date: Date): string
   urlForActions (panelId: string, objectId: string): string
   getLeftClickAction (panelId: string, objectId: string): Promise<Action>
-  getLeftClickActionFromElement (panelId: string, svg: SVGElement): Promise<Action>
+  getLeftClickActionFromElement (panelId: string, svg: SVGElement): Promise<ElementAction>
   fetchPiRequest (request: string): Promise<TimeSeriesResponse>
   getCapabilities (excludeGroups: ExcludeGroups = {displayGroups: []}): Promise<Capabilities>
 ```
@@ -74,7 +75,7 @@ Provider methods:
 * ```getLeftClickAction (panelId: string, objectId: string): Promise<Action>```
   - takes a panel id and an object id
   - returns the SSD actions associated with that panel/object
-* ```getLeftClickActionFromElement (panelId: string, svg: SVGElement): Promise<Action>```
+* ```getLeftClickActionFromElement (panelId: string, svg: SVGElement): Promise<ElementAction>```
   - takes a panel id and an SVG element
   - returns the SSD actions associated with that element
 * ```fetchPiRequest (request: string): Promise<FewsPiTimeSeriesResponse>```
