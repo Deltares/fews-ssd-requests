@@ -50,30 +50,30 @@ const timeseriesFormat = {
 
 describe("ssd", function() {
   it("creates the SSD api url on creation", function() {
-    const provider = new SsdWebserviceProvider(baseUrl, exclude);
+    const provider = new SsdWebserviceProvider(baseUrl);
     expect(provider.getUrl()).toEqual(baseUrl + apiEndpoint);
   });
 
   it("adds a trailing slash to the supplied url on creation", function() {
     const url = "https://rwsos.webservices.deltares.nl/iwp";
-    const provider = new SsdWebserviceProvider(url, exclude);
+    const provider = new SsdWebserviceProvider(url);
     expect(provider.getUrl()).toEqual(url + '/' + apiEndpoint);
   });
 
   it("creates the PI url on creation", function() {
-    const provider = new SsdWebserviceProvider(baseUrl, exclude);
+    const provider = new SsdWebserviceProvider(baseUrl);
     expect(provider.getPiUrl()).toEqual(baseUrl + piEndpoint);
   });
 
   it("gives the correct url to the capabilities", function() {
-    const provider = new SsdWebserviceProvider(baseUrl, exclude);
+    const provider = new SsdWebserviceProvider(baseUrl);
     const url = provider.urlForCapabilities();
     const expected = baseUrl + apiEndpoint + "?request=GetCapabilities&format=application/json";
     expect(url).toEqual(expected);
   });
 
   it("gives the correct url to a panel", function() {
-    const provider = new SsdWebserviceProvider(baseUrl, exclude);
+    const provider = new SsdWebserviceProvider(baseUrl);
     const panel = "SomePanelName";
     const today = "2021-01-01T12:34:56Z";
     const url = provider.urlForPanel(panel, new Date(today));
@@ -83,7 +83,7 @@ describe("ssd", function() {
 
   it("gives the correct url to a panel, with download check", async function() {
     // download a real panel that exists in the capabilities
-    const provider = new SsdWebserviceProvider(baseUrl, exclude);
+    const provider = new SsdWebserviceProvider(baseUrl);
     const promise = provider.getCapabilities();
     const capabilities = await promise;
     const group = capabilities.displayGroups[0];
@@ -102,7 +102,7 @@ describe("ssd", function() {
   });
 
   it("gives the correct url to an action", function() {
-    const provider = new SsdWebserviceProvider(baseUrl, exclude);
+    const provider = new SsdWebserviceProvider(baseUrl);
     const panelId = "SomePanelId";
     const objectId = "SomeObjectId";
     const url = provider.urlForActions(panelId, objectId);
@@ -110,9 +110,21 @@ describe("ssd", function() {
     expect(url).toEqual(expected);
   });
 
-  it("retrieves capabilities", async function() {
-    const provider = new SsdWebserviceProvider(baseUrl, exclude);
+  it("retrieves capabilities with default excludeGroups argument", async function() {
+    const provider = new SsdWebserviceProvider(baseUrl);
     const promise = provider.getCapabilities();
+    const capabilities = await promise;
+    expect(capabilities).toMatchObject(capabilitiesFormat);
+
+    // check that 'displayName1' and 'displayName1' are in the results
+    const names = capabilities.displayGroups.map(x => x.name);
+    expect(names).toContain(displayName1);
+    expect(names).toContain(displayName2);
+  });
+
+  it("retrieves capabilities with empty excludeGroups argument", async function() {
+    const provider = new SsdWebserviceProvider(baseUrl);
+    const promise = provider.getCapabilities(exclude);
     const capabilities = await promise;
     expect(capabilities).toMatchObject(capabilitiesFormat);
 
@@ -129,8 +141,8 @@ describe("ssd", function() {
         {name: displayName2}
         ]
     };
-    const provider = new SsdWebserviceProvider(baseUrl, excludeGroup);
-    const promise = provider.getCapabilities();
+    const provider = new SsdWebserviceProvider(baseUrl);
+    const promise = provider.getCapabilities(excludeGroup);
     const capabilities = await promise;
     expect(capabilities).toMatchObject(capabilitiesFormat);
 
@@ -143,7 +155,7 @@ describe("ssd", function() {
   it("retrieves actions from object id", async function() {
     // download a real action that exists in the capabilities
     // first get the capabilities
-    const provider = new SsdWebserviceProvider(baseUrl, exclude);
+    const provider = new SsdWebserviceProvider(baseUrl);
     const promise = provider.getCapabilities();
     const capabilities = await promise;
     // from the capabilities get info for a panel
@@ -211,7 +223,7 @@ describe("ssd", function() {
     expect(element).toBeDefined();
     element = element as SVGElement;
 
-    const provider = new SsdWebserviceProvider(baseUrl, exclude);
+    const provider = new SsdWebserviceProvider(baseUrl);
     const promise = provider.getLeftClickActionFromElement(ssdName, element);
     const action = await promise;
     expect(action).toMatchObject(actionFormat);
@@ -220,7 +232,7 @@ describe("ssd", function() {
   it("retrieves timeseries", async function() {
     // download a real timeseries that exists in the capabilities
     // first get the capabilities
-    const provider = new SsdWebserviceProvider(baseUrl, exclude);
+    const provider = new SsdWebserviceProvider(baseUrl);
     const promise = provider.getCapabilities();
     const capabilities = await promise;
     // from the capabilities get info for a panel
