@@ -1,5 +1,5 @@
 export * from './interfaces'
 export * from './utils/datesFromPeriod'
-export * from './utils/addLeftClickAction'
-export { TimeSeriesResponse as FewsPiTimeSeriesResponse} from 'fews-pi-requests'
+export { addLeftClickAction, ClickCallbackFunction } from './utils/addLeftClickAction'
+export { TimeSeriesResponse as FewsPiTimeSeriesResponse } from 'fews-pi-requests'
 export * from './SsdWebserviceProvider'
