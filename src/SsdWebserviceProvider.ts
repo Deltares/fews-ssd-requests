@@ -12,7 +12,6 @@ import { FEWS_NAMESPACE } from './utils'
 export class SsdWebserviceProvider implements WebserviceProvider{
   ssdUrl: URL
   piUrl: URL
-  excludedGroupsNames: string[]
   readonly SSD_ENDPOINT = 'FewsWebServices/ssd'
   readonly PI_ENDPOINT = 'FewsWebServices'
 
@@ -21,13 +20,12 @@ export class SsdWebserviceProvider implements WebserviceProvider{
    *
    * @param url the base url where the SSD servive is available
    */
-  constructor(url: string, excludeGroups: ExcludeGroups) {
+  constructor(url: string) {
     if (!url.endsWith('/')) {
       url += '/'
     }
     this.ssdUrl = new URL(this.SSD_ENDPOINT, url)
     this.piUrl = new URL(this.PI_ENDPOINT, url)
-    this.excludedGroupsNames = excludeGroups.displayGroups.map((group: ExcludeGroupsDisplayName) => { return group.name })
   }
 
   /**
@@ -112,13 +110,14 @@ export class SsdWebserviceProvider implements WebserviceProvider{
   /**
    * Retrieve the SSD capabilities
    */
-  getCapabilities (): Promise<Capabilities> {
+  getCapabilities (excludeGroups: ExcludeGroups = {displayGroups: []}): Promise<Capabilities> {
+    const excludedGroupsNames = excludeGroups.displayGroups.map((group: ExcludeGroupsDisplayName) => { return group.name })
     return new Promise<Capabilities>((resolve) => {
       getJsonUsingHttp<Capabilities>(this.urlForCapabilities())
         .then((response: HttpResponse<Capabilities>) => {
           if (response.parsedBody) {
             response.parsedBody.displayGroups = response.parsedBody.displayGroups.filter((group: ExcludeGroupsDisplayName) => {
-              const index = this.excludedGroupsNames.findIndex((name: string) => {
+              const index = excludedGroupsNames.findIndex((name: string) => {
                 return name === group.name
               })
               return index === -1
