@@ -23,6 +23,12 @@ describe("addLeftClickAction", function() {
   });
 
   it("works", function() {
+    // add custom style to each element to check that it is not removed
+    svg.querySelectorAll('*').forEach(function(el: Element) {
+      const style = el.getAttribute("style") || "";
+      el.setAttribute('style', 'test: 123;' + style)
+    });
+
     let callbackCounter = 0;
     function callback() {
       callbackCounter += 1;
@@ -32,17 +38,21 @@ describe("addLeftClickAction", function() {
     // now check the results
     let expectedCallbacks = 0;
     svg.querySelectorAll('*').forEach(function(el: Element) {
-      const style = el.getAttribute("style");
+      const style = el.getAttribute("style") || "";
       if (el.hasAttributeNS(FEWS_NAMESPACE, 'id')) {
         // simulate a click
         var evObj = document.createEvent('Events');
         evObj.initEvent("click", true, false);
         el.dispatchEvent(evObj);
         expectedCallbacks += 1;
-        expect(style).toEqual("cursor: pointer");
+        const pointerStyle = "cursor: pointer;";
+        expect(style.substring(0,pointerStyle.length)).toEqual(pointerStyle);
       } else {
-        expect(style).toEqual("cursor: default");
+        const defaultStyle = "cursor: default;";
+        expect(style.substring(0,defaultStyle.length)).toEqual(defaultStyle);
       };
+      // check that the original style is still there
+      expect(style).toMatch(/test: 123;/);
     });
     expect(callbackCounter).toEqual(expectedCallbacks);
   });
