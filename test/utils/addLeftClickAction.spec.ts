@@ -1,4 +1,4 @@
-import {addLeftClickAction, FEWS_NAMESPACE} from '../../src/utils';
+import {addLeftClickAction, ClickCallbackFunction, FEWS_NAMESPACE} from '../../src/utils';
 
 let svg: SVGElement;
 const ssdName = "Meppelerdiep_10min";
@@ -30,8 +30,13 @@ describe("addLeftClickAction", function() {
     });
 
     let callbackCounter = 0;
-    function callback() {
+    let callback: ClickCallbackFunction;
+    callback = function(event: Event) {
       callbackCounter += 1;
+      expect(event.target).toBeDefined();
+      if (event.target) {
+        expect(event.target.toString()).toMatch(/SVGElement/);
+      }
     };
     addLeftClickAction(svg, callback);
 
