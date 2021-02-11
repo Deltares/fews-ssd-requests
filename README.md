@@ -38,6 +38,7 @@ Available interfaces:
 * ```Duration``` (interface for defining a duration in years/months/weeks/days/hours/minutes/seconds)
 * ```FewsPiTimeSeriesResponse``` (interface for the objects returned by a FEWS PI request)
   - this interface is imported from the fews-pi-requests library
+* ```ClickCallbackFunction``` (interface for the callback function to be called on a left click event)
 
 Definition of the provider class:
 
@@ -50,41 +51,42 @@ class SsdWebserviceProvider implements WebserviceProvider
   urlForPanel (panelName: string, date: Date): string
   urlForActions (panelId: string, objectId: string): string
   getLeftClickAction (panelId: string, objectId: string): Promise<Action>
+  getLeftClickActionFromElement (panelId: string, svg: SVGElement): Promise<Action>
   fetchPiRequest (request: string): Promise<TimeSeriesResponse>
   getCapabilities (): Promise<Capabilities>
 ```
 
 Provider methods:
-* ```constructor```
+* ```constructor(url: string, excludeGroups: ExcludeGroups)```
   - takes a string url pointing to the base of the provider (i.e. without the 'FewsWebServices/ssd' part)
   - takes an ```ExcludeGroups``` object to define which display groups to exclude
-* ```getUrl```
+* ```getUrl(): string```
   - returns the base url to the SSD service
-* ```getPiUrl```
+* ```getPiUrl(): string```
   - returns the base url to the PI service
-* ```urlForCapabilities```
+* ```urlForCapabilities(): string```
   - returns the url to the SSD capabilities 
-* ```urlForPanel```
+* ```urlForPanel (panelName: string, date: Date): string```
   - takes a panel name and a date string
   - returns the url to an SSD panel (which points to an SVG image)
-* ```urlForActions```
+* ```urlForActions (panelId: string, objectId: string): string```
   - takes a panel id and an object id
   - returns the url to the SSD actions associated with that panel/object
-* ```getLeftClickAction```
+* ```getLeftClickAction (panelId: string, objectId: string): Promise<Action>```
   - takes a panel id and an object id
   - returns the SSD actions associated with that panel/object
-* ```getLeftClickActionFromElement```
+* ```getLeftClickActionFromElement (panelId: string, svg: SVGElement): Promise<Action>```
   - takes a panel id and an SVG element
   - returns the SSD actions associated with that element
-* ```fetchPiRequest```
+* ```fetchPiRequest (request: string): Promise<FewsPiTimeSeriesResponse>```
   - takes a request string (i.e. as given in an Action object)
   - returns the PI timeseries
-* ```getCapabilities```
+* ```getCapabilities (): Promise<Capabilities>```
   - returns the SSD capabilities
 
 Utility functions:
-* ```datesFromPeriod(period: string)```
+* ```datesFromPeriod(period: string): Date[]```
   - parses a period string (as supplied by a 'getAction' SSD request)
     and returns a list of ```Date``` objects
-* ```addLeftClickAction (svg: SVGElement, clickCallback: Function)```
+* ```addLeftClickAction (svg: SVGElement, clickCallback: ClickCallbackFunction): void```
   - Add left click action to all SVG elements in the FEWS namespace
