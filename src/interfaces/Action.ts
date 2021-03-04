@@ -1,3 +1,5 @@
+import { Config } from "./Config";
+
 /**
  * Interface for the response of a 'getAction' request
  */
@@ -11,6 +13,7 @@ export interface Action {
 export interface Result {
   type: ActionType;
   requests: ResultRequest[];
+  config: Config;
 }
 
 /**
@@ -27,6 +30,7 @@ export enum ActionType {
  * Interface for a 'request' object in a 'Result' object
  */
 export interface ResultRequest {
+  key: string;
   request: string;
 }
 
