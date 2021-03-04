@@ -75,11 +75,14 @@ export class SsdWebserviceProvider implements WebserviceProvider{
    * Retrieve the SSD actions for a specific object id on a specific panel
    */
   getLeftClickAction (panelId: string, objectId: string): Promise<Action> {
-    return new Promise<Action>((resolve) => {
+    return new Promise<Action>((resolve, reject) => {
       getJsonUsingHttp<Action>(this.urlForActions(panelId, objectId))
         .then((response: HttpResponse<Action>) => {
-          resolve(response.parsedBody)
-        })
+          if ( response.parsedBody !== undefined ) {
+            resolve(response.parsedBody)
+          } else {
+            reject('Response has no body')
+          }        })
     })
   }
 
@@ -102,10 +105,14 @@ export class SsdWebserviceProvider implements WebserviceProvider{
    * Retrieve a PI timeseries using the request path supplied in a action
    */
   fetchPiRequest (request: string): Promise<FewsPiTimeSeriesResponse> {
-    return new Promise<FewsPiTimeSeriesResponse>((resolve) => {
+    return new Promise<FewsPiTimeSeriesResponse>((resolve, reject) => {
       getJsonUsingHttp<FewsPiTimeSeriesResponse>(this.getPiUrl() + '/' + request)
         .then((response: HttpResponse<FewsPiTimeSeriesResponse>) => {
-          resolve(response.parsedBody)
+          if ( response.parsedBody !== undefined ) {
+            resolve(response.parsedBody)
+          } else {
+            reject('Response has no body')
+          }
         })
     })
   }
@@ -115,7 +122,7 @@ export class SsdWebserviceProvider implements WebserviceProvider{
    */
   getCapabilities (excludeGroups: ExcludeGroups = {displayGroups: []}): Promise<Capabilities> {
     const excludedGroupsNames = excludeGroups.displayGroups.map((group: ExcludeGroupsDisplayName) => { return group.name })
-    return new Promise<Capabilities>((resolve) => {
+    return new Promise<Capabilities>((resolve, reject) => {
       getJsonUsingHttp<Capabilities>(this.urlForCapabilities())
         .then((response: HttpResponse<Capabilities>) => {
           if (response.parsedBody) {
@@ -126,7 +133,11 @@ export class SsdWebserviceProvider implements WebserviceProvider{
               return index === -1
             })
           }
-          resolve(response.parsedBody)
+          if ( response.parsedBody !== undefined ) {
+            resolve(response.parsedBody)
+          } else {
+            reject('Response has no body')
+          }
         })
     })
   }
