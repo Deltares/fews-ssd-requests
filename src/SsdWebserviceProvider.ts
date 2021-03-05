@@ -96,12 +96,12 @@ export class SsdWebserviceProvider {
    * Retrieve the SSD actions for a specific SVG element on a specific panel
    * Raises an error if the element is not part of the FEWS namespace
    */
-  getLeftClickActionFromElement (panelId: string, svg: SVGElement, timeZero?: string): Promise<ElementAction> {
+  getLeftClickActionFromElement (panelId: string, svg: SVGElement, timeZero?: string, options?: ActionOptionType[]): Promise<ElementAction> {
     const objectId = svg.getAttributeNS(FEWS_NAMESPACE, "id")
     if (objectId == null) {
       throw new Error("SVG element is not part of the FEWS namespace")
     }
-    const promise = this.getLeftClickAction(panelId, objectId as string, 'LEFTSINGLECLICK', timeZero)
+    const promise = this.getLeftClickAction(panelId, objectId as string, 'LEFTSINGLECLICK', timeZero, options)
     return promise.then((action: Action) => {
       return {id: objectId, action: action}
     })
