@@ -214,19 +214,21 @@ describe("ssd", function() {
     }
 
     // extract a single svg element in the FEWS namespace
-    let element: SVGElement = undefined;
+    let element: SVGElement | undefined = undefined;
     svg.querySelectorAll('*').forEach(function(el: Element) {
       if (el.hasAttributeNS(FEWS_NAMESPACE, 'id')) {
         element = el as SVGElement;
       }
     })
     expect(element).toBeDefined();
-    const provider = new SsdWebserviceProvider(baseUrl);
-    const promise = provider.getActionFromElement(ssdName, element);
-    const {id, action} = await promise;
-    const expectedId = element.getAttributeNS(FEWS_NAMESPACE, "id")
-    expect(id).toEqual(expectedId);
-    expect(action).toMatchObject(actionFormat);
+    if ( element !== undefined) {
+      const provider = new SsdWebserviceProvider(baseUrl);
+      const promise = provider.getActionFromElement(ssdName, element);
+      const {id, action} = await promise;
+      const expectedId = (element as Element).getAttributeNS(FEWS_NAMESPACE, "id")
+      expect(id).toEqual(expectedId);
+      expect(action).toMatchObject(actionFormat);
+    }
   });
 
   it("retrieves timeseries", async function() {
