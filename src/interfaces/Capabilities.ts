@@ -30,7 +30,7 @@ export interface DisplayPanel {
 export interface Dimension {
   name: string;
   units: Units;
-  default: Date;
+  default: string;
   period: string;
 }
 

@@ -1,5 +1,8 @@
 export * from './Action'
 export * from './Capabilities'
+export * from './Chart'
+export * from './Config'
 export * from './Duration'
+export * from './Subplot'
+export * from './TimeSeriesDisplay'
 export * from './WebserviceProvider'
-
