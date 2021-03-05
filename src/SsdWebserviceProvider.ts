@@ -1,4 +1,4 @@
-import { WebserviceProvider, ExcludeGroups, ExcludeGroupsDisplayName } from './interfaces'
+import { ExcludeGroups, ExcludeGroupsDisplayName } from './interfaces'
 import { Action, ElementAction, ActionOptionType, ActionClickType } from './interfaces'
 import { Capabilities } from './interfaces'
 import { TimeSeriesResponse as FewsPiTimeSeriesResponse} from 'fews-pi-requests'
@@ -9,7 +9,7 @@ import { FEWS_NAMESPACE } from './utils'
  * The SsdWebserviceProvider class is used to obtain
  * Schematic Status Display (SSD) data and process it
  */
-export class SsdWebserviceProvider implements WebserviceProvider{
+export class SsdWebserviceProvider {
   ssdUrl: URL
   piUrl: URL
   readonly SSD_ENDPOINT = 'FewsWebServices/ssd'
