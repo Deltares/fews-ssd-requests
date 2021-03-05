@@ -1,5 +1,5 @@
 import { ExcludeGroups, ExcludeGroupsDisplayName } from './interfaces'
-import { Action, ElementAction, ActionOptionType, ActionClickType } from './interfaces'
+import { Action, ElementAction, OptionsType, ClickType } from './interfaces'
 import { Capabilities } from './interfaces'
 import { TimeSeriesResponse as FewsPiTimeSeriesResponse} from 'fews-pi-requests'
 import { getJsonUsingHttp, HttpResponse } from './utils'
@@ -63,7 +63,7 @@ export class SsdWebserviceProvider {
   /**
    * Get the url to retrieve a SSD actions for a specific object on a specific panel
    */
-  urlForActions (panelId: string, objectId: string, action: ActionClickType, timeZero?: string, options?: ActionOptionType[]): string {
+  urlForActions (panelId: string, objectId: string, type: ClickType, timeZero?: string, options?: OptionsType[]): string {
     // SSD (required): the name of the SSD "DisplayPanel" to query. Only one SSD can be queried at a time.
     // OBJECTID: the id of the SVG object to retrieve the configured actions for.
     // ACTION: the type of user interaction, can be either LEFTSINGLECLICK or LEFTDOUBLECLICK (case insensitive)
@@ -71,7 +71,7 @@ export class SsdWebserviceProvider {
     // FORMAT (optional) : the requested output format. ( 'application/xml' or 'application/json')  The default format is XML.
     // OPTIONS (optional) : one or more specific options that affect the output, separated by commas. Currently supported are CONFIG (providing additional configuration information) and IMPORTFROMEXTERNALDATASOURCE (add support for external data from a configured FEWS Open Archive)  
 
-    let request = `?request=GetAction&ssd=${panelId}&action=${action}&objectid=${objectId}&format=application/json`
+    let request = `?request=GetAction&ssd=${panelId}&action=${type}&objectid=${objectId}&format=application/json`
     if (timeZero !== undefined) request += `&timezero=${timeZero}`
     if (options !== undefined) request += `&options=${options.join(',')}`
     return encodeURI(this.getUrl() + request)
@@ -80,9 +80,9 @@ export class SsdWebserviceProvider {
   /**
    * Retrieve the SSD actions for a specific object id on a specific panel
    */
-  getLeftClickAction (panelId: string, objectId: string, action: ActionClickType ='LEFTSINGLECLICK', timeZero?: string, options?: ActionOptionType[]): Promise<Action> {
+  getAction (panelId: string, objectId: string, type: ClickType ='LEFTSINGLECLICK', timeZero?: string, options?: OptionsType[]): Promise<Action> {
     return new Promise<Action>((resolve, reject) => {
-      getJsonUsingHttp<Action>(this.urlForActions(panelId, objectId, action, timeZero, options))
+      getJsonUsingHttp<Action>(this.urlForActions(panelId, objectId, type, timeZero, options))
         .then((response: HttpResponse<Action>) => {
           if ( response.parsedBody !== undefined ) {
             resolve(response.parsedBody)
@@ -96,12 +96,12 @@ export class SsdWebserviceProvider {
    * Retrieve the SSD actions for a specific SVG element on a specific panel
    * Raises an error if the element is not part of the FEWS namespace
    */
-  getLeftClickActionFromElement (panelId: string, svg: SVGElement, timeZero?: string, options?: ActionOptionType[]): Promise<ElementAction> {
+  getActionFromElement (panelId: string, svg: SVGElement, type: ClickType ='LEFTSINGLECLICK', timeZero?: string, options?: OptionsType[]): Promise<ElementAction> {
     const objectId = svg.getAttributeNS(FEWS_NAMESPACE, "id")
     if (objectId == null) {
       throw new Error("SVG element is not part of the FEWS namespace")
     }
-    const promise = this.getLeftClickAction(panelId, objectId as string, 'LEFTSINGLECLICK', timeZero, options)
+    const promise = this.getAction(panelId, objectId as string, type, timeZero, options)
     return promise.then((action: Action) => {
       return {id: objectId, action: action}
     })

@@ -1,7 +1,7 @@
 import { Config } from "./Config";
 
-export type ActionOptionType = 'config' | 'IMPORTFROMEXTERNALDATASOURCE';
-export type ActionClickType = 'LEFTSINGLECLICK' | 'LEFTDOUBLECLICK';
+export type OptionsType = 'config' | 'IMPORTFROMEXTERNALDATASOURCE';
+export type ClickType = 'LEFTSINGLECLICK' | 'LEFTDOUBLECLICK';
 
 /**
  * Interface for the response of a 'getAction' request
