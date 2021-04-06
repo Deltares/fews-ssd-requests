@@ -50,8 +50,7 @@ class SsdWebserviceProvider implements WebserviceProvider
   getPiUrl(): string
   urlForCapabilities (): string
   urlForPanel (panelName: string, date: Date): string
-  urlForActions (panelId: string, objectId: string): string
-  getLeftClickAction (panelId: string, objectId: string): Promise<Action>
+  urlForActions (panelId: string, objectId: string, action: ActionClickType, timeZero?: string, options?: ActionOptionType[]): string  getLeftClickAction (panelId: string, objectId: string): Promise<Action>
   getLeftClickActionFromElement (panelId: string, svg: SVGElement): Promise<ElementAction>
   fetchPiRequest (request: string): Promise<TimeSeriesResponse>
   getCapabilities (excludeGroups: ExcludeGroups = {displayGroups: []}): Promise<Capabilities>
@@ -69,14 +68,14 @@ Provider methods:
 * ```urlForPanel (panelName: string, date: Date): string```
   - takes a panel name and a date string
   - returns the url to an SSD panel (which points to an SVG image)
-* ```urlForActions (panelId: string, objectId: string): string```
-  - takes a panel id and an object id
+* ```urlForActions (panelId: string, objectId: string, action: ActionClickType, timeZero?: string, options?: ActionOptionType[]): string```
+  - takes a panel id and an object id, action type and timeZero and options
   - returns the url to the SSD actions associated with that panel/object
-* ```getLeftClickAction (panelId: string, objectId: string): Promise<Action>```
-  - takes a panel id and an object id
+* ```getAction (panelId: string, objectId: string, action: ActionClickType ='LEFTSINGLECLICK', timeZero?: string, options?: ActionOptionType[]): Promise<Action>```
+  - takes a panel id and an object id, action type and timeZero and options
   - returns the SSD actions associated with that panel/object
-* ```getLeftClickActionFromElement (panelId: string, svg: SVGElement): Promise<ElementAction>```
-  - takes a panel id and an SVG element
+* ```getActionFromElement (panelId: string, svg: SVGElement, timeZero?: string, options?: ActionOptionType[]): Promise<ElementAction>```
+  - takes a panel id, a SVG element, action type and timeZero and options
   - returns the SSD actions associated with that element
 * ```fetchPiRequest (request: string): Promise<FewsPiTimeSeriesResponse>```
   - takes a request string (i.e. as given in an Action object)

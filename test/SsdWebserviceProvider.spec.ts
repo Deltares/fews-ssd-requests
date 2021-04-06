@@ -105,8 +105,8 @@ describe("ssd", function() {
     const provider = new SsdWebserviceProvider(baseUrl);
     const panelId = "SomePanelId";
     const objectId = "SomeObjectId";
-    const url = provider.urlForActions(panelId, objectId);
-    const expected = baseUrl + apiEndpoint + "?request=GetAction&ssd=" + panelId + "&action=leftsingleclick&objectid=" + objectId + "&format=application/json";
+    const url = provider.urlForActions(panelId, objectId, 'LEFTSINGLECLICK');
+    const expected = baseUrl + apiEndpoint + "?request=GetAction&ssd=" + panelId + "&action=LEFTSINGLECLICK&objectid=" + objectId + "&format=application/json";
     expect(url).toEqual(expected);
   });
 
@@ -186,7 +186,7 @@ describe("ssd", function() {
       });
       expect(objectName.length).toBeGreaterThan(0);
       // get the action
-      const promise2 = provider.getLeftClickAction(panelName, objectName);
+      const promise2 = provider.getAction(panelName, objectName);
       const action = await promise2;
       expect(action).toMatchObject(actionFormat);
     } else {
@@ -214,21 +214,21 @@ describe("ssd", function() {
     }
 
     // extract a single svg element in the FEWS namespace
-    let element: any = undefined;
+    let element: SVGElement | undefined = undefined;
     svg.querySelectorAll('*').forEach(function(el: Element) {
       if (el.hasAttributeNS(FEWS_NAMESPACE, 'id')) {
-        element = el;
+        element = el as SVGElement;
       }
     })
     expect(element).toBeDefined();
-    element = element as SVGElement;
-
-    const provider = new SsdWebserviceProvider(baseUrl);
-    const promise = provider.getLeftClickActionFromElement(ssdName, element);
-    const {id, action} = await promise;
-    const expectedId = element.getAttributeNS(FEWS_NAMESPACE, "id")
-    expect(id).toEqual(expectedId);
-    expect(action).toMatchObject(actionFormat);
+    if ( element !== undefined) {
+      const provider = new SsdWebserviceProvider(baseUrl);
+      const promise = provider.getActionFromElement(ssdName, element);
+      const {id, action} = await promise;
+      const expectedId = (element as Element).getAttributeNS(FEWS_NAMESPACE, "id")
+      expect(id).toEqual(expectedId);
+      expect(action).toMatchObject(actionFormat);
+    }
   });
 
   it("retrieves timeseries", async function() {
@@ -265,7 +265,7 @@ describe("ssd", function() {
       });
       expect(objectName.length).toBeGreaterThan(0);
       // get the action
-      const promise2 = provider.getLeftClickAction(panelName, objectName);
+      const promise2 = provider.getAction(panelName, objectName);
       const action = await promise2;
       expect(action).toMatchObject(actionFormat);
       // get the request from the action
