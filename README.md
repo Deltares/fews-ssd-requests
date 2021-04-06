@@ -71,10 +71,10 @@ Provider methods:
 * ```urlForActions (panelId: string, objectId: string, action: ActionClickType, timeZero?: string, options?: ActionOptionType[]): string```
   - takes a panel id and an object id, action type and timeZero and options
   - returns the url to the SSD actions associated with that panel/object
-* ```getLeftClickAction (panelId: string, objectId: string, action: ActionClickType ='LEFTSINGLECLICK', timeZero?: string, options?: ActionOptionType[]): Promise<Action>```
+* ```getAction (panelId: string, objectId: string, action: ActionClickType ='LEFTSINGLECLICK', timeZero?: string, options?: ActionOptionType[]): Promise<Action>```
   - takes a panel id and an object id, action type and timeZero and options
   - returns the SSD actions associated with that panel/object
-* ```getLeftClickActionFromElement (panelId: string, svg: SVGElement, timeZero?: string, options?: ActionOptionType[]): Promise<ElementAction>```
+* ```getActionFromElement (panelId: string, svg: SVGElement, timeZero?: string, options?: ActionOptionType[]): Promise<ElementAction>```
   - takes a panel id, a SVG element, action type and timeZero and options
   - returns the SSD actions associated with that element
 * ```fetchPiRequest (request: string): Promise<FewsPiTimeSeriesResponse>```
