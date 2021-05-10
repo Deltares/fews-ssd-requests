@@ -12,7 +12,7 @@ export interface ClickCallbackFunction {
 export function addLeftClickAction (svg: SVGElement, clickCallback: ClickCallbackFunction): void {
   svg.querySelectorAll('*').forEach(function(el: Element) {
     const style = el.getAttribute('style') || ""
-    if (el.hasAttributeNS(FEWS_NAMESPACE, 'id')) {
+    if (el.hasAttributeNS(FEWS_NAMESPACE, 'click')) {
       el.addEventListener('click', function (event: Event) {
         clickCallback(event)
       })
