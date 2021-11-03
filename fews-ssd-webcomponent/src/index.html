@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html dir="ltr" lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=5.0" />
+    <title>Stencil Component Starter</title>
+
+    <script type="module" src="/build/fews-ssd-web-component.esm.js"></script>
+    <script nomodule src="/build/fews-ssd-web-component.js"></script>
+  </head>
+  <body>
+    <button onclick="changeScreen(1)">Screen 1</button>
+    <button onclick="changeScreen(2)">Screen 2</button>
+    <schematic-status-display
+      id="status-display"
+      src="https://rwsos-dataservices-ont.avi.deltares.nl/iwp/FewsWebServices/ssd?request=GetDisplay&ssd=LB_Maas_StPieter_Lith_Hoogwater_10min"
+      width="400"
+      height="300"
+      ></schematic-status-display>
+
+
+    <script type="text/javascript" onload>
+      let element = document.getElementById('status-display')
+      element.addEventListener('click', (event) => {alert(event.target.getAttribute('id'))})
+      element.addEventListener('load', (event) => { console.log(event.detail) })
+      element.addEventListener('action', (event) => { console.log(event.detail) })
+      function changeScreen(screen) {
+        switch (screen) {
+          case 1:
+            element.src = "https://rwsos-dataservices-ont.avi.deltares.nl/iwp/FewsWebServices/ssd?request=GetDisplay&ssd=LB_Maas_StPieter_Lith_Hoogwater_10min"
+            break;
+          case 2:
+            element.src = "https://rwsos-dataservices-ont.avi.deltares.nl/iwp/FewsWebServices/ssd?request=GetDisplay&ssd=Sambeek_10min"
+            break;
+          default:
+            break;
+        }
+      }
+    </script>
+  </body>
+</html>
