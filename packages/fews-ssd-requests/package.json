@@ -1,6 +1,15 @@
 {
-  "name": "fews-ssd-requests",
+  "name": "@deltares/fews-ssd-requests",
   "version": "0.2.0",
+  "author": {
+    "name": "Werner Kramer",
+    "email": "werner.kramer@deltares.nl"
+  },
+  "keywords": [
+    "FEWS",
+    "Schematic Status Display Service"
+  ],
+  "license": "MIT",
   "main": "./dist/fews-ssd-requests.umd.js",
   "typings": "./dist/types/index.d.ts",
   "private": true,

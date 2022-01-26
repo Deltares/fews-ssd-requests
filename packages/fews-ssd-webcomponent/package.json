@@ -1,6 +1,15 @@
 {
-  "name": "fews-ssd-web-component",
+  "name": "@deltares/fews-ssd-web-component",
   "version": "0.2.0",
+  "author": {
+    "name": "Werner Kramer",
+    "email": "werner.kramer@deltares.nl"
+  },
+  "keywords": [
+    "FEWS",
+    "Schematic Status Display webcomponenent"
+  ],
+  "license": "MIT",
   "description": "Stencil Component Starter",
   "main": "dist/index.cjs.js",
   "module": "dist/custom-elements/index.js",
@@ -29,6 +38,5 @@
     "jest": "^26.6.3",
     "jest-cli": "^26.6.3",
     "puppeteer": "^10.0.0"
-  },
-  "license": "MIT"
+  }
 }
