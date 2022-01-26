@@ -1,7 +1,7 @@
 import { Config } from '@stencil/core';
 
 export const config: Config = {
-  namespace: 'fews-ssd-web-component',
+  namespace: 'fews-ssd-webcomponent',
   outputTargets: [
     {
       type: 'dist',

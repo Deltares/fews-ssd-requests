@@ -1,16 +1,16 @@
 {
   "name": "@deltares/fews-ssd-webcomponent",
   "version": "0.2.0",
+  "description": "Web component for FEWS Schematic Status Display",
   "author": {
     "name": "Werner Kramer",
     "email": "werner.kramer@deltares.nl"
   },
   "keywords": [
     "FEWS",
-    "Schematic Status Display webcomponenent"
+    "Schematic Status Display web component"
   ],
   "license": "MIT",
-  "description": "Stencil Component Starter",
   "main": "dist/index.cjs.js",
   "module": "dist/custom-elements/index.js",
   "es2015": "dist/esm/index.mjs",
@@ -18,7 +18,7 @@
   "types": "dist/custom-elements/index.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
-  "unpkg": "dist/fews-ssd-web-component/fews-ssd-web-component.esm.js",
+  "unpkg": "dist/fews-ssd-webcomponent/fews-ssd-webcomponent.esm.js",
   "files": [
     "dist/",
     "loader/"

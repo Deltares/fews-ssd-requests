@@ -1,6 +1,7 @@
 {
   "name": "@deltares/fews-ssd-requests",
   "version": "0.2.0",
+  "description": "Library for making requests to the SSD webservice",
   "author": {
     "name": "Werner Kramer",
     "email": "werner.kramer@deltares.nl"
