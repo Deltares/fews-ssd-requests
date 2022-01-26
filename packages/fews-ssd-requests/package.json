@@ -11,7 +11,6 @@
     "lint": "eslint 'src/**/*.ts'",
     "lint-to-html": "eslint -o eslint-output.html -f html --max-warnings 0 'src/**/*.ts'",
     "lint:fix": "eslint src/**.ts --fix",
-    "prepare": "npm run build",
     "test": "jest"
   },
   "dependencies": {
@@ -19,7 +18,7 @@
   },
   "devDependencies": {
     "@types/jest": "^26.0.15",
-    "fews-pi-requests": "git+https://gitlab+deploy-token-9:U1ueQfYCsijoA_vwpzRA@gitlab.vortech.nl/deltares/rwsos-viewer/fews-pi-requests#0.5.0",
+    "@deltares/fews-pi-requests": "^0.5.3",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
     "eslint": "^6.8.0",

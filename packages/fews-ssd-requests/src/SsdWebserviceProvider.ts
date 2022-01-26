@@ -1,7 +1,7 @@
 import { ExcludeGroups, ExcludeGroupsDisplayName } from './interfaces'
 import { Action, ElementAction, OptionsType, ClickType } from './interfaces'
 import { Capabilities } from './interfaces'
-import { TimeSeriesResponse as FewsPiTimeSeriesResponse} from 'fews-pi-requests'
+import { TimeSeriesResponse as FewsPiTimeSeriesResponse} from '@deltares/fews-pi-requests'
 import { getJsonUsingHttp, HttpResponse } from './utils'
 import { FEWS_NAMESPACE } from './utils'
 
