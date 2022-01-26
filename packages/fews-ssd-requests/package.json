@@ -13,7 +13,7 @@
   "license": "MIT",
   "main": "./dist/fews-ssd-requests.umd.js",
   "typings": "./dist/types/index.d.ts",
-  "private": true,
+  "private": false,
   "scripts": {
     "build": "npm run clean && tsc && webpack",
     "clean": "shx rm -rf dist",

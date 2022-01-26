@@ -19,6 +19,7 @@
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "unpkg": "dist/fews-ssd-webcomponent/fews-ssd-webcomponent.esm.js",
+  "private": false,
   "files": [
     "dist/",
     "loader/"
