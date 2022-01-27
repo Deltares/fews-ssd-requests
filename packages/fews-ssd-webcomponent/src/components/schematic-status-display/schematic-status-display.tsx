@@ -217,9 +217,7 @@ export class SchematicStatusDisplay {
           svg.setAttribute('height', '100%')
           addClickAction(svg, this.dispatch.bind(this))
           if ( target.children.length > 1) target.removeChild(target.children[1])
-          this.el.dispatchEvent(new CustomEvent('load', {
-            detail: this.src
-          }))
+          this.el.dispatchEvent(new UIEvent('load'))
         }
       }
     }
