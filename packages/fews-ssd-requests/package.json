@@ -28,6 +28,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@deltares/fews-ssd-webcomponent": "^0.2.1-alpha.0",
     "core-js": "^3.6.5"
   },
   "devDependencies": {

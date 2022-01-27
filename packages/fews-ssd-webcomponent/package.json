@@ -36,6 +36,7 @@
     "generate": "stencil generate"
   },
   "dependencies": {
+    "@stencil/angular-output-target": "^0.4.0",
     "@stencil/core": "^2.7.0"
   },
   "devDependencies": {
