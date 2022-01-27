@@ -28,6 +28,6 @@ jobs:
           registry-url: https://registry.npmjs.org/
       - run: npx lerna bootstrap
       - run: npx lerna run build
-      - run: npx lerna publish from-package -y
+      - run: npx lerna publish from-package -y --no-verify-access
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
