@@ -10,6 +10,10 @@
     "FEWS",
     "Schematic Status Display web component"
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Deltares/fews-ssd-requests"
+  },
   "license": "MIT",
   "main": "dist/index.cjs.js",
   "module": "dist/custom-elements/index.js",
@@ -32,7 +36,6 @@
     "generate": "stencil generate"
   },
   "dependencies": {
-    "@deltares/fews-ssd-requests": "^0.2.1-alpha.0",
     "@stencil/core": "^2.7.0"
   },
   "devDependencies": {

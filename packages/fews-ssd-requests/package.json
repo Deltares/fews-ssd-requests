@@ -11,6 +11,10 @@
     "Schematic Status Display Service"
   ],
   "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Deltares/fews-ssd-requests"
+  },
   "main": "./dist/fews-ssd-requests.umd.js",
   "typings": "./dist/types/index.d.ts",
   "private": false,
