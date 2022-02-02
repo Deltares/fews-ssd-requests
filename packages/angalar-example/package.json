@@ -1,5 +1,5 @@
 {
-  "name": "my-first-project",
+  "name": "angular-example",
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
@@ -18,8 +18,7 @@
     "@angular/platform-browser": "~13.2.0",
     "@angular/platform-browser-dynamic": "~13.2.0",
     "@angular/router": "~13.2.0",
-    "@deltares/fews-ssd": "file:deltares-fews-ssd-0.0.1.tgz",
-    "@deltares/fews-ssd-webcomponent": "file:deltares-fews-ssd-webcomponent-0.2.1-alpha.0.tgz",
+    "@deltares/fews-ssd-webcomponent": "^0.2.1-alpha.0",
     "rxjs": "~7.5.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.11.4"
