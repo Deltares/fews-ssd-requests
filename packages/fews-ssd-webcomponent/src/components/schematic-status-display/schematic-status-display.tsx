@@ -139,7 +139,6 @@ function addClickAction(svg: SVGElement, callback: any): void {
 //   })
 // }
 
-
 @Component({
   tag: 'schematic-status-display',
   styleUrl: 'schematic-status-display.css',
@@ -196,7 +195,7 @@ export class SchematicStatusDisplay {
     let element = event.target as SVGElement
     // const actions = await getActionFromElement(this.panelId, element)
     this.el.dispatchEvent(new CustomEvent('action', {
-      detail: 'Action to be fetched for ' + this.panelId + 'object' + element.getAttributeNS(FEWS_NAMESPACE, 'id')
+      detail: `Action to be fetched for ${this.panelId} object ${element.getAttributeNS(FEWS_NAMESPACE, 'id')}`
     }))
   }
 
