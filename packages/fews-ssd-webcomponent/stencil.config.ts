@@ -1,4 +1,5 @@
 import { Config } from '@stencil/core';
+import typescript from 'rollup-plugin-typescript';
 
 export const config: Config = {
   namespace: 'fews-ssd-webcomponent',
@@ -8,7 +9,7 @@ export const config: Config = {
       esmLoaderPath: '../loader',
     },
     {
-      type: 'dist-custom-elements-bundle',
+      type: 'dist-custom-elements',
     },
     {
       type: 'docs-readme',
@@ -18,4 +19,9 @@ export const config: Config = {
       serviceWorker: null, // disable service workers
     },
   ],
+  rollupPlugins: {
+    before: [
+      typescript()
+    ]
+  }
 };

@@ -21,9 +21,9 @@
 
     <script type="text/javascript" onload>
       let element = document.getElementById('status-display')
-      element.addEventListener('click', (event) => {alert(event.target.getAttribute('id'))})
-      element.addEventListener('load', (event) => { console.log(event.detail) })
-      element.addEventListener('action', (event) => { console.log(event.detail) })
+      element.addEventListener('click', (event) => {console.log('click',event.detail)})
+      element.addEventListener('load', (event) => { console.log('load', event.detail) })
+      element.addEventListener('action', (event) => { console.log('action', event.detail[0]) })
       function changeScreen(screen) {
         switch (screen) {
           case 1:

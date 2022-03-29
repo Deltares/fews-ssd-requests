@@ -11,21 +11,18 @@ import { FEWS_NAMESPACE } from './utils'
  */
 export class SsdWebserviceProvider {
   ssdUrl: URL
-  piUrl: URL
-  readonly SSD_ENDPOINT = 'FewsWebServices/ssd'
-  readonly PI_ENDPOINT = 'FewsWebServices'
+  public static readonly SSD_ENDPOINT = 'FewsWebServices/ssd'
 
   /**
    * Constructor for SsdWebserviceProvider
    *
-   * @param url the base url where the SSD servive is available
+   * @param url the base url where the SSD service is available
    */
   constructor(url: string) {
     if (!url.endsWith('/')) {
       url += '/'
     }
-    this.ssdUrl = new URL(this.SSD_ENDPOINT, url)
-    this.piUrl = new URL(this.PI_ENDPOINT, url)
+    this.ssdUrl = new URL(SsdWebserviceProvider.SSD_ENDPOINT, url)
   }
 
   /**
@@ -33,13 +30,6 @@ export class SsdWebserviceProvider {
    */
   getUrl(): string {
     return this.ssdUrl.toString()
-  }
-
-  /**
-   * Get the base url for PI requests
-   */
-  getPiUrl(): string {
-    return this.piUrl.toString()
   }
 
   /**
@@ -88,7 +78,8 @@ export class SsdWebserviceProvider {
             resolve(response.parsedBody)
           } else {
             reject('Response has no body')
-          }        })
+          }
+        })
     })
   }
 
@@ -104,22 +95,6 @@ export class SsdWebserviceProvider {
     const promise = this.getAction(panelId, objectId as string, type, timeZero, options)
     return promise.then((action: Action) => {
       return {id: objectId, action: action}
-    })
-  }
-
-  /**
-   * Retrieve a PI timeseries using the request path supplied in a action
-   */
-  fetchPiRequest (request: string): Promise<FewsPiTimeSeriesResponse> {
-    return new Promise<FewsPiTimeSeriesResponse>((resolve, reject) => {
-      getJsonUsingHttp<FewsPiTimeSeriesResponse>(this.getPiUrl() + '/' + request)
-        .then((response: HttpResponse<FewsPiTimeSeriesResponse>) => {
-          if ( response.parsedBody !== undefined ) {
-            resolve(response.parsedBody)
-          } else {
-            reject('Response has no body')
-          }
-        })
     })
   }
 
