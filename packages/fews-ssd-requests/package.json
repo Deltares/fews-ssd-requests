@@ -1,14 +1,14 @@
 {
-  "name": "@deltares/fews-pi-requests",
-  "version": "0.5.3",
-  "description": "template for fews typescript libraries",
+  "name": "@deltares/fews-ssd-requests",
+  "version": "0.2.1-alpha.0",
+  "description": "Library for making requests to the FEWS SSD webservice",
   "author": {
     "name": "Werner Kramer",
     "email": "werner.kramer@deltares.nl"
   },
   "keywords": [
     "FEWS",
-    "TYPESCRIPT"
+    "Schematic Status Display Service"
   ],
   "license": "MIT",
   "main": "./dist/fews-pi-requests.umd.js",
