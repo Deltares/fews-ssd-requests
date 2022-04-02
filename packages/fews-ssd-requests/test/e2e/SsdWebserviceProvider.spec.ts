@@ -1,10 +1,6 @@
 import {SsdWebserviceProvider} from "../../src/SsdWebserviceProvider";
 import {FEWS_NAMESPACE} from "../../src/data/FEWS_NAME_SPACE";
-import 'jsdom';
-import {ActionRequest} from "../../src/data/requests/ActionRequest";
 import ActionFromElementRequest from "../../src/data/requests/ActionFromElementRequest";
-import axios from "axios";
-import SvgElementParser from "../../src/parser/SvgElementParser";
 
 const apiEndpoint = "FewsWebServices/ssd";
 const exclude = {

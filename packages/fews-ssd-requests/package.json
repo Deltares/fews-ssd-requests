@@ -11,7 +11,7 @@
     "Schematic Status Display Service"
   ],
   "license": "MIT",
-  "main": "./dist/fews-pi-requests.umd.js",
+  "main": "./dist/fews-ssd-requests.umd.js",
   "typings": "./dist/types/index.d.ts",
   "private": false,
   "scripts": {
@@ -25,22 +25,22 @@
     "test": "jest --coverage"
   },
   "dependencies": {
-    "@types/jsdom": "^16.2.14",
-    "axios": "^0.26.1",
-    "dotenv": "^16.0.0",
-    "jsdom": "^19.0.0"
+    "axios": "^0.26.1"
   },
   "devDependencies": {
     "@deltares/fews-pi-requests": "^0.5.3",
     "@types/jest": "^27.0.2",
+    "@types/jsdom": "^16.2.14",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
     "@typescript-eslint/parser": "^2.18.0",
+    "dotenv": "^16.0.0",
     "eslint": "^6.8.0",
     "fetch-mock": "^9.11.0",
     "fetch-mock-jest": "^1.5.1",
     "jest": "^27.3.1",
     "jest-junit": "^13.0.0",
     "jest-teamcity-reporter": "^0.9.0",
+    "jsdom": "^19.0.0",
     "node-fetch": "^3.2.0",
     "shx": "^0.3.2",
     "ts-jest": "^27.0.7",
@@ -63,9 +63,9 @@
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Deltares/fews-pi-requests"
+    "url": "git+https://github.com/Deltares/fews-ssd-requests"
   },
   "bugs": {
-    "url": "https://github.com/Deltares/fews-pi-requests/issues"
+    "url": "https://github.com/Deltares/fews-ssd-requests/issues"
   }
 }
