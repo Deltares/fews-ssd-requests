@@ -21,7 +21,12 @@ export default class PiRestService {
             return dataRequestResult;
         }
         const response = await res.data;
-        dataRequestResult.data = parser.parse(response);
+        try {
+            dataRequestResult.data = parser.parse(response);
+        } catch(e: any) {
+            e.message += `\n When loading ${url}.`
+            throw e;
+        }
         return dataRequestResult;
     }
 }

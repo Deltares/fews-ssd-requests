@@ -8,10 +8,9 @@ describe('action request test', () => {
         const panelId = "SomePanelId";
         const objectId = "SomeObjectId";
         const actionRequest = {} as ActionRequest;
-        actionRequest.baseUrl = baseUrl + apiEndpoint;
         actionRequest.panelId = panelId;
         actionRequest.objectId = objectId;
-        actionRequest.type= 'LEFTSINGLECLICK';
+        actionRequest.clickType= 'LEFTSINGLECLICK';
         const url = ActionRequestBuilder.getUrlForAction(actionRequest);
         const expected = "?request=GetAction&ssd=" + panelId + "&action=LEFTSINGLECLICK&objectid=" + objectId + "&format=application/json";
         expect(url).toEqual(expected);
