@@ -1,22 +1,18 @@
-import JsonParser from "../parser/JsonParser";
+import ResponseParser from "../parser/ResponseParser";
 import {Capabilities} from "@/data";
 
-export default class CapabilitiesParsers implements JsonParser<Capabilities> {
+export default class CapabilitiesParsers implements ResponseParser<Capabilities> {
     private excludedGroups: string[];
 
     constructor(excludedGroups: string[]) {
         this.excludedGroups = excludedGroups;
     }
 
-    parse(response: any): Capabilities {
-        const capabilities = response;
-        const displayGroups = response.displayGroups;
-        const filteredDisplayGroups = [];
-        for (const displayGroup of displayGroups) {
-            const exclude: boolean = this.excludedGroups.find(name => name === displayGroup.name) !== undefined;
-            if (exclude) continue;
-            filteredDisplayGroups.push(displayGroup);
-        }
+    async parse(response: any): Promise<Capabilities> {
+        const capabilities: Capabilities = await response.json();
+        const filteredDisplayGroups = capabilities.displayGroups.filter(
+            (g) => { return !this.excludedGroups.includes(g.name) }
+        )
         capabilities.displayGroups = filteredDisplayGroups;
         return capabilities;
     }

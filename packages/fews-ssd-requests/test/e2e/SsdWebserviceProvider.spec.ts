@@ -1,5 +1,6 @@
 import {SsdWebserviceProvider} from "../../src/SsdWebserviceProvider";
 import {ActionRequest} from "../../src/data/requests/ActionRequest";
+import 'cross-fetch/polyfill'; 
 
 const apiEndpoint = "FewsWebServices/ssd";
 const exclude = {

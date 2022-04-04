@@ -1,9 +1,10 @@
-import JsonParser from "../parser/JsonParser";
+import ResponseParser from "./ResponseParser";
 
-export default class SvgElementParser implements JsonParser<SVGElement> {
-    parse(response: any): SVGElement {
+export default class SvgElementParser implements ResponseParser<SVGElement> {
+    async parse(response: any): Promise<SVGElement> {
         const parser = new DOMParser();
-        const svgDoc = parser.parseFromString(response, "text/xml");
+        const text = await response.text()
+        const svgDoc = parser.parseFromString(text, "text/xml");
         const element = svgDoc.querySelector<SVGElement>('svg')
         if ( element === null) throw new Error('respsonse does not contain a svg')
         return element

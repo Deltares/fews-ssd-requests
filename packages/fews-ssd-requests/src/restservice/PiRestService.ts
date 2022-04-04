@@ -1,7 +1,6 @@
 import RequestOptions from "./RequestOptions";
 import DataRequestResult from "./DataRequestResult";
-import JsonParser from "../parser/JsonParser";
-import axios from "axios";
+import ResponseParser from "../parser/ResponseParser";
 
 export default class PiRestService {
     private readonly webserviceUrl: string;
@@ -10,19 +9,18 @@ export default class PiRestService {
         this.webserviceUrl = webserviceUrl;
     }
 
-    public async getData<T>(url: string, requestOption: RequestOptions, parser: JsonParser<T>): Promise<DataRequestResult<T>> {
+    public async getData<T>(url: string, requestOption: RequestOptions, parser: ResponseParser<T>): Promise<DataRequestResult<T>> {
         const requestUrl = requestOption.relativeUrl ? this.webserviceUrl + url : url;
         const options = requestOption.generateOptions();
         const dataRequestResult = {} as DataRequestResult<T>;
-        const res = await axios.get(requestUrl);
+        const res = await fetch(requestUrl);
         dataRequestResult.responseCode = res.status;
         if (res.status != 200) {
             dataRequestResult.errorMessage = res.statusText;
             return dataRequestResult;
         }
-        const response = await res.data;
         try {
-            dataRequestResult.data = parser.parse(response);
+            dataRequestResult.data = await parser.parse(res);
         } catch(e: any) {
             e.message += `\n When loading ${url}.`
             throw e;
