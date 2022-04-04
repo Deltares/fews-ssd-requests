@@ -61,8 +61,12 @@ export class SchematicStatusDisplay {
 
   async dispatch(event: PointerEvent) {
     let element = event.target as SVGElement
-    const objectId = element.getAttributeNS(FEWS_NAMESPACE, 'id')
-    const action = await this.ssdProvider.getAction(this.panelId, objectId)
+    const request = {
+      panelId: this.panelId,
+      objectId: element.getAttributeNS(FEWS_NAMESPACE, 'id'),
+      clickType: 'LEFTSINGLECLICK'
+    }
+    const action = await this.ssdProvider.getAction(request)
     this.el.dispatchEvent(new CustomEvent('action', {
       detail: action.results}))
   }
