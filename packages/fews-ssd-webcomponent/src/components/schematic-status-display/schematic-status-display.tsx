@@ -1,5 +1,5 @@
 import { Component, Prop, Element } from '@stencil/core'
-import { FEWS_NAMESPACE, addClickAction, SsdWebserviceProvider } from '@deltares/fews-ssd-requests/dist/lib'
+import { FEWS_NAMESPACE, addLeftClickAction, SsdWebserviceProvider } from '@deltares/fews-ssd-requests/dist/lib'
 
 @Component({
   tag: 'schematic-status-display',
@@ -83,7 +83,7 @@ export class SchematicStatusDisplay {
           svg.setAttribute('width', '100%')
           svg.setAttribute('height', '100%')
           svg.addEventListener('click', (event) => { if (event.currentTarget === event.target) event.stopPropagation() })
-          addClickAction(svg, this.dispatch.bind(this))
+          addLeftClickAction(svg, this.dispatch.bind(this))
           if ( target.children.length > 1) target.removeChild(target.children[1])
           this.el.dispatchEvent(new UIEvent('load'))
         }

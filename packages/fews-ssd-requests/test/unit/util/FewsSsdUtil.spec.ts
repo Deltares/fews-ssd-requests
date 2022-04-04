@@ -2,8 +2,12 @@ import FewsSsdUtil from "../../../src/util/FewsSsdUtil";
 import ClickCallbackFunction from "../../../src/util/ClickCallbackFunction";
 import {SsdWebserviceProvider} from "../../../src/SsdWebserviceProvider";
 import {FEWS_NAMESPACE} from "../../../src/data/FEWS_NAME_SPACE";
+import { addLeftClickAction } from "../../../src/util/addLeftClickAction";
+import 'cross-fetch/polyfill'; 
 
 describe("util tests", function () {
+    beforeEach(() => jest.setTimeout(10 * 1000))
+    
     it("works", async function () {
         const ssdName = "Meppelerdiep_10min";
         const baseUrl = process.env.TEST_URL || "";
@@ -25,7 +29,7 @@ describe("util tests", function () {
                 expect(event.target.toString()).toMatch(/SVGElement/);
             }
         };
-        FewsSsdUtil.addLeftClickAction(svg, callback);
+        addLeftClickAction(svg, callback);
 
         // now check the results
         let expectedCallbacks = 0;
