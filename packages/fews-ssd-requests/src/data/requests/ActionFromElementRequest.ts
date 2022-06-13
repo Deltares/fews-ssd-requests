@@ -4,7 +4,7 @@ import {OptionsType} from "../OptionsType.js";
 export interface ActionFromElementRequest {
     panelId: string;
     clickType: ClickType;
-    timeZero: string;
+    timeZero?: string;
     svgElement: SVGElement;
-    options: OptionsType[];
+    options?: OptionsType[];
 }

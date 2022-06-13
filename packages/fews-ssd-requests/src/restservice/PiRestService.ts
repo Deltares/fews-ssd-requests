@@ -10,17 +10,16 @@ export class PiRestService {
     }
 
     public async getData<T>(url: string, requestOption: RequestOptions, parser: JsonParser<T>): Promise<DataRequestResult<T>> {
-        const requestUrl = this.webserviceUrl + "/" + url;
+        const requestUrl =  requestOption.relativeUrl ? this.webserviceUrl + url: url
         const options = requestOption.generateOptions();
         const dataRequestResult = {} as DataRequestResult<T>;
-        const responseJson = await fetch(requestUrl, options);
-        dataRequestResult.responseCode = responseJson.status;
-        if (!responseJson.ok) {
-            dataRequestResult.errorMessage = await responseJson.text();
+        const response = await fetch(requestUrl, options);
+        dataRequestResult.responseCode = response.status;
+        if (!response.ok) {
+            dataRequestResult.errorMessage = await response.text();
             return dataRequestResult;
         }
-        const response = await responseJson.json();
-        dataRequestResult.data = parser.parse(response);
+        dataRequestResult.data = await parser.parse(response);
         return dataRequestResult;
     }
 }

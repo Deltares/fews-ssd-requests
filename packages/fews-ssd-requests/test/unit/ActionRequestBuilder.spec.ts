@@ -1,4 +1,4 @@
-import ActionRequestBuilder from "../../src/requestbuilder/ActionRequestBuilder";
+import {ActionRequestBuilder} from "../../src/requestbuilder/ActionRequestBuilder";
 import {ActionRequest} from "../../src/data/requests/ActionRequest";
 
 const apiEndpoint = "FewsWebServices/ssd";

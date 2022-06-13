@@ -1,7 +1,7 @@
 import {JsonParser} from "./JsonParser.js";
 
 export class DefaultParser<T> implements JsonParser<T> {
-    parse(jsonResponse: any): T {
-        return jsonResponse;
+    parse(response: any): Promise<T> {
+        return response.json();
     }
 }

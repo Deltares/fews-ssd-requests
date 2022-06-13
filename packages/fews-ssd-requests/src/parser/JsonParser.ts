@@ -1,3 +1,3 @@
 export interface JsonParser<T> {
-    parse(jsonResponse: any): T;
+    parse(response: any): Promise<T>;
 }

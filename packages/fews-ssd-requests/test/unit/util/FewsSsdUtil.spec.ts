@@ -1,13 +1,17 @@
-import FewsSsdUtil from "../../../src/util/FewsSsdUtil";
-import ClickCallbackFunction from "../../../src/util/ClickCallbackFunction";
-import {SsdWebserviceProvider} from "../../../src/SsdWebserviceProvider";
-import {FEWS_NAMESPACE} from "../../../src/data/FEWS_NAME_SPACE";
+import 'isomorphic-fetch';
+// import 'jsdom';
+
+import {FewsSsdUtil} from "../../../src/util/FewsSsdUtil";
+import {ClickCallbackFunction} from "../../../src/util/ClickCallbackFunction.js";
+import {SsdWebserviceProvider} from "../../../src/SsdWebserviceProvider.js";
+import {addLeftClickAction} from "../../../src/util/addLeftClickAction.js";
+import {FEWS_NAMESPACE} from "../../../src/data/FEWS_NAME_SPACE.js";
 
 describe("util tests", function () {
     it("works", async function () {
         const ssdName = "Meppelerdiep_10min";
         const baseUrl = process.env.TEST_URL || "";
-        const apiEndpoint = "FewsWebServices/ssd";
+        const apiEndpoint = "ssd";
         const provider = new SsdWebserviceProvider(baseUrl);
         const date = new Date();
         date.setDate(date.getDate() - 1);
@@ -31,7 +35,7 @@ describe("util tests", function () {
                 expect(event.target.toString()).toMatch(/SVGElement/);
             }
         };
-        FewsSsdUtil.addLeftClickAction(svg, callback);
+        addLeftClickAction(svg, callback);
 
         // now check the results
         let expectedCallbacks = 0;

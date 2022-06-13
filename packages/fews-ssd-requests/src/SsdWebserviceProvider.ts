@@ -4,7 +4,7 @@
  */
 import {ExcludeGroupsDisplayName} from "./data/ExcludeGroupsDisplayName.js";
 import {ExcludeGroups} from "./data/ExcludeGroups.js";
-import {Capabilities} from "./data/Capabilities/Capabilities";
+import {Capabilities} from "./data/capabilities/Capabilities.js";
 import {Action} from "./data/action/Action.js";
 import {ActionRequestBuilder} from "./requestbuilder/ActionRequestBuilder.js";
 import {ActionRequest} from "./data/requests/ActionRequest.js";
@@ -21,8 +21,8 @@ import {ActionFromElementRequest} from "./data/requests/ActionFromElementRequest
 export class SsdWebserviceProvider {
     private ssdUrl: URL
     private piUrl: URL
-    private readonly SSD_ENDPOINT = 'FewsWebServices/ssd'
-    private readonly PI_ENDPOINT = 'FewsWebServices'
+    private readonly SSD_ENDPOINT = 'ssd'
+    private readonly PI_ENDPOINT = ''
 
     /**
      * Constructor for SsdWebserviceProvider
@@ -33,8 +33,8 @@ export class SsdWebserviceProvider {
         if (!url.endsWith('/')) {
             url += '/'
         }
-        this.ssdUrl = new URL(this.SSD_ENDPOINT, url)
-        this.piUrl = new URL(this.PI_ENDPOINT, url)
+        this.ssdUrl = new URL(url + this.SSD_ENDPOINT)
+        this.piUrl = new URL(url + this.PI_ENDPOINT)
     }
 
     /**

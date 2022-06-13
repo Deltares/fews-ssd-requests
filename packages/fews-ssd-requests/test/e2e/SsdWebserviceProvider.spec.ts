@@ -1,12 +1,11 @@
-import {SsdWebserviceProvider} from "../../src/SsdWebserviceProvider";
-import {FEWS_NAMESPACE} from "../../src/data/FEWS_NAME_SPACE";
-import 'jsdom';
-import {ActionRequest} from "../../src/data/requests/ActionRequest";
-import ActionFromElementRequest from "../../src/data/requests/ActionFromElementRequest";
-import axios from "axios";
-import SvgElementParser from "../../src/parser/SvgElementParser";
+import 'isomorphic-fetch';
+// import 'jsdom';
 
-const apiEndpoint = "FewsWebServices/ssd";
+import {SsdWebserviceProvider} from "../../src/SsdWebserviceProvider.js";
+import {FEWS_NAMESPACE} from "../../src/data/FEWS_NAME_SPACE.js";
+import {ActionFromElementRequest} from "../../src/data/requests/ActionFromElementRequest.js";
+
+const apiEndpoint = "ssd";
 const exclude = {
     displayGroups: []
 };
@@ -140,7 +139,7 @@ describe("ssd", function () {
         }
         // get the panel SVG
         const url = provider.urlForPanel(panelName, new Date(panelDate));
-        expect(url).toContain("https://rwsos.webservices.deltares.nl/iwp/FewsWebServices/ssd?request=GetDisplay&ssd=TK");
+        expect(url).toContain(`https://rwsos-dataservices-ont.avi.deltares.nl/iwp/test/FewsWebServices/ssd?request=GetDisplay&ssd=${panelName}&time=${panelDate}`);
         const svg = await provider.getSvg(url);
         expect(svg).toBeDefined();
     });
@@ -151,7 +150,7 @@ describe("ssd", function () {
         const date = new Date();
         date.setDate(date.getDate() - 1);
         const yesterday = date.toISOString().split("T")[0];
-        const url = baseUrl + "?request=GetDisplay&ssd=" + ssdName + "&time=" + yesterday + "T00:00:00Z";
+        const url = baseUrl + apiEndpoint +"?request=GetDisplay&ssd=" + ssdName + "&time=" + yesterday + "T00:00:00Z";
         const svg = await provider.getSvg(url);
         expect(svg).toBeDefined();
     })
@@ -163,14 +162,15 @@ describe("ssd", function () {
         date.setDate(date.getDate() - 1);
         const yesterday = date.toISOString().split("T")[0];
         const provider = new SsdWebserviceProvider(baseUrl);
-        const element: SVGElement = await provider.getSvg(baseUrl + apiEndpoint + "?request=GetDisplay&ssd=" + ssdName + "&time=" + yesterday + "T00:00:00Z");
+        const element: SVGElement = await provider.getSvg(baseUrl + apiEndpoint + "?request=GetDisplay&ssd=" + ssdName + "&time=" + yesterday + "T00:00:00Z");        
         expect(element).toBeDefined();
         if (element !== undefined) {
-            const provider = new SsdWebserviceProvider(baseUrl);
-            const request = {} as ActionFromElementRequest;
-            request.panelId = ssdName;
-            request.svgElement = element;
-            request.clickType = "LEFTSINGLECLICK";
+            const request: ActionFromElementRequest = {
+                panelId : ssdName,
+                svgElement : element,
+                clickType : "LEFTSINGLECLICK"
+            }
+
             const promise = provider.getActionFromElement(request);
             const {id, action} = await promise;
             const expectedId = (element as Element).getAttributeNS(FEWS_NAMESPACE, "id")
