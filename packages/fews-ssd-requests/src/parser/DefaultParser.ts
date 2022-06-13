@@ -1,7 +1,6 @@
-import JsonParser from "@/parser/JsonParser";
-import {Action} from "@/data";
+import {JsonParser} from "./JsonParser.js";
 
-export default class DefaultParser<T> implements JsonParser<T> {
+export class DefaultParser<T> implements JsonParser<T> {
     parse(jsonResponse: any): T {
         return jsonResponse;
     }

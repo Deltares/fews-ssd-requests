@@ -1,5 +1,5 @@
-import {ClickType} from "@/data/ClickType";
-import {OptionsType} from "@/data/OptionsType";
+import {ClickType} from "../../data//ClickType.js";
+import {OptionsType} from "../../data/OptionsType.js";
 
 export interface ActionRequest {
     baseUrl: string;

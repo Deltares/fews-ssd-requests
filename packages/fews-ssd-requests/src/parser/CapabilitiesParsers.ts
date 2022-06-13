@@ -1,7 +1,7 @@
-import JsonParser from "../parser/JsonParser";
-import {Capabilities} from "@/data";
+import {JsonParser} from "../parser/JsonParser.js";
+import {Capabilities} from "../data/capabilities/Capabilities.js";
 
-export default class CapabilitiesParsers implements JsonParser<Capabilities> {
+export class CapabilitiesParsers implements JsonParser<Capabilities> {
     private excludedGroups: string[];
 
     constructor(excludedGroups: string[]) {

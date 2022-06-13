@@ -1,7 +1,7 @@
-import {ClickType} from "@/data/ClickType";
-import {OptionsType} from "@/data/OptionsType";
+import {ClickType} from "../ClickType.js";
+import {OptionsType} from "../OptionsType.js";
 
-export default interface ActionFromElementRequest {
+export interface ActionFromElementRequest {
     panelId: string;
     clickType: ClickType;
     timeZero: string;

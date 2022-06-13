@@ -1,8 +1,6 @@
-import ClickCallbackFunction from "../util/ClickCallbackFunction";
-import {Duration} from "../data/action/Duration";
-import {FEWS_NAMESPACE} from "../data/FEWS_NAME_SPACE";
+import {Duration} from "../data/action/Duration.js";
 
-export default class FewsSsdUtil {
+export class FewsSsdUtil {
     private static readonly sign = "(-)?";
     private static readonly year =   "(?:([.,\\d]+)Y)?";
     private static readonly month =  "(?:([.,\\d]+)M)?";
@@ -64,20 +62,5 @@ export default class FewsSsdUtil {
         }
         d.push(end)
         return d
-    }
-
-    public static addLeftClickAction(svg: SVGElement, clickCallback: ClickCallbackFunction): void {
-        svg.querySelectorAll('*').forEach(function (el: Element) {
-            const style = el.getAttribute('style') || ""
-            if (el.hasAttributeNS(FEWS_NAMESPACE, 'click')) {
-                el.addEventListener('click', function (event: Event) {
-                    clickCallback(event)
-                })
-                el.setAttribute('style', 'cursor: pointer;' + style)
-            } else {
-                // clickable elements get a pointer cursor, the others (like text) get the default cursor
-                el.setAttribute('style', 'cursor: default;' + style)
-            }
-        })
     }
 }

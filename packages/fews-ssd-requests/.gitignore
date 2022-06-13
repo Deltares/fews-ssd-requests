@@ -4,6 +4,7 @@ node_modules
 /doc
 /coverage
 /reports
+/lib
 
 # local env files
 .env.local

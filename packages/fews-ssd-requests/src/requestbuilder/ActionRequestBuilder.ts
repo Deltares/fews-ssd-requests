@@ -1,6 +1,6 @@
-import {ActionRequest} from "@/data/requests/ActionRequest";
+import {ActionRequest} from "../data/requests/ActionRequest.js";
 
-export default class ActionRequestBuilder {
+export class ActionRequestBuilder {
     /**
      * Get the url to retrieve a SSD actions for a specific object on a specific panel
      */

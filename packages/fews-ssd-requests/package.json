@@ -11,8 +11,9 @@
     "Schematic Status Display Service"
   ],
   "license": "MIT",
-  "main": "./dist/fews-pi-requests.umd.js",
-  "typings": "./dist/types/index.d.ts",
+  "module": "./lib/esm/index.js",
+  "type": "module",
+  "typings": "./lib/types/index.d.ts",
   "private": false,
   "scripts": {
     "build": "npm run clean && tsc && webpack",
@@ -26,7 +27,6 @@
   },
   "dependencies": {
     "@types/jsdom": "^16.2.14",
-    "axios": "^0.26.1",
     "dotenv": "^16.0.0",
     "jsdom": "^19.0.0"
   },
@@ -44,7 +44,7 @@
     "node-fetch": "^3.2.0",
     "shx": "^0.3.2",
     "ts-jest": "^27.0.7",
-    "ts-loader": "^6.2.1",
+    "tslib": "^2.4.0",
     "typedoc": "^0.22.6",
     "typescript": "^4.4.0",
     "webpack": "^5.59.0",
@@ -59,7 +59,7 @@
   },
   "files": [
     "dist/*",
-    "src/*"
+    "lib/*"
   ],
   "repository": {
     "type": "git",

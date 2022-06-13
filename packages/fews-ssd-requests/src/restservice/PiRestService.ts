@@ -1,9 +1,8 @@
-import RequestOptions from "./RequestOptions";
-import DataRequestResult from "./DataRequestResult";
-import JsonParser from "../parser/JsonParser";
-import axios from "axios";
+import {RequestOptions} from "./RequestOptions.js";
+import {DataRequestResult} from "./DataRequestResult.js";
+import {JsonParser} from "../parser/JsonParser.js";
 
-export default class PiRestService {
+export class PiRestService {
     private readonly webserviceUrl: string;
 
     constructor(webserviceUrl: string) {
@@ -11,16 +10,16 @@ export default class PiRestService {
     }
 
     public async getData<T>(url: string, requestOption: RequestOptions, parser: JsonParser<T>): Promise<DataRequestResult<T>> {
-        const requestUrl = requestOption.relativeUrl ? this.webserviceUrl + url : url;
+        const requestUrl = this.webserviceUrl + "/" + url;
         const options = requestOption.generateOptions();
         const dataRequestResult = {} as DataRequestResult<T>;
-        const res = await axios.get(requestUrl);
-        dataRequestResult.responseCode = res.status;
-        if (res.status != 200) {
-            dataRequestResult.errorMessage = res.statusText;
+        const responseJson = await fetch(requestUrl, options);
+        dataRequestResult.responseCode = responseJson.status;
+        if (!responseJson.ok) {
+            dataRequestResult.errorMessage = await responseJson.text();
             return dataRequestResult;
         }
-        const response = await res.data;
+        const response = await responseJson.json();
         dataRequestResult.data = parser.parse(response);
         return dataRequestResult;
     }

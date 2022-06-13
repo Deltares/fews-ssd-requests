@@ -2,18 +2,21 @@
  * The SsdWebserviceProvider class is used to obtain
  * Schematic Status Display (SSD) data and process it
  */
-import {Action, Capabilities, ExcludeGroups, ExcludeGroupsDisplayName} from "./data";
-import ActionRequestBuilder from "./requestbuilder/ActionRequestBuilder";
-import {ActionRequest} from "./data/requests/ActionRequest";
-import PiRestService from "./restservice/PiRestService";
-import RequestOptions from "./restservice/RequestOptions";
-import DefaultParser from "./parser/DefaultParser";
-import {ElementAction} from "./data/action/ElementAction";
-import {FEWS_NAMESPACE} from "./data/FEWS_NAME_SPACE";
-import CapabilitiesParsers from "./parser/CapabilitiesParsers";
+import {ExcludeGroupsDisplayName} from "./data/ExcludeGroupsDisplayName.js";
+import {ExcludeGroups} from "./data/ExcludeGroups.js";
+import {Capabilities} from "./data/Capabilities/Capabilities";
+import {Action} from "./data/action/Action.js";
+import {ActionRequestBuilder} from "./requestbuilder/ActionRequestBuilder.js";
+import {ActionRequest} from "./data/requests/ActionRequest.js";
+import {PiRestService} from "./restservice/PiRestService.js";
+import {RequestOptions} from "./restservice/RequestOptions.js";
+import {DefaultParser} from "./parser/DefaultParser.js";
+import {ElementAction} from "./data/action/ElementAction.js";
+import {FEWS_NAMESPACE} from "./data/FEWS_NAME_SPACE.js";
+import {CapabilitiesParsers} from "./parser/CapabilitiesParsers.js";
 import {TimeSeriesResponse as FewsPiTimeSeriesResponse} from '@deltares/fews-pi-requests'
-import SvgElementParser from "./parser/SvgElementParser";
-import ActionFromElementRequest from "@/data/requests/ActionFromElementRequest";
+import {SvgElementParser} from "./parser/SvgElementParser.js";
+import {ActionFromElementRequest} from "./data/requests/ActionFromElementRequest.js";
 
 export class SsdWebserviceProvider {
     private ssdUrl: URL
