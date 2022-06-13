@@ -1,18 +1,12 @@
-import {JsonParser} from "./JsonParser.js";
-import {FEWS_NAMESPACE} from "../data/FEWS_NAME_SPACE.js";
+import {ResponseParser} from "./ResponseParser";
 
-export class SvgElementParser implements JsonParser<SVGElement> {
+export default class SvgElementParser implements ResponseParser<SVGElement> {
     async parse(response: any): Promise<SVGElement> {
-        const parser = new DOMParser;
-        const svgString = await response.text()
-        const document = parser.parseFromString(svgString, "text/xml");
-        let element: SVGElement | undefined = undefined;
-        document.querySelectorAll('*').forEach(function (el: Element) {
-            if (el.hasAttributeNS(FEWS_NAMESPACE, 'id')) {
-                element = el as SVGElement;
-            }
-        })
-        if (element !== undefined) return Promise.resolve(element);
-        else return Promise.reject(new Error('svg is not supported'))
+        const parser = new DOMParser();
+        const text = await response.text()
+        const svgDoc = parser.parseFromString(text, "text/xml");
+        const element = svgDoc.querySelector<SVGElement>('svg')
+        if ( element === null) throw new Error('respsonse does not contain a svg')
+        return element
     }
 }

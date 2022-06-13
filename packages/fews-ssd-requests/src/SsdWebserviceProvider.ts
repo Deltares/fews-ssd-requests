@@ -16,7 +16,6 @@ import {FEWS_NAMESPACE} from "./data/FEWS_NAME_SPACE.js";
 import {CapabilitiesParsers} from "./parser/CapabilitiesParsers.js";
 import {TimeSeriesResponse as FewsPiTimeSeriesResponse} from '@deltares/fews-pi-requests'
 import {SvgElementParser} from "./parser/SvgElementParser.js";
-import {ActionFromElementRequest} from "./data/requests/ActionFromElementRequest.js";
 
 export class SsdWebserviceProvider {
     private ssdUrl: URL
@@ -74,20 +73,13 @@ export class SsdWebserviceProvider {
      * Retrieve the SSD actions for a specific SVG element on a specific panel
      * Raises an error if the element is not part of the FEWS namespace
      */
-    public getActionFromElement(request: ActionFromElementRequest): Promise<ElementAction> {
-        const objectId = request.svgElement.getAttributeNS(FEWS_NAMESPACE, "id")
+    public getActionFromElement(element: SVGElement, actionRequest: Partial<ActionRequest>): Promise<ElementAction> {
+        const objectId = element.getAttributeNS(FEWS_NAMESPACE, "id")
         if (objectId == null) {
-            throw new Error("SVG element is not part of the FEWS namespace")
+            throw new Error(`No element with 'fews:id=${objectId}] present`)
         }
-        const actionRequest = {} as ActionRequest;
-        actionRequest.panelId = request.panelId;
         actionRequest.objectId = objectId;
-        actionRequest.type = request.clickType;
-        actionRequest.timeZero = request.timeZero;
-        actionRequest.options = request.options;
-        actionRequest.baseUrl = this.getSSDUrl();
-
-        const promise = this.getAction(actionRequest);
+        const promise = this.getAction(actionRequest as ActionRequest);
         return promise.then((action: Action) => {
             return {id: objectId, action: action}
         })

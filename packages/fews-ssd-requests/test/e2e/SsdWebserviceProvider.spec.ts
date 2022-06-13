@@ -1,11 +1,10 @@
-import 'isomorphic-fetch';
-// import 'jsdom';
+import 'cross-fetch/polyfill'; 
 
 import {SsdWebserviceProvider} from "../../src/SsdWebserviceProvider.js";
-import {FEWS_NAMESPACE} from "../../src/data/FEWS_NAME_SPACE.js";
-import {ActionFromElementRequest} from "../../src/data/requests/ActionFromElementRequest.js";
+import {ActionRequest} from "../../src/data/requests/ActionRequest.js";
 
 const apiEndpoint = "ssd";
+
 const exclude = {
     displayGroups: []
 };
@@ -162,20 +161,21 @@ describe("ssd", function () {
         date.setDate(date.getDate() - 1);
         const yesterday = date.toISOString().split("T")[0];
         const provider = new SsdWebserviceProvider(baseUrl);
-        const element: SVGElement = await provider.getSvg(baseUrl + apiEndpoint + "?request=GetDisplay&ssd=" + ssdName + "&time=" + yesterday + "T00:00:00Z");        
-        expect(element).toBeDefined();
-        if (element !== undefined) {
-            const request: ActionFromElementRequest = {
-                panelId : ssdName,
-                svgElement : element,
-                clickType : "LEFTSINGLECLICK"
+        const requestUrl = baseUrl + apiEndpoint + "?request=GetDisplay&ssd=" + ssdName + "&time=" + yesterday + "T00:00:00Z"
+        const svg = await provider.getSvg(requestUrl);
+        expect(svg).toBeDefined();
+        if (svg !== undefined) {
+            const provider = new SsdWebserviceProvider(baseUrl);
+            const request: Partial<ActionRequest> = {
+                panelId: ssdName,
+                clickType: "LEFTSINGLECLICK"
+            };
+            const elementWithAction = svg.querySelector<SVGElement>('*[fews:id=Windkracht]')
+            expect(elementWithAction).not.toBeNull();
+            if (elementWithAction !== null) {
+                const { id, action } = await provider.getActionFromElement(elementWithAction, request);
+                expect(action).toMatchObject(actionFormat);
             }
-
-            const promise = provider.getActionFromElement(request);
-            const {id, action} = await promise;
-            const expectedId = (element as Element).getAttributeNS(FEWS_NAMESPACE, "id")
-            expect(id).toEqual(expectedId);
-            expect(action).toMatchObject(actionFormat);
         }
     });
 
@@ -197,11 +197,13 @@ describe("ssd", function () {
         // get the panel SVG
         const url = provider.urlForPanel(panelName, new Date(panelDate));
         const svgFromUrl = await provider.getSvg(url);
-        const actionRequest = {} as ActionFromElementRequest;
-        actionRequest.svgElement = svgFromUrl;
-        actionRequest.panelId = panelName;
-        const elementAction = await provider.getActionFromElement(actionRequest);
-        const request2 = elementAction.action.results[0].requests[0].request;
+        const actionRequest: ActionRequest = {
+            panelId: panelName,
+            objectId: 'Windkracht',
+            clickType: 'LEFTSINGLECLICK'
+        };
+        const elementAction = await provider.getAction(actionRequest);
+        const request2 = elementAction.results[0].requests[0].request;
         const timeSeries = await provider.fetchPiRequest(request2);
         expect(timeSeries).toMatchObject(timeseriesFormat);
 

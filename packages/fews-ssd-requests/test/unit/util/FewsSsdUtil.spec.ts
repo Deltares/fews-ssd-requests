@@ -1,13 +1,14 @@
-import 'isomorphic-fetch';
-// import 'jsdom';
+import 'cross-fetch/polyfill'; 
 
-import {FewsSsdUtil} from "../../../src/util/FewsSsdUtil";
+import {FewsSsdUtil} from "../../../src/util/FewsSsdUtil.js";
 import {ClickCallbackFunction} from "../../../src/util/ClickCallbackFunction.js";
 import {SsdWebserviceProvider} from "../../../src/SsdWebserviceProvider.js";
 import {addLeftClickAction} from "../../../src/util/addLeftClickAction.js";
 import {FEWS_NAMESPACE} from "../../../src/data/FEWS_NAME_SPACE.js";
 
 describe("util tests", function () {
+    beforeEach(() => jest.setTimeout(10 * 1000))
+    
     it("works", async function () {
         const ssdName = "Meppelerdiep_10min";
         const baseUrl = process.env.TEST_URL || "";
@@ -17,13 +18,7 @@ describe("util tests", function () {
         date.setDate(date.getDate() - 1);
         const yesterday = date.toISOString().split("T")[0];
         const url = baseUrl + apiEndpoint + "?request=GetDisplay&ssd=" + ssdName + "&time=" + yesterday + "T00:00:00Z";
-
         const svg = await provider.getSvg(url);
-        // add custom style to each element to check that it is not removed
-        svg.querySelectorAll('*').forEach(function (el: Element) {
-            const style = el.getAttribute("style") || "";
-            el.setAttribute('style', 'test: 123;' + style)
-        });
 
         let callbackCounter = 0;
         let callback: ClickCallbackFunction;
@@ -39,23 +34,17 @@ describe("util tests", function () {
 
         // now check the results
         let expectedCallbacks = 0;
-        svg.querySelectorAll('*').forEach(function (el: Element) {
-            const style = el.getAttribute("style") || "";
-            if (el.hasAttributeNS(FEWS_NAMESPACE, 'id')) {
+        svg.querySelectorAll<SVGElement>('*').forEach(function (el) {
+            const style = el.style;
+            if (el.hasAttributeNS(FEWS_NAMESPACE, 'click')) {
                 // simulate a click
-                const evObj = document.createEvent('Events');
-                evObj.initEvent("click", true, false);
-                el.dispatchEvent(evObj);
+                const event = new Event('click', { bubbles: true, cancelable: false})
+                el.dispatchEvent(event);
                 expectedCallbacks += 1;
-                const pointerStyle = "cursor: pointer;";
-                expect(style.substring(0, pointerStyle.length)).toEqual(pointerStyle);
-            } else {
-                const defaultStyle = "cursor: default;";
-                expect(style.substring(0, defaultStyle.length)).toEqual(defaultStyle);
+                expect(style.cursor).toEqual('pointer');
+            } else if (style !== undefined) {
+                expect(style.cursor).toEqual('default');
             }
-            ;
-            // check that the original style is still there
-            expect(style).toMatch(/test: 123;/);
         });
         expect(callbackCounter).toEqual(expectedCallbacks);
     })

@@ -9,14 +9,10 @@ export class CapabilitiesParsers implements JsonParser<Capabilities> {
     }
 
     async parse(response: any): Promise<Capabilities> {
-        const capabilities = await response.json();
-        const displayGroups = capabilities.displayGroups;
-        const filteredDisplayGroups = [];
-        for (const displayGroup of displayGroups) {
-            const exclude: boolean = this.excludedGroups.find(name => name === displayGroup.name) !== undefined;
-            if (exclude) continue;
-            filteredDisplayGroups.push(displayGroup);
-        }
+        const capabilities: Capabilities = await response.json();
+        const filteredDisplayGroups = capabilities.displayGroups.filter(
+            (g) => { return !this.excludedGroups.includes(g.name) }
+        )
         capabilities.displayGroups = filteredDisplayGroups;
         return capabilities;
     }
