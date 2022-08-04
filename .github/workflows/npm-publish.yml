@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 16
       - run: ls
-      - run: cd packages/fews-ssd-requests && npm ci && cd ../..
+      - run: cd packages/fews-ssd-requests && npm i && npm ci && cd ../..
       - run: npx lerna bootstrap
 
   publish-npm:
