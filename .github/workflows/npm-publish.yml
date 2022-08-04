@@ -29,6 +29,7 @@ jobs:
           node-version: 12
           registry-url: https://registry.npmjs.org/
       - run: npx lerna bootstrap
+      - run: cd packages/fews-ssd-webcomponent && npm i && cd ../..
       - run: npx lerna run build
       - run: npx lerna publish from-package -y --no-verify-access
         env:
