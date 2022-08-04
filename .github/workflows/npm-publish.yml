@@ -15,7 +15,7 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 12
-      - run: npm install
+      - run: cd packages/fews-ssd-requests && npm i && cd ../..
       - run: npx lerna bootstrap
 
   publish-npm:
@@ -27,7 +27,6 @@ jobs:
         with:
           node-version: 12
           registry-url: https://registry.npmjs.org/
-      - run: npm install
       - run: npx lerna bootstrap
       - run: npx lerna run build
       - run: npx lerna publish from-package -y --no-verify-access
