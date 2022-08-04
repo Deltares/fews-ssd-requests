@@ -10,6 +10,9 @@
     "FEWS",
     "Schematic Status Display Service"
   ],
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "main": "./dist/fews-ssd-requests.umd.js",
   "typings": "./dist/types/index.d.ts",
