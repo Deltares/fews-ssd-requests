@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 16
       - run: ls
-      - run: cd packages/fews-ssd-requests && npm i && cd ../..
+      - run: cd packages/fews-ssd-requests && npm ci && cd ../..
       - run: npx lerna bootstrap
 
   publish-npm:
@@ -28,9 +28,9 @@ jobs:
         with:
           node-version: 16
           registry-url: https://registry.npmjs.org/
-      - run: cd packages/fews-ssd-requests && npm i && cd ../..
+      - run: cd packages/fews-ssd-requests && npm ci && cd ../..
       - run: npx lerna bootstrap
       - run: npx lerna run build
-      - run: npx lerna publish from-package -y --no-verify-access
+      - run: npx lerna publish from-package -y
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}
