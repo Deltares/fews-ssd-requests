@@ -1,5 +1,5 @@
-import {ClickType} from "@/data/ClickType";
-import {OptionsType} from "@/data/OptionsType";
+import {ClickType} from "@/response/clickType";
+import {OptionsType} from "@/response/optionsType";
 
 export interface ActionRequest {
     panelId: string;

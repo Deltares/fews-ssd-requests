@@ -1,4 +1,4 @@
-import { Subplot } from './Subplot'
+import { Subplot } from './subplot'
 
 export interface TimeSeriesDisplay {
     location:   string;

@@ -1,4 +1,4 @@
-import {ActionRequest} from "@/data/requests/ActionRequest";
+import {ActionRequest} from "@/response/requests/actionRequest";
 
 export default class ActionRequestBuilder {
     /**

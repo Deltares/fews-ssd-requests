@@ -1,5 +1,5 @@
-import ActionRequestBuilder from "../../src/requestbuilder/ActionRequestBuilder";
-import {ActionRequest} from "../../src/data/requests/ActionRequest";
+import ActionRequestBuilder from "../../src/requestbuilder/actionRequestBuilder";
+import {ActionRequest} from "../../src/response/requests/actionRequest";
 
 const apiEndpoint = "FewsWebServices/ssd";
 describe('action request test', () => {

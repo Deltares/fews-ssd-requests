@@ -1,9 +1,9 @@
-import FewsSsdUtil from "../../../src/util/FewsSsdUtil";
-import ClickCallbackFunction from "../../../src/util/ClickCallbackFunction";
-import {SsdWebserviceProvider} from "../../../src/SsdWebserviceProvider";
-import {FEWS_NAMESPACE} from "../../../src/data/FEWS_NAME_SPACE";
-import { addLeftClickAction } from "../../../src/util/addLeftClickAction";
-import 'cross-fetch/polyfill'; 
+import ClickCallbackFunction from "../../../src/utils/clickCallbackFunction";
+import {SsdWebserviceProvider} from "../../../src/ssdWebserviceProvider";
+import {FEWS_NAMESPACE} from "../../../src/response/FEWS_NAME_SPACE";
+import { addLeftClickAction } from "../../../src/utils/addLeftClickAction";
+import 'cross-fetch/polyfill';
+import {datesFromPeriod} from "../../../src/utils";
 
 describe("util tests", function () {
     beforeEach(() => jest.setTimeout(10 * 1000))
@@ -52,7 +52,7 @@ describe("util tests", function () {
         const start = "2021-01-01T08:50:00Z";
         const end = "2021-01-01T09:10:00Z";
         const period = start + "/" + end + "/PT1M";
-        const dates = FewsSsdUtil.datesFromPeriod(period);
+        const dates = datesFromPeriod(period);
         // check the start and end
         expect(dates[0]).toEqual(new Date(start));
         expect(dates[dates.length - 1]).toEqual(new Date(end));
@@ -69,7 +69,7 @@ describe("util tests", function () {
         const start = "2021-01-01T08:50:00Z";
         const end = "2021-01-02T00:00:00Z";
         const period = start + "/" + end + "/PT10M";
-        const dates = FewsSsdUtil.datesFromPeriod(period);
+        const dates = datesFromPeriod(period);
         // check the start and end
         expect(dates[0]).toEqual(new Date(start));
         expect(dates[dates.length - 1]).toEqual(new Date(end));
@@ -86,7 +86,7 @@ describe("util tests", function () {
         const start = "2021-01-01T08:00:00Z";
         const end = "2021-01-02T12:00:00Z";
         const period = start + "/" + end + "/PT1H";
-        const dates = FewsSsdUtil.datesFromPeriod(period);
+        const dates = datesFromPeriod(period);
         // check the start and end
         expect(dates[0]).toEqual(new Date(start));
         expect(dates[dates.length - 1]).toEqual(new Date(end));
@@ -103,7 +103,7 @@ describe("util tests", function () {
         const start = "2021-01-01T05:00:00Z";
         const end = "2021-01-10T05:00:00Z";
         const period = start + "/" + end + "/P1D";
-        const dates = FewsSsdUtil.datesFromPeriod(period);
+        const dates = datesFromPeriod(period);
         // check the start and end
         expect(dates[0]).toEqual(new Date(start));
         expect(dates[dates.length - 1]).toEqual(new Date(end));
@@ -120,7 +120,7 @@ describe("util tests", function () {
         const start = "2021-01-01T05:00:00Z";
         const end = "2021-01-15T05:00:00Z";
         const period = start + "/" + end + "/P1W";
-        const dates = FewsSsdUtil.datesFromPeriod(period);
+        const dates = datesFromPeriod(period);
         // check the start and end
         expect(dates[0]).toEqual(new Date(start));
         expect(dates[dates.length - 1]).toEqual(new Date(end));
@@ -137,7 +137,7 @@ describe("util tests", function () {
         const start = "2021-01-01T00:00:00Z";
         const end = "2021-01-25T03:06:09Z";
         const period = start + "/" + end + "/P1W1DT1H2M3S";
-        const dates = FewsSsdUtil.datesFromPeriod(period);
+        const dates = datesFromPeriod(period);
         // check the start and end
         expect(dates[0]).toEqual(new Date(start));
         expect(dates[dates.length - 1]).toEqual(new Date(end));

@@ -1,7 +1,7 @@
 /**
  * Interface for the response of a 'getCapabilities' request
  */
-import {DisplayGroup} from "@/data/capabilities/DisplayGroup";
+import {DisplayGroup} from "@/response/capabilities/displayGroup";
 
 export interface Capabilities {
     title: string;

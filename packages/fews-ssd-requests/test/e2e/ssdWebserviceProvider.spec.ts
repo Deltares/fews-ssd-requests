@@ -1,5 +1,5 @@
-import {SsdWebserviceProvider} from "../../src/SsdWebserviceProvider";
-import {ActionRequest} from "../../src/data/requests/ActionRequest";
+import {SsdWebserviceProvider} from "../../src/ssdWebserviceProvider";
+import {ActionRequest} from "../../src/response/requests/actionRequest";
 import 'cross-fetch/polyfill'; 
 
 const apiEndpoint = "FewsWebServices/ssd";
@@ -136,7 +136,7 @@ describe("ssd", function () {
         }
         // get the panel SVG
         const url = provider.urlForPanel(panelName, new Date(panelDate));
-        expect(url).toContain("https://rwsos-dataservices-ont.avi.deltares.nl/iwp/FewsWebServices/ssd?request=GetDisplay&ssd=TK");
+        expect(url).toContain("https://rwsos-dataservices-ont.avi.deltares.nl/iwp/FewsWebServices/ssd?request=GetDisplay&ssd=Overzichtsscherm_WMCN&time=2022-07-06T15:00:00Z");
         const svg = await provider.getSvg(url);
         expect(svg).toBeDefined();
     });

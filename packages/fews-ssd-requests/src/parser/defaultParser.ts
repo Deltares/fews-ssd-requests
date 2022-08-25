@@ -1,5 +1,5 @@
-import ResponseParser from "@/parser/ResponseParser";
-import {Action} from "@/data";
+import ResponseParser from "@/parser/responseParser";
+import {Action} from "@/response";
 
 export default class DefaultParser<T> implements ResponseParser<T> {
     async parse(response: Response): Promise<T> {

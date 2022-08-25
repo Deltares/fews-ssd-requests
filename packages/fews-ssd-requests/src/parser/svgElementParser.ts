@@ -1,4 +1,4 @@
-import ResponseParser from "./ResponseParser";
+import ResponseParser from "./responseParser";
 
 export default class SvgElementParser implements ResponseParser<SVGElement> {
     async parse(response: any): Promise<SVGElement> {

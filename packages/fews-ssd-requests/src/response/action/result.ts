@@ -1,9 +1,9 @@
 /**
  * Interface for a 'result' object in an 'Action' object
  */
-import {ActionType} from "@/data/action/ActionType";
-import {ResultRequest} from "@/data/action/ResultRequest";
-import {Config} from "@/data/Config";
+import {ActionType} from "@/response/action/actionType";
+import {ResultRequest} from "@/response/action/resultRequest";
+import {Config} from "@/response/config";
 
 export interface Result {
     type: ActionType;

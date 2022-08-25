@@ -1,5 +1,7 @@
-import { Component, Prop, Element } from '@stencil/core'
-import { FEWS_NAMESPACE, addLeftClickAction, SsdWebserviceProvider } from '@deltares/fews-ssd-requests/dist/lib'
+import {Component, Prop, Element} from '@stencil/core'
+import {SsdWebserviceProvider} from '@deltares/fews-ssd-requests/dist/lib'
+import {FEWS_NAMESPACE} from '@deltares/fews-ssd-requests/dist/lib/response'
+import {addLeftClickAction} from '@deltares/fews-ssd-requests/dist/lib/utils'
 
 @Component({
   tag: 'schematic-status-display',

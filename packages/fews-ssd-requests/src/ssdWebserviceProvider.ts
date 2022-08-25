@@ -2,17 +2,16 @@
  * The SsdWebserviceProvider class is used to obtain
  * Schematic Status Display (SSD) data and process it
  */
-import {Action, Capabilities, ExcludeGroups, ExcludeGroupsDisplayName} from "./data";
-import ActionRequestBuilder from "./requestbuilder/ActionRequestBuilder";
-import {ActionRequest} from "./data/requests/ActionRequest";
-import PiRestService from "./restservice/PiRestService";
-import RequestOptions from "./restservice/RequestOptions";
-import DefaultParser from "./parser/DefaultParser";
-import {ElementAction} from "./data/action/ElementAction";
-import {FEWS_NAMESPACE} from "./data/FEWS_NAME_SPACE";
-import CapabilitiesParsers from "./parser/CapabilitiesParsers";
+import {Action, Capabilities, ExcludeGroups, ExcludeGroupsDisplayName} from "./response";
+import ActionRequestBuilder from "./requestbuilder/actionRequestBuilder";
+import {ActionRequest} from "./response/requests/actionRequest";
+import PiRestService from "./restservice/piRestService";
+import RequestOptions from "./restservice/requestOptions";
+import {ElementAction} from "./response/action/elementAction";
+import {FEWS_NAMESPACE} from "./response/FEWS_NAME_SPACE";
+import CapabilitiesParsers from "./parser/capabilitiesParsers";
 import {TimeSeriesResponse as FewsPiTimeSeriesResponse} from '@deltares/fews-pi-requests'
-import SvgElementParser from "./parser/SvgElementParser";
+import SvgElementParser from "./parser/svgElementParser";
 
 export class SsdWebserviceProvider {
     private ssdUrl: URL
@@ -59,7 +58,7 @@ export class SsdWebserviceProvider {
         const webservice = new PiRestService(this.getSSDUrl());
         const requestOptions = new RequestOptions();
         requestOptions.relativeUrl = false;
-        const svgResponse = await webservice.getData(url, requestOptions, new SvgElementParser());
+        const svgResponse = await webservice.getDataWithParser(url, requestOptions, new SvgElementParser());
         if (svgResponse.responseCode != 200) {
             throw new Error(svgResponse.errorMessage);
         }
@@ -88,7 +87,7 @@ export class SsdWebserviceProvider {
     public async fetchPiRequest(request: string): Promise<FewsPiTimeSeriesResponse> {
         const webservice = new PiRestService(this.getPiUrl());
         request = request.startsWith("/") ? request : "/" + request;
-        const result = await webservice.getData(request, new RequestOptions(), new DefaultParser<FewsPiTimeSeriesResponse>());
+        const result = await webservice.getData<FewsPiTimeSeriesResponse>(request);
         if (result.responseCode != 200) {
             throw new Error(result.errorMessage);
         }
@@ -101,7 +100,7 @@ export class SsdWebserviceProvider {
     public async getAction(actionRequest: ActionRequest): Promise<Action> {
         const url = ActionRequestBuilder.getUrlForAction(actionRequest);
         const webservice = new PiRestService(this.getSSDUrl());
-        const result = await webservice.getData(url, new RequestOptions(), new DefaultParser<Action>());
+        const result = await webservice.getData<Action>(url);
         if (result.responseCode != 200) {
             throw new Error(result.errorMessage);
         }
@@ -126,7 +125,7 @@ export class SsdWebserviceProvider {
         });
         const webservice = new PiRestService(this.getSSDUrl());
         const parser = new CapabilitiesParsers(excludedGroupsNames);
-        const result = await webservice.getData("?request=GetCapabilities&format=application/json", new RequestOptions(), parser);
+        const result = await webservice.getData<Capabilities>("?request=GetCapabilities&format=application/json");
         if (result.responseCode != 200) {
             throw new Error(result.errorMessage);
         }
