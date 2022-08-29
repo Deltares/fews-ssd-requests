@@ -136,7 +136,7 @@ describe("ssd", function () {
         }
         // get the panel SVG
         const url = provider.urlForPanel(panelName, new Date(panelDate));
-        expect(url).toContain("https://rwsos-dataservices-ont.avi.deltares.nl/iwp/FewsWebServices/ssd?request=GetDisplay&ssd=Overzichtsscherm_WMCN&time=2022-07-06T15:00:00Z");
+        expect(url).toContain("https://rwsos-dataservices-ont.avi.deltares.nl/iwp/FewsWebServices/ssd?request=GetDisplay&ssd=Overzichtsscherm_WMCN");
         const svg = await provider.getSvg(url);
         expect(svg).toBeDefined();
     });
@@ -197,7 +197,7 @@ describe("ssd", function () {
         const svgFromUrl = await provider.getSvg(url);
         const actionRequest: ActionRequest = {
             panelId: panelName,
-            objectId: 'Windkracht',
+            objectId: 'txt_Windkracht_Stavoren',
             clickType: "LEFTSINGLECLICK"
         };
         const elementAction = await provider.getAction(actionRequest);

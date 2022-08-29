@@ -125,7 +125,7 @@ export class SsdWebserviceProvider {
         });
         const webservice = new PiRestService(this.getSSDUrl());
         const parser = new CapabilitiesParsers(excludedGroupsNames);
-        const result = await webservice.getData<Capabilities>("?request=GetCapabilities&format=application/json");
+        const result = await webservice.getDataWithParser<Capabilities>("?request=GetCapabilities&format=application/json", new RequestOptions(), parser);
         if (result.responseCode != 200) {
             throw new Error(result.errorMessage);
         }

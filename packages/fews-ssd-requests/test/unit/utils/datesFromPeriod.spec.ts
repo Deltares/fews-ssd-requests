@@ -5,7 +5,7 @@ import { addLeftClickAction } from "../../../src/utils/addLeftClickAction";
 import 'cross-fetch/polyfill';
 import {datesFromPeriod} from "../../../src/utils";
 
-describe("util tests", function () {
+describe("datesFromPeriod", function () {
     beforeEach(() => jest.setTimeout(10 * 1000))
     
     it("works", async function () {
