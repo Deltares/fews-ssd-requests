@@ -13,5 +13,5 @@ The packages are managed using [lerna](https://lerna.js.org/).
 
 Bootstrap the packages, installing all their dependencies and linking any cross-dependencies.
 ```
-lerna bootstrap
+npx lerna bootstrap
 ```
