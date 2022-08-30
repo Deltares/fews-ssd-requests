@@ -1,5 +1,5 @@
-import { Component, Prop, Element } from '@stencil/core'
-import { FEWS_NAMESPACE, addLeftClickAction, SsdWebserviceProvider } from '@deltares/fews-ssd-requests/dist/lib'
+import {Component, Prop, Element} from '@stencil/core'
+import { FEWS_NAMESPACE, addLeftClickAction, SsdWebserviceProvider } from '@deltares/fews-ssd-requests'
 
 @Component({
   tag: 'schematic-status-display',
@@ -32,6 +32,7 @@ export class SchematicStatusDisplay {
   // @Event() clickEmitter: EventEmitter<PointerEvent>;
 
   connectedCallback() {
+    if ( this.src === undefined ) return
     const params = new URL(this.src).searchParams
     this.panelId = params.get('ssd')
     const endPoint = this.src.split('FewsWebServices/ssd')[0]
@@ -66,32 +67,24 @@ export class SchematicStatusDisplay {
       objectId: element.getAttributeNS(FEWS_NAMESPACE, 'id'),
       clickType: 'LEFTSINGLECLICK'
     }
-    const action = await this.ssdProvider.getAction(request)
+    const action = await this.ssdProvider.getAction(request as any)
     this.el.dispatchEvent(new CustomEvent('action', {
       detail: action.results}))
   }
 
-  loadSvg() {
+  async loadSvg() {
     const target = this.el
-    const request = new XMLHttpRequest() as any
-    request.timeStamp = new Date().getTime()
-    request.open('GET', this.src, true)
-    request.send()
-    request.onload = () => {
-      if (request.timeStamp > this.latestRequestReceived) {
-        this.latestRequestReceived = request.timeStamp
-        const xmlDoc = request.responseXML
-        if (xmlDoc) {
-          target.insertBefore(xmlDoc.documentElement, target.children[0])
-          const svg = target.children[0] as SVGElement
-          svg.setAttribute('width', '100%')
-          svg.setAttribute('height', '100%')
-          svg.addEventListener('click', (event) => { if (event.currentTarget === event.target) event.stopPropagation() })
-          addLeftClickAction(svg, this.dispatch.bind(this))
-          if ( target.children.length > 1) target.removeChild(target.children[1])
-          this.el.dispatchEvent(new UIEvent('load'))
-        }
-      }
+    if (this.ssdProvider === undefined) return
+    const xmlDoc = await this.ssdProvider.getSvg(this.src)
+    if (xmlDoc) {
+      target.insertBefore(xmlDoc, target.children[0])
+      const svg = target.children[0] as SVGElement
+      svg.setAttribute('width', '100%')
+      svg.setAttribute('height', '100%')
+      svg.addEventListener('click', (event) => { if (event.currentTarget === event.target) event.stopPropagation() })
+      addLeftClickAction(svg, this.dispatch.bind(this))
+      if ( target.children.length > 1) target.removeChild(target.children[1])
+      this.el.dispatchEvent(new UIEvent('load'))
     }
   }
 
