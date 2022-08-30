@@ -1,7 +1,7 @@
 /**
  * Interface for the 'dimension' object in a 'DisplayPanel' object
  */
-import {Units} from "@/response/capabilities/units";
+import { Units } from "./units";
 
 export interface Dimension {
     name: string;

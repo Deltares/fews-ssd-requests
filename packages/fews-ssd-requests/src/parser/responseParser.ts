@@ -1,3 +1,3 @@
-export default interface ResponseParser<T> {
+export interface ResponseParser<T> {
     parse(response: Response): Promise<T>;
 }

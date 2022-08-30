@@ -1,4 +1,4 @@
-import {TimeSeriesDisplay} from "@/response/timeSeriesDisplay";
+import { TimeSeriesDisplay } from "./timeSeriesDisplay";
 
 export interface Config {
     timeSeriesDisplay: TimeSeriesDisplay;

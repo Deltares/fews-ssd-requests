@@ -1,6 +1,6 @@
-import {SsdWebserviceProvider} from "../../src/ssdWebserviceProvider";
-import {ActionRequest} from "../../src/response/requests/actionRequest";
-import 'cross-fetch/polyfill'; 
+import { SsdWebserviceProvider } from "../../src/ssdWebserviceProvider";
+import { ActionRequest } from "../../src/response/requests/actionRequest";
+import 'cross-fetch/polyfill';
 
 const apiEndpoint = "FewsWebServices/ssd";
 const exclude = {
@@ -181,8 +181,7 @@ describe("ssd", function () {
         // download a real timeseries that exists in the capabilities
         // first get the capabilities
         const provider = new SsdWebserviceProvider(baseUrl);
-        const promise = provider.getCapabilities();
-        const capabilities = await promise;
+        const capabilities = await provider.getCapabilities();
         // from the capabilities get info for a panel
         const group = capabilities.displayGroups[0];
         const panel = group.displayPanels[0];

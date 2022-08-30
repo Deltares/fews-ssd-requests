@@ -1,4 +1,4 @@
-export default class RequestOptions {
+export class RequestOptions {
     private _mode = "cors";
     private _relativeUrl = true;
 

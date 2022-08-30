@@ -1,3 +1,3 @@
-export default interface ClickCallbackFunction {
+export interface ClickCallbackFunction {
     (event: Event): void;
 }

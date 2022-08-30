@@ -1,9 +1,9 @@
-import ClickCallbackFunction from "../../../src/utils/clickCallbackFunction";
-import {SsdWebserviceProvider} from "../../../src/ssdWebserviceProvider";
-import {FEWS_NAMESPACE} from "../../../src/response/FEWS_NAME_SPACE";
+import { ClickCallbackFunction } from "../../../src/utils/clickCallbackFunction";
+import { SsdWebserviceProvider } from "../../../src/ssdWebserviceProvider";
+import { FEWS_NAMESPACE } from "../../../src/response/FEWS_NAME_SPACE";
 import { addLeftClickAction } from "../../../src/utils/addLeftClickAction";
 import 'cross-fetch/polyfill';
-import {datesFromPeriod} from "../../../src/utils";
+import { datesFromPeriod } from "../../../src/utils";
 
 describe("datesFromPeriod", function () {
     beforeEach(() => jest.setTimeout(10 * 1000))

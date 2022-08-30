@@ -1,7 +1,7 @@
 /**
  * Interface for the 'displayGroup' object in a 'Capabilities' object
  */
-import {DisplayPanel} from "@/response/capabilities/displayPanel";
+import { DisplayPanel } from "./displayPanel";
 
 export interface DisplayGroup {
     name: string;

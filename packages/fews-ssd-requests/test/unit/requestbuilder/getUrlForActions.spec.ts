@@ -1,5 +1,5 @@
-import ActionRequestBuilder from "../../src/requestbuilder/actionRequestBuilder";
-import {ActionRequest} from "../../src/response/requests/actionRequest";
+import { getUrlForAction } from "../../../src/requestbuilder/getUrlForAction";
+import { ActionRequest } from "../../../src/response/requests/actionRequest";
 
 const apiEndpoint = "FewsWebServices/ssd";
 describe('action request test', () => {
@@ -11,7 +11,7 @@ describe('action request test', () => {
         actionRequest.panelId = panelId;
         actionRequest.objectId = objectId;
         actionRequest.clickType= 'LEFTSINGLECLICK';
-        const url = ActionRequestBuilder.getUrlForAction(actionRequest);
+        const url = getUrlForAction(actionRequest);
         const expected = "?request=GetAction&ssd=" + panelId + "&action=LEFTSINGLECLICK&objectid=" + objectId + "&format=application/json";
         expect(url).toEqual(expected);
     });

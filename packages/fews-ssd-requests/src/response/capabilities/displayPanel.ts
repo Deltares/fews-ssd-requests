@@ -1,7 +1,7 @@
 /**
  * Interface for the 'displayPanel' object in a 'DisplayGroup' object
  */
-import {Dimension} from "@/response/capabilities/dimension";
+import { Dimension } from "./dimension";
 
 export interface DisplayPanel {
     name: string;

@@ -1,7 +1,7 @@
-import ResponseParser from "./responseParser";
-import {Capabilities} from "@/response";
+import { ResponseParser } from "./responseParser";
+import { Capabilities } from "../response/capabilities/capabilities";
 
-export default class CapabilitiesParsers implements ResponseParser<Capabilities> {
+export class CapabilitiesParsers implements ResponseParser<Capabilities> {
     private excludedGroups: string[];
 
     constructor(excludedGroups: string[]) {

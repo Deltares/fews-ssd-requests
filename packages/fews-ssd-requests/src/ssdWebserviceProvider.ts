@@ -2,16 +2,16 @@
  * The SsdWebserviceProvider class is used to obtain
  * Schematic Status Display (SSD) data and process it
  */
-import {Action, Capabilities, ExcludeGroups, ExcludeGroupsDisplayName} from "./response";
-import ActionRequestBuilder from "./requestbuilder/actionRequestBuilder";
-import {ActionRequest} from "./response/requests/actionRequest";
-import PiRestService from "./restservice/piRestService";
-import RequestOptions from "./restservice/requestOptions";
-import {ElementAction} from "./response/action/elementAction";
-import {FEWS_NAMESPACE} from "./response/FEWS_NAME_SPACE";
-import CapabilitiesParsers from "./parser/capabilitiesParsers";
-import {TimeSeriesResponse as FewsPiTimeSeriesResponse} from '@deltares/fews-pi-requests'
-import SvgElementParser from "./parser/svgElementParser";
+import { Action, Capabilities, ExcludeGroups, ExcludeGroupsDisplayName } from "./response";
+import { getUrlForAction } from "./requestbuilder/getUrlForAction";
+import { ActionRequest } from "./response/requests/actionRequest";
+import { PiRestService } from "./restservice/piRestService";
+import { RequestOptions } from "./restservice/requestOptions";
+import { ElementAction } from "./response/action/elementAction";
+import { FEWS_NAMESPACE } from "./response/FEWS_NAME_SPACE";
+import { CapabilitiesParsers } from "./parser/capabilitiesParsers";
+import { TimeSeriesResponse as FewsPiTimeSeriesResponse } from '@deltares/fews-pi-requests'
+import { SvgElementParser } from "./parser/svgElementParser";
 
 export class SsdWebserviceProvider {
     private ssdUrl: URL
@@ -98,7 +98,7 @@ export class SsdWebserviceProvider {
      * Retrieve the SSD actions for a specific object id on a specific panel
      */
     public async getAction(actionRequest: ActionRequest): Promise<Action> {
-        const url = ActionRequestBuilder.getUrlForAction(actionRequest);
+        const url = getUrlForAction(actionRequest);
         const webservice = new PiRestService(this.getSSDUrl());
         const result = await webservice.getData<Action>(url);
         if (result.responseCode != 200) {
