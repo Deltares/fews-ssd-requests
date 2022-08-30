@@ -2,12 +2,15 @@ const path = require('path')
 
 module.exports = {
   mode: 'production',
-  entry: './src/index.ts',
+  entry: './lib/index.js',
   output: {
     path: path.resolve(__dirname, 'dist'),
-    library: 'fews-ssd-requests',
-    libraryTarget: 'umd',
+    library: { 
+      name: 'fews-ssd-requests',
+      type: 'umd'
+    },
     filename: 'fews-ssd-requests.umd.js',
+    globalObject: 'this',
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.json'],
@@ -15,13 +18,5 @@ module.exports = {
   plugins: [
   ],
   module: {
-    rules: [
-      {
-        // Include ts, tsx, and js files.
-        test: /\.(tsx?)|(js)$/,
-        exclude: /node_modules/,
-        loader: 'ts-loader',
-      },
-    ],
   },
 }
