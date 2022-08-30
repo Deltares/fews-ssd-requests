@@ -64,7 +64,7 @@
   },
   "files": [
     "dist/*",
-    "src/*"
+    "lib/*"
   ],
   "repository": {
     "type": "git",
