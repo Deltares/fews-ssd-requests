@@ -39,17 +39,16 @@
     "generate": "stencil generate"
   },
   "dependencies": {
-    "@deltares/fews-ssd-requests": "^0.2.2-alpha.0",
-    "@stencil/core": "^2.13.0",
+    "@deltares/fews-ssd-requests": "^0.2.1-alpha.0",
+    "@stencil/core": "^2.17.4",
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.24",
+    "@types/jest": "^27.0.3",
     "@types/lodash": "^4.14.180",
-    "jest": "^26.6.3",
-    "jest-cli": "^26.6.3",
+    "jest": "^27.0.3",
+    "jest-cli": "^27.4.5",
     "puppeteer": "^10.0.0",
-    "rollup-plugin-typescript": "^1.0.1",
     "typescript": "^4.6.3"
   }
 }
