@@ -1,3 +1,5 @@
+import {YAxis} from "@/response/yAxis";
+
 export interface Chart {
     type:           string;
     axisLabel:      string;
@@ -9,4 +11,8 @@ export interface Chart {
     request:        string;
     markerStyle?:   string;
     markerSize?:    number;
+    legend: string;
+    color: string;
+    locationId: string;
+    yAxis: YAxis;
 }
