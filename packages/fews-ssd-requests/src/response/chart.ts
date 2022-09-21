@@ -1,4 +1,4 @@
-import {YAxis} from "@/response/yAxis";
+import {YAxis} from "./yAxis";
 
 export interface Chart {
     type:           string;
