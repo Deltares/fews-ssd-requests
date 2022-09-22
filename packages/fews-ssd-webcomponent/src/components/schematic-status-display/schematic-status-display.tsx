@@ -35,7 +35,7 @@ export class SchematicStatusDisplay {
     if ( this.src === undefined ) return
     const params = new URL(this.src).searchParams
     this.panelId = params.get('ssd')
-    const endPoint = this.src.split('FewsWebServices/ssd')[0]
+    const endPoint = this.src.split('ssd')[0]
     this.ssdProvider = new SsdWebserviceProvider(endPoint)
   }
 
@@ -52,7 +52,7 @@ export class SchematicStatusDisplay {
       case 'src':
         const params = new URL(value).searchParams
         this.panelId = params.get('ssd')
-        const endPoint = this.src.split('FewsWebServices/ssd')[0]
+        const endPoint = this.src.split('ssd')[0]
         this.ssdProvider = new SsdWebserviceProvider(endPoint)
         return true
       default:
