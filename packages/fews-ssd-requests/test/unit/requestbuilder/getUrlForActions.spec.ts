@@ -1,7 +1,7 @@
 import { getUrlForAction } from "../../../src/requestbuilder/getUrlForAction";
 import { ActionRequest } from "../../../src/response/requests/actionRequest";
 
-const apiEndpoint = "FewsWebServices/ssd";
+const apiEndpoint = "ssd";
 describe('action request test', () => {
     it("gives the correct url to an action", function () {
         const baseUrl = process.env.TEST_URL || "";

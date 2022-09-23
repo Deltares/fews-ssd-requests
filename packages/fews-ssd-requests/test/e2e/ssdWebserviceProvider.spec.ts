@@ -2,7 +2,7 @@ import { SsdWebserviceProvider } from "../../src/ssdWebserviceProvider";
 import { ActionRequest } from "../../src/response/requests/actionRequest";
 import 'cross-fetch/polyfill';
 
-const apiEndpoint = "FewsWebServices/ssd";
+const apiEndpoint = "ssd";
 const exclude = {
     displayGroups: []
 };
@@ -206,4 +206,3 @@ describe("ssd", function () {
 
     });
 });
-

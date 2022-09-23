@@ -7,11 +7,11 @@ import { datesFromPeriod } from "../../../src/utils";
 
 describe("datesFromPeriod", function () {
     beforeEach(() => jest.setTimeout(10 * 1000))
-    
+
     it("works", async function () {
         const ssdName = "Meppelerdiep_10min";
         const baseUrl = process.env.TEST_URL || "";
-        const apiEndpoint = "FewsWebServices/ssd";
+        const apiEndpoint = "ssd";
         const provider = new SsdWebserviceProvider(baseUrl);
         const date = new Date();
         date.setDate(date.getDate() - 1);

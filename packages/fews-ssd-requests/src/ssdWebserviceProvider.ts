@@ -16,8 +16,8 @@ import { SvgElementParser } from "./parser/svgElementParser";
 export class SsdWebserviceProvider {
     private ssdUrl: URL
     private piUrl: URL
-    private readonly SSD_ENDPOINT = 'FewsWebServices/ssd'
-    private readonly PI_ENDPOINT = 'FewsWebServices'
+    private readonly SSD_ENDPOINT = 'ssd'
+    private readonly PI_ENDPOINT = ''
 
     /**
      * Constructor for SsdWebserviceProvider

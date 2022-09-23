@@ -58,13 +58,13 @@ class SsdWebserviceProvider implements WebserviceProvider
 
 Provider methods:
 * ```constructor(url: string, excludeGroups: ExcludeGroups)```
-  - takes a string url pointing to the base of the provider (i.e. without the 'FewsWebServices/ssd' part)
+  - takes a string url pointing to the base of the provider (i.e. without the 'ssd' part)
 * ```getUrl(): string```
   - returns the base url to the SSD service
 * ```getPiUrl(): string```
   - returns the base url to the PI service
 * ```urlForCapabilities(): string```
-  - returns the url to the SSD capabilities 
+  - returns the url to the SSD capabilities
 * ```urlForPanel (panelName: string, date: Date): string```
   - takes a panel name and a date string
   - returns the url to an SSD panel (which points to an SVG image)
