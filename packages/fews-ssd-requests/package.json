@@ -18,6 +18,16 @@
   "module": "lib/index.js",
   "typings": "lib/types/index.d.ts",
   "private": false,
+  "scripts": {
+    "build": "npm run clean && tsc && webpack",
+    "clean": "shx rm -rf dist",
+    "doc": "typedoc --out doc src",
+    "lint": "eslint src/**.ts",
+    "lint:fix": "eslint src/**.ts --fix",
+    "test:unit": "jest unit --collect-coverage",
+    "test:e2d": "jest e2e",
+    "test": "jest --coverage"
+  },
   "devDependencies": {
     "@deltares/fews-pi-requests": "^0.5.3",
     "@types/jest": "27.0.0",
