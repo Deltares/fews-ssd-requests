@@ -1,6 +1,6 @@
 {
   "name": "@deltares/fews-ssd-requests",
-  "version": "0.2.7",
+  "version": "0.2.8",
   "description": "Library for making requests to the FEWS SSD webservice",
   "author": {
     "name": "Werner Kramer",
