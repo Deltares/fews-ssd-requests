@@ -136,7 +136,7 @@ describe("ssd", function () {
         }
         // get the panel SVG
         const url = provider.urlForPanel(panelName, new Date(panelDate));
-        expect(url).toContain("https://rwsos-dataservices-ont.avi.deltares.nl/iwp/FewsWebServices/ssd?request=GetDisplay&ssd=Overzichtsscherm_WMCN");
+        expect(url).toContain("https://rwsos-dataservices-ont.avi.deltares.nl/iwp/test/FewsWebServices/ssd?request=GetDisplay&ssd=Overzichtsscherm_WMCN");
         const svg = await provider.getSvg(url);
         expect(svg).toBeDefined();
     });
