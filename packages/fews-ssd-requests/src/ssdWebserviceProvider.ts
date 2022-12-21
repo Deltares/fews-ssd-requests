@@ -2,12 +2,17 @@
  * The SsdWebserviceProvider class is used to obtain
  * Schematic Status Display (SSD) data and process it
  */
-import { Action, Capabilities, ExcludeGroups, ExcludeGroupsDisplayName } from "./response";
+import {
+    SsdGetCapabilitiesResponse,
+    ExcludeGroups,
+    ExcludeGroupsDisplayName,
+    SsdActionsResponse,
+    Action, ElementAction
+} from "./response";
 import { getUrlForAction } from "./requestbuilder/getUrlForAction";
 import { ActionRequest } from "./response/requests/actionRequest";
 import { PiRestService } from "./restservice/piRestService";
 import { RequestOptions } from "./restservice/requestOptions";
-import { ElementAction } from "./response/action/elementAction";
 import { FEWS_NAMESPACE } from "./response/FEWS_NAME_SPACE";
 import { CapabilitiesParsers } from "./parser/capabilitiesParsers";
 import { TimeSeriesResponse as FewsPiTimeSeriesResponse } from '@deltares/fews-pi-requests'
@@ -97,10 +102,10 @@ export class SsdWebserviceProvider {
     /**
      * Retrieve the SSD actions for a specific object id on a specific panel
      */
-    public async getAction(actionRequest: ActionRequest): Promise<Action> {
+    public async getAction(actionRequest: ActionRequest): Promise<SsdActionsResponse> {
         const url = getUrlForAction(actionRequest);
         const webservice = new PiRestService(this.getSSDUrl());
-        const result = await webservice.getData<Action>(url);
+        const result = await webservice.getData<SsdActionsResponse>(url);
         if (result.responseCode != 200) {
             throw new Error(result.errorMessage);
         }
@@ -119,13 +124,13 @@ export class SsdWebserviceProvider {
     /**
      * Retrieve the SSD capabilities
      */
-    public async getCapabilities(excludeGroups: ExcludeGroups = {displayGroups: []}): Promise<Capabilities> {
+    public async getCapabilities(excludeGroups: ExcludeGroups = {displayGroups: []}): Promise<SsdGetCapabilitiesResponse> {
         const excludedGroupsNames: string[] = excludeGroups.displayGroups.map((group: ExcludeGroupsDisplayName) => {
             return group.name
         });
         const webservice = new PiRestService(this.getSSDUrl());
         const parser = new CapabilitiesParsers(excludedGroupsNames);
-        const result = await webservice.getDataWithParser<Capabilities>("?request=GetCapabilities&format=application/json", new RequestOptions(), parser);
+        const result = await webservice.getDataWithParser<SsdGetCapabilitiesResponse>("?request=GetCapabilities&format=application/json", new RequestOptions(), parser);
         if (result.responseCode != 200) {
             throw new Error(result.errorMessage);
         }

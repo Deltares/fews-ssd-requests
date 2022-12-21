@@ -1,5 +1,1 @@
-export * from './capabilities'
-export * from './dimension'
-export * from './displayGroup'
-export * from './displayPanel'
-export * from './units'
+export * from './ssdCapabilitiesResponse'

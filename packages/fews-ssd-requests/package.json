@@ -26,7 +26,8 @@
     "lint:fix": "eslint src/**.ts --fix",
     "test:unit": "jest unit --collect-coverage",
     "test:e2e": "jest e2e",
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "json2ts-pi": "curl https://fewsdocs.deltares.nl/webservices/ssd/schemas/ssd/pi_ssd_get_action.json | json2ts > src/response/action/ssdActionResponse.ts & curl https://fewsdocs.deltares.nl/webservices/ssd/schemas/ssd/pi_ssd_get_capabilities.json | json2ts > src/response/capabilities/ssdCapabilitiesResponse.ts & curl https://fewsdocs.deltares.nl/webservices/ssd/schemas/ssd/pi_ssd_get_feature_info.json | json2ts > src/response/featureinfo/ssdFeatureInfoResponse.ts"
   },
   "devDependencies": {
     "@deltares/fews-pi-requests": "^0.5.3",
@@ -42,6 +43,7 @@
     "jest-junit": "^13.0.0",
     "jest-teamcity-reporter": "^0.9.0",
     "jsdom": "^19.0.0",
+    "json-schema-to-typescript": "^11.0.2",
     "shx": "^0.3.2",
     "ts-jest": "27.0.0",
     "typedoc": "^0.22.6",
