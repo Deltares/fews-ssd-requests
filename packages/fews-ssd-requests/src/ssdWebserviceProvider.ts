@@ -11,12 +11,11 @@ import {
 } from "./response";
 import { getUrlForAction } from "./requestbuilder/getUrlForAction";
 import { ActionRequest } from "./response/requests/actionRequest";
-import { PiRestService } from "./restservice/piRestService";
-import { RequestOptions } from "./restservice/requestOptions";
 import { FEWS_NAMESPACE } from "./response/FEWS_NAME_SPACE";
 import { CapabilitiesParsers } from "./parser/capabilitiesParsers";
 import { TimeSeriesResponse as FewsPiTimeSeriesResponse } from '@deltares/fews-pi-requests'
 import { SvgElementParser } from "./parser/svgElementParser";
+import {PiRestService, RequestOptions} from "@deltares/fews-web-oc-utils";
 
 export class SsdWebserviceProvider {
     private ssdUrl: URL
