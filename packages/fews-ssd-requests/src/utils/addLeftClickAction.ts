@@ -1,5 +1,5 @@
 import { FEWS_NAMESPACE } from "../response/FEWS_NAME_SPACE"
-import { ClickCallbackFunction } from "./clickCallbackFunction"
+import type { ClickCallbackFunction } from "./clickCallbackFunction"
 
 export function addLeftClickAction(svg: SVGElement, clickCallback: ClickCallbackFunction): void {
     svg.querySelectorAll<SVGElement>('*').forEach(function (el) {
@@ -7,9 +7,13 @@ export function addLeftClickAction(svg: SVGElement, clickCallback: ClickCallback
         if (el.hasAttributeNS(FEWS_NAMESPACE, 'click')) {
             el.addEventListener('click', clickCallback)
             el.style.cursor = 'pointer'
-            el.setAttribute('pointer-events', 'auto')
-        } else if (el.style !== undefined) {
-            el.style.cursor = 'default'
+            if (el.tagName === 'g') {
+                el.setAttribute('pointer-events', 'bounding-box')
+            } else {
+                el.setAttribute('pointer-events', 'auto')
+            }
+        } else {
+            el.setAttribute('pointer-events', 'none')
         }
     })
 }
