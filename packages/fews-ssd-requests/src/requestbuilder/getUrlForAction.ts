@@ -8,6 +8,7 @@ export function getUrlForAction(actionRequest: ActionRequest): string {
     let request = `?request=GetAction&ssd=${actionRequest.panelId}&action=${clickType}&objectid=${actionRequest.objectId}&format=application/json`;
     if (actionRequest.timeZero !== undefined) request += `&timezero=${actionRequest.timeZero}`;
     if (actionRequest.options !== undefined) request += `&options=${actionRequest.options.join(',')}`;
+    if (actionRequest.config !== false) request += `&config=true`;
     return request;
 }
 

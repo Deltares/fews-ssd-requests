@@ -8,5 +8,9 @@ import { Config } from "../config";
 export interface Result {
     type: ActionType;
     requests: ResultRequest[];
+    config?: Config;
+}
+
+export interface ResultWithConfig extends Result {
     config: Config;
 }

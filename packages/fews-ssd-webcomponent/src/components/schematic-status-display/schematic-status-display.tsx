@@ -1,5 +1,5 @@
 import {Component, Prop, Element} from '@stencil/core'
-import { FEWS_NAMESPACE, addKeyDownListener, addLeftClickAction, SsdWebserviceProvider } from '@deltares/fews-ssd-requests'
+import { FEWS_NAMESPACE, addKeyDownListener, addLeftClickAction, SsdWebserviceProvider, ClickType } from '@deltares/fews-ssd-requests'
 
 @Component({
   tag: 'schematic-status-display',
@@ -68,9 +68,11 @@ export class SchematicStatusDisplay {
     const request = {
       panelId: this.panelId,
       objectId: element.getAttributeNS(FEWS_NAMESPACE, 'id'),
-      clickType: 'LEFTSINGLECLICK'
-    }
-    const action = await this.ssdProvider.getAction(request as any)
+      clickType: ClickType.LEFTSINGLECLICK,
+      config: true
+    } as const
+    console.log('request', request)
+    const action = await this.ssdProvider.getAction(request)
     this.el.dispatchEvent(new CustomEvent('action', {
       detail: action.results}))
   }

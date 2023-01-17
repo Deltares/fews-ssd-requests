@@ -2,9 +2,9 @@
  * The SsdWebserviceProvider class is used to obtain
  * Schematic Status Display (SSD) data and process it
  */
-import { Action, Capabilities, ExcludeGroups, ExcludeGroupsDisplayName } from "./response";
+import { Action, ActionWithConfig, Capabilities, ExcludeGroups, ExcludeGroupsDisplayName } from "./response";
 import { getUrlForAction } from "./requestbuilder/getUrlForAction";
-import { ActionRequest } from "./response/requests/actionRequest";
+import type { ActionRequest, ActionWithoutConfigRequest, ActionWithConfigRequest } from "./response/requests/actionRequest";
 import { PiRestService } from "./restservice/piRestService";
 import { RequestOptions } from "./restservice/requestOptions";
 import { ElementAction } from "./response/action/elementAction";
@@ -69,16 +69,25 @@ export class SsdWebserviceProvider {
      * Retrieve the SSD actions for a specific SVG element on a specific panel
      * Raises an error if the element is not part of the FEWS namespace
      */
-    public getActionFromElement(element: SVGElement, actionRequest: Partial<ActionRequest>): Promise<ElementAction> {
+    public getActionFromElement(element: SVGElement, actionRequest: ActionWithConfigRequest): Promise<ElementAction>
+    public getActionFromElement(element: SVGElement, actionRequest: ActionWithoutConfigRequest): Promise<ElementAction>
+    public getActionFromElement(element: SVGElement, actionRequest: ActionRequest): Promise<unknown> {
         const objectId = element.getAttributeNS(FEWS_NAMESPACE, "id")
         if (objectId == null) {
             throw new Error(`No element with 'fews:id=${objectId}] present`)
         }
         actionRequest.objectId = objectId;
-        const promise = this.getAction(actionRequest as ActionRequest);
-        return promise.then((action: Action) => {
-            return {id: objectId, action: action}
-        })
+        if ( actionRequest.config === true) {
+            const promise = this.getAction(actionRequest as ActionWithConfigRequest);
+            return promise.then((action) => {
+                return {id: objectId, action: action}
+            })
+        } else {
+            const promise = this.getAction(actionRequest as ActionWithoutConfigRequest);
+            return promise.then((action) => {
+                return {id: objectId, action: action}
+            })
+        }
     }
 
     /**
@@ -97,7 +106,9 @@ export class SsdWebserviceProvider {
     /**
      * Retrieve the SSD actions for a specific object id on a specific panel
      */
-    public async getAction(actionRequest: ActionRequest): Promise<Action> {
+    public async getAction(actionRequest: ActionWithoutConfigRequest): Promise<Action>
+    public async getAction(actionRequest: ActionWithConfigRequest): Promise<ActionWithConfig>
+    public async getAction(actionRequest: ActionRequest): Promise<unknown> {
         const url = getUrlForAction(actionRequest);
         const webservice = new PiRestService(this.getSSDUrl());
         const result = await webservice.getData<Action>(url);

@@ -1,5 +1,6 @@
 import { SsdWebserviceProvider } from "../../src/ssdWebserviceProvider";
-import { ActionRequest } from "../../src/response/requests/actionRequest";
+import { ActionRequest } from "../../src/response/requests/actionRequest.js";
+import { ClickType } from "../../src/response/clickType.js";
 import 'cross-fetch/polyfill';
 
 const apiEndpoint = "ssd";
@@ -164,9 +165,9 @@ describe("ssd", function () {
         expect(svg).toBeDefined();
         if (svg !== undefined) {
             const provider = new SsdWebserviceProvider(baseUrl);
-            const request: Partial<ActionRequest> = {
+            const request: ActionRequest = {
                 panelId: ssdName,
-                clickType: "LEFTSINGLECLICK"
+                clickType: ClickType.LEFTSINGLECLICK
             };
             const elementWithAction = svg.querySelector<SVGElement>('*[fews:id=Windkracht]')
             expect(elementWithAction).not.toBeNull();
@@ -194,10 +195,11 @@ describe("ssd", function () {
         // get the panel SVG
         const url = provider.urlForPanel(panelName, new Date(panelDate));
         const svgFromUrl = await provider.getSvg(url);
-        const actionRequest: ActionRequest = {
+        const actionRequest = {
             panelId: panelName,
             objectId: 'txt_Windkracht_Stavoren',
-            clickType: "LEFTSINGLECLICK"
+            clickType: ClickType.LEFTSINGLECLICK,
+            config: true
         };
         const elementAction = await provider.getAction(actionRequest);
         const request2 = elementAction.results[0].requests[0].request;
