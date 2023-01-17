@@ -61,7 +61,10 @@ export class SchematicStatusDisplay {
   }
 
   async dispatch(event: PointerEvent) {
-    let element = event.target as SVGElement
+    let element = event.target as SVGElement | HTMLElement
+    while(!element.getAttributeNS(FEWS_NAMESPACE, 'click')) {
+      element = element.parentElement
+    }
     const request = {
       panelId: this.panelId,
       objectId: element.getAttributeNS(FEWS_NAMESPACE, 'id'),
