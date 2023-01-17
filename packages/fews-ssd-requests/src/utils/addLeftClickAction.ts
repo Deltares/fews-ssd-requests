@@ -7,13 +7,7 @@ export function addLeftClickAction(svg: SVGElement, clickCallback: ClickCallback
         if (el.hasAttributeNS(FEWS_NAMESPACE, 'click')) {
             el.addEventListener('click', clickCallback)
             el.style.cursor = 'pointer'
-            if (el.tagName === 'g') {
-                el.setAttribute('pointer-events', 'bounding-box')
-            } else {
-                el.setAttribute('pointer-events', 'auto')
-            }
-        } else {
-            el.setAttribute('pointer-events', 'none')
+            el.setAttribute('pointer-events', 'auto')
         }
     })
 }
