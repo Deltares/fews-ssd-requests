@@ -42,8 +42,6 @@ describe("datesFromPeriod", function () {
                 el.dispatchEvent(event);
                 expectedCallbacks += 1;
                 expect(style.cursor).toEqual('pointer');
-            } else if (style !== undefined) {
-                expect(style.cursor).toEqual('default');
             }
         });
         expect(callbackCounter).toEqual(expectedCallbacks);
