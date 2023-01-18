@@ -39,10 +39,6 @@ export class SchematicStatusDisplay {
     this.ssdProvider = new SsdWebserviceProvider(endPoint)
   }
 
-  disconnectedCallback() {
-    console.log('disconnected')
-  }
-
   componentDidRender() {
     this.loadSvg()
   }
@@ -71,7 +67,6 @@ export class SchematicStatusDisplay {
       clickType: ClickType.LEFTSINGLECLICK,
       config: true
     } as const
-    console.log('request', request)
     const action = await this.ssdProvider.getAction(request)
     this.el.dispatchEvent(new CustomEvent('action', {
       detail: action.results}))
