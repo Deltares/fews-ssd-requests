@@ -1,5 +1,12 @@
-import {Component, Prop, Element} from '@stencil/core'
-import { FEWS_NAMESPACE, addKeyDownListener, addLeftClickAction, SsdWebserviceProvider, ClickType } from '@deltares/fews-ssd-requests'
+import { Component, Prop, Element } from '@stencil/core'
+import {
+  FEWS_NAMESPACE,
+  addKeyDownListener,
+  addLeftClickAction,
+  ClickType,
+  getUrlForAction,
+  SsdWebserviceProvider
+} from '@deltares/fews-ssd-requests'
 
 @Component({
   tag: 'schematic-status-display',
@@ -61,15 +68,27 @@ export class SchematicStatusDisplay {
     while(!element.getAttributeNS(FEWS_NAMESPACE, 'click')) {
       element = element.parentElement
     }
+
+    const clickType = ClickType.LEFTSINGLECLICK
+    const objectId = element.getAttributeNS(FEWS_NAMESPACE, 'id')
     const request = {
       panelId: this.panelId,
-      objectId: element.getAttributeNS(FEWS_NAMESPACE, 'id'),
-      clickType: ClickType.LEFTSINGLECLICK,
+      objectId,
+      clickType,
       config: true
     } as const
     const action = await this.ssdProvider.getAction(request)
+
+    const detail = {
+      panelId: this.panelId,
+      objectId,
+      clickType,
+      relativeUrl: encodeURI(getUrlForAction(request)),
+      results: action.results
+    }
     this.el.dispatchEvent(new CustomEvent('action', {
-      detail: action.results}))
+      detail
+    }))
   }
 
   async loadSvg() {

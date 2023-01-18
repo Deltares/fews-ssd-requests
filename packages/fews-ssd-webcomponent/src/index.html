@@ -24,7 +24,7 @@
       element.addEventListener('click', (event) => {console.log('click',event.target)})
       element.addEventListener('keydown', (event) => {console.log('keydown',event.target)}, false)
       element.addEventListener('load', (event) => { console.log('load', event.target) })
-      element.addEventListener('action', (event) => { console.log('action', event.detail[0]) })
+      element.addEventListener('action', (event) => { console.log('action', event.detail) })
       function changeScreen(screen) {
         switch (screen) {
           case 1:
