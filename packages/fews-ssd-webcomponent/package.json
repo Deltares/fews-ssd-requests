@@ -1,6 +1,6 @@
 {
   "name": "@deltares/fews-ssd-webcomponent",
-  "version": "0.2.11",
+  "version": "0.3.0-alpha.0",
   "description": "Web component for FEWS Schematic Status Display",
   "author": {
     "name": "Werner Kramer",
