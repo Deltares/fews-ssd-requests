@@ -10,5 +10,6 @@ module.exports = {
     setupFiles: ["./.env.test"],
     testResultsProcessor: "jest-teamcity-reporter",
     coverageReporters: ["lcov", "text", "teamcity"],
-    testTimeout: 30 * 1000
+    testTimeout: 30 * 1000,
+
 }

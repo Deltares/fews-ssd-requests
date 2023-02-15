@@ -12,7 +12,7 @@ describe('action request test', () => {
         actionRequest.objectId = objectId;
         actionRequest.clickType= 'LEFTSINGLECLICK';
         const url = getUrlForAction(actionRequest);
-        const expected = "?request=GetAction&ssd=" + panelId + "&action=LEFTSINGLECLICK&objectid=" + objectId + "&format=application/json";
+        const expected = "?request=GetAction&ssd=" + panelId + "&action=LEFTSINGLECLICK&objectid=" + objectId + "&format=application/json&config=true";
         expect(url).toEqual(expected);
     });
 })
