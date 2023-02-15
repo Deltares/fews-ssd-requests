@@ -1,6 +1,6 @@
 import { SsdWebserviceProvider } from "../../src/ssdWebserviceProvider";
-import { ActionRequest } from "../../src/response/requests/actionRequest.js";
-import { ClickType } from "../../src/response/clickType.js";
+import {ActionRequest, ActionWithoutConfigRequest} from "../../src/response/requests/actionRequest.js";
+import { ClickType } from "../../src/response/clickType";
 import 'cross-fetch/polyfill';
 
 const apiEndpoint = "ssd";
@@ -70,6 +70,7 @@ describe("ssd", function () {
         let panelDate: string = (new Date()).toISOString();
         if (panel.dimension) {
             const panelPeriod = panel.dimension.period;
+            if (panelPeriod === undefined) throw Error("invalid period")
             panelDate = panelPeriod.split("/")[0];
         }
         const url = provider.urlForPanel(panelName, new Date(panelDate));
@@ -133,11 +134,12 @@ describe("ssd", function () {
         let panelDate: string = (new Date()).toISOString();
         if (panel.dimension) {
             const panelPeriod = panel.dimension.period;
-            panelDate = panelPeriod.split("/")[0];
+            if (panelPeriod === undefined) throw Error("invalid period")
+            panelDate = panelPeriod?.split("/")[0];
         }
         // get the panel SVG
         const url = provider.urlForPanel(panelName, new Date(panelDate));
-        expect(url).toContain("https://rwsos-dataservices-ont.avi.deltares.nl/iwp/test/FewsWebServices/ssd?request=GetDisplay&ssd=TK");
+        expect(url).toContain("https://rwsos-dataservices-ont.avi.deltares.nl/iwp/test/FewsWebServices/ssd?request=GetDisplay&ssd=GM_10min");
         const svg = await provider.getSvg(url);
         expect(svg).toBeDefined();
     });
@@ -196,7 +198,7 @@ describe("ssd", function () {
         // get the panel SVG
         const url = provider.urlForPanel(panelName, new Date(panelDate));
         const svgFromUrl = await provider.getSvg(url);
-        const actionRequest = {
+        const actionRequest: ActionWithoutConfigRequest = {
             panelId: panelName,
             objectId: 'label_T_HengeloBoven',
             clickType: "LEFTSINGLECLICK"

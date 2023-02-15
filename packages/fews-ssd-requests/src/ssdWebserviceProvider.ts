@@ -2,16 +2,24 @@
  * The SsdWebserviceProvider class is used to obtain
  * Schematic Status Display (SSD) data and process it
  */
-import { Action, ActionWithConfig, Capabilities, ExcludeGroups, ExcludeGroupsDisplayName } from "./response";
+
 import { getUrlForAction } from "./requestbuilder/getUrlForAction";
 import type { ActionRequest, ActionWithoutConfigRequest, ActionWithConfigRequest } from "./response/requests/actionRequest";
-import { PiRestService } from "./restservice/piRestService";
-import { RequestOptions } from "./restservice/requestOptions";
 import { ElementAction } from "./response/action/elementAction";
 import { FEWS_NAMESPACE } from "./response/FEWS_NAME_SPACE";
 import { CapabilitiesParsers } from "./parser/capabilitiesParsers";
 import { TimeSeriesResponse as FewsPiTimeSeriesResponse } from '@deltares/fews-pi-requests'
 import { SvgElementParser } from "./parser/svgElementParser";
+import {PiRestService, RequestOptions} from "@deltares/fews-web-oc-utils";
+import {
+    Action,
+    ActionWithConfig,
+    ExcludeGroups,
+    ExcludeGroupsDisplayName,
+    SsdActionsResponse,
+    SsdGetCapabilitiesResponse
+} from "@/response";
+
 
 export class SsdWebserviceProvider {
     private ssdUrl: URL
