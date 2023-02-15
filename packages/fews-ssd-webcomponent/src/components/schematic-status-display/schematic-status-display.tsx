@@ -1,5 +1,12 @@
-import {Component, Prop, Element} from '@stencil/core'
-import { FEWS_NAMESPACE, addLeftClickAction, SsdWebserviceProvider } from '@deltares/fews-ssd-requests'
+import { Component, Prop, Element } from '@stencil/core'
+import {
+  FEWS_NAMESPACE,
+  addKeyDownListener,
+  addLeftClickAction,
+  ClickType,
+  getUrlForAction,
+  SsdWebserviceProvider
+} from '@deltares/fews-ssd-requests'
 
 @Component({
   tag: 'schematic-status-display',
@@ -39,10 +46,6 @@ export class SchematicStatusDisplay {
     this.ssdProvider = new SsdWebserviceProvider(endPoint)
   }
 
-  disconnectedCallback() {
-    console.log('disconnected')
-  }
-
   componentDidRender() {
     this.loadSvg()
   }
@@ -61,15 +64,31 @@ export class SchematicStatusDisplay {
   }
 
   async dispatch(event: PointerEvent) {
-    let element = event.target as SVGElement
+    let element = event.target as SVGElement | HTMLElement
+    while(!element.getAttributeNS(FEWS_NAMESPACE, 'click')) {
+      element = element.parentElement
+    }
+
+    const clickType = ClickType.LEFTSINGLECLICK
+    const objectId = element.getAttributeNS(FEWS_NAMESPACE, 'id')
     const request = {
       panelId: this.panelId,
-      objectId: element.getAttributeNS(FEWS_NAMESPACE, 'id'),
-      clickType: 'LEFTSINGLECLICK'
+      objectId,
+      clickType,
+      config: true
+    } as const
+    const action = await this.ssdProvider.getAction(request)
+
+    const detail = {
+      panelId: this.panelId,
+      objectId,
+      clickType,
+      relativeUrl: encodeURI(getUrlForAction(request)),
+      results: action.results
     }
-    const action = await this.ssdProvider.getAction(request as any)
     this.el.dispatchEvent(new CustomEvent('action', {
-      detail: action.results}))
+      detail
+    }))
   }
 
   async loadSvg() {
@@ -83,6 +102,7 @@ export class SchematicStatusDisplay {
       svg.setAttribute('height', '100%')
       svg.addEventListener('click', (event) => { if (event.currentTarget === event.target) event.stopPropagation() })
       addLeftClickAction(svg, this.dispatch.bind(this))
+      addKeyDownListener(svg, ['Enter'], this.dispatch.bind(this))
       if ( target.children.length > 1) target.removeChild(target.children[1])
       this.el.dispatchEvent(new UIEvent('load'))
     }

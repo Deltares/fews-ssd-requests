@@ -1,5 +1,6 @@
 import { SsdWebserviceProvider } from "../../src/ssdWebserviceProvider";
-import { ActionRequest } from "../../src/response/requests/actionRequest";
+import { ActionRequest } from "../../src/response/requests/actionRequest.js";
+import { ClickType } from "../../src/response/clickType.js";
 import 'cross-fetch/polyfill';
 
 const apiEndpoint = "ssd";
@@ -69,7 +70,6 @@ describe("ssd", function () {
         let panelDate: string = (new Date()).toISOString();
         if (panel.dimension) {
             const panelPeriod = panel.dimension.period;
-            if (panelPeriod === undefined) throw Error("invalid period")
             panelDate = panelPeriod.split("/")[0];
         }
         const url = provider.urlForPanel(panelName, new Date(panelDate));
@@ -133,8 +133,7 @@ describe("ssd", function () {
         let panelDate: string = (new Date()).toISOString();
         if (panel.dimension) {
             const panelPeriod = panel.dimension.period;
-            if (panelPeriod === undefined) throw Error("invalid period")
-            panelDate = panelPeriod?.split("/")[0];
+            panelDate = panelPeriod.split("/")[0];
         }
         // get the panel SVG
         const url = provider.urlForPanel(panelName, new Date(panelDate));
@@ -166,9 +165,9 @@ describe("ssd", function () {
         expect(svg).toBeDefined();
         if (svg !== undefined) {
             const provider = new SsdWebserviceProvider(baseUrl);
-            const request: Partial<ActionRequest> = {
+            const request: ActionRequest = {
                 panelId: ssdName,
-                clickType: "LEFTSINGLECLICK"
+                clickType: ClickType.LEFTSINGLECLICK
             };
             const elementWithAction = svg.querySelector<SVGElement>('*[fews:id=Windkracht]')
             expect(elementWithAction).not.toBeNull();
@@ -197,7 +196,7 @@ describe("ssd", function () {
         // get the panel SVG
         const url = provider.urlForPanel(panelName, new Date(panelDate));
         const svgFromUrl = await provider.getSvg(url);
-        const actionRequest: ActionRequest = {
+        const actionRequest = {
             panelId: panelName,
             objectId: 'label_T_HengeloBoven',
             clickType: "LEFTSINGLECLICK"
