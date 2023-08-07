@@ -27,7 +27,8 @@
     "test:unit": "jest unit --collect-coverage",
     "test:e2e": "jest e2e",
     "test": "jest --coverage",
-    "json2ts-pi": "curl https://fewsdocs.deltares.nl/webservices/ssd/schemas/ssd/pi_ssd_get_action.json | json2ts > src/response/action/ssdActionResponse.ts & curl https://fewsdocs.deltares.nl/webservices/ssd/schemas/ssd/pi_ssd_get_capabilities.json | json2ts > src/response/capabilities/ssdCapabilitiesResponse.ts & curl https://fewsdocs.deltares.nl/webservices/ssd/schemas/ssd/pi_ssd_get_feature_info.json | json2ts > src/response/featureinfo/ssdFeatureInfoResponse.ts"
+    "json2ts-pi": "curl https://fewsdocs.deltares.nl/webservices/ssd/schemas/ssd/pi_ssd_get_action.json | json2ts > src/response/action/ssdActionResponse.ts & curl https://fewsdocs.deltares.nl/webservices/ssd/schemas/ssd/pi_ssd_get_capabilities.json | json2ts > src/response/capabilities/ssdCapabilitiesResponse.ts & curl https://fewsdocs.deltares.nl/webservices/ssd/schemas/ssd/pi_ssd_get_feature_info.json | json2ts > src/response/featureinfo/ssdFeatureInfoResponse.ts",
+    "sonar": "sonar-scanner -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_TOKEN -Dsonar.projectKey=$SONAR_KEY -Dsonar.projectName='Delft-FEWS Web OC SSD Requests'"
   },
   "dependencies": {
     "@deltares/fews-web-oc-utils": "^0.1.11"
@@ -48,6 +49,7 @@
     "jsdom": "^19.0.0",
     "json-schema-to-typescript": "^11.0.2",
     "shx": "^0.3.2",
+    "sonarqube-scanner": "^3.0.1",
     "ts-jest": "27.0.0",
     "typedoc": "^0.22.6",
     "typescript": "^4.4.0",
