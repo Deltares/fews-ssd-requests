@@ -1,4 +1,4 @@
-import { ActionRequest } from "../response/requests/actionRequest";
+import { ActionRequest } from "../response/requests/actionRequest.js";
 
 /**
  * Get the url to retrieve a SSD actions for a specific object on a specific panel

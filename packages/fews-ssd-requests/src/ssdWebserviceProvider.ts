@@ -3,20 +3,20 @@
  * Schematic Status Display (SSD) data and process it
  */
 
-import { getUrlForAction } from "./requestbuilder/getUrlForAction";
-import type { ActionRequest } from "./response/requests/actionRequest";
-import { ElementAction } from "./response/action/elementAction";
-import { FEWS_NAMESPACE } from "./response/FEWS_NAME_SPACE";
-import { CapabilitiesParsers } from "./parser/capabilitiesParsers";
+import { getUrlForAction } from "./requestbuilder/getUrlForAction.js";
+import type { ActionRequest } from "./response/requests/actionRequest.js";
+import { ElementAction } from "./response/action/elementAction.js";
+import { FEWS_NAMESPACE } from "./response/FEWS_NAME_SPACE.js";
+import { CapabilitiesParsers } from "./parser/capabilitiesParsers.js";
 import { TimeSeriesResponse as FewsPiTimeSeriesResponse } from '@deltares/fews-pi-requests'
-import { SvgElementParser } from "./parser/svgElementParser";
+import { SvgElementParser } from "./parser/svgElementParser.js";
 import {PiRestService, RequestOptions} from "@deltares/fews-web-oc-utils";
 import {
     ExcludeGroups,
     ExcludeGroupsDisplayName,
     SsdActionsResponse,
     SsdGetCapabilitiesResponse
-} from "@/response";
+} from "./response/index.js";
 
 
 export class SsdWebserviceProvider {

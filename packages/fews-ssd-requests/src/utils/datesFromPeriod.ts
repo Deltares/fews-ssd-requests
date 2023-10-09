@@ -1,4 +1,4 @@
-import { Duration } from "../response/action/duration";
+import { Duration } from "../response/action/duration.js";
 
 const sign = "(-)?";
 const year = "(?:([.,\\d]+)Y)?";

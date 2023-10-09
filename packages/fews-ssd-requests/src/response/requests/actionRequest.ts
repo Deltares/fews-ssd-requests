@@ -1,5 +1,5 @@
-import { ClickType } from "../clickType";
-import { OptionsType } from "../optionsType";
+import { ClickType } from "../clickType.js";
+import { OptionsType } from "../optionsType.js";
 
 export interface ActionRequest {
     panelId: string;

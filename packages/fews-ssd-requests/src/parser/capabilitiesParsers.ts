@@ -1,5 +1,5 @@
-import { ResponseParser } from "./responseParser";
-import {SsdGetCapabilitiesResponse} from "@/response";
+import { ResponseParser } from "./responseParser.js";
+import {SsdGetCapabilitiesResponse} from "../response/index.js";
 
 
 export class CapabilitiesParsers implements ResponseParser<SsdGetCapabilitiesResponse> {

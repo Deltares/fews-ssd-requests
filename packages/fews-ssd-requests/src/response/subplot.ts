@@ -1,4 +1,4 @@
-import { Chart } from './chart'
+import { Chart } from './chart.js'
 
 export interface Subplot {
     subPlotType?: string;

@@ -1,5 +1,5 @@
-import { FEWS_NAMESPACE } from "../response/FEWS_NAME_SPACE"
-import type { ClickCallbackFunction } from "./clickCallbackFunction"
+import { FEWS_NAMESPACE } from "../response/FEWS_NAME_SPACE.js"
+import type { ClickCallbackFunction } from "./clickCallbackFunction.js"
 
 export function addKeyDownListener(svg: SVGElement, keys: string[], clickCallback: ClickCallbackFunction): void {
     svg.querySelectorAll<SVGElement>('*').forEach(function (el) {

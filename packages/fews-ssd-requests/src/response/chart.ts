@@ -1,4 +1,4 @@
-import {YAxis} from "./yAxis";
+import {YAxis} from "./yAxis.js";
 
 export interface Chart {
     type:           string;

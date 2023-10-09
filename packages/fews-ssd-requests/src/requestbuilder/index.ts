@@ -1,1 +1,1 @@
-export * from './getUrlForAction'
+export * from './getUrlForAction.js'
