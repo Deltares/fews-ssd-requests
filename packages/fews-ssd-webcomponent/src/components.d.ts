@@ -8,17 +8,9 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface SchematicStatusDisplay {
         /**
-          * The last name
-         */
-        "height": number;
-        /**
-          * The first name
+          * The url to fetch the schematic status display svg
          */
         "src": string;
-        /**
-          * The middle name
-         */
-        "width": number;
     }
 }
 declare global {
@@ -35,17 +27,9 @@ declare global {
 declare namespace LocalJSX {
     interface SchematicStatusDisplay {
         /**
-          * The last name
-         */
-        "height"?: number;
-        /**
-          * The first name
+          * The url to fetch the schematic status display svg
          */
         "src"?: string;
-        /**
-          * The middle name
-         */
-        "width"?: number;
     }
     interface IntrinsicElements {
         "schematic-status-display": SchematicStatusDisplay;

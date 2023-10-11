@@ -7,11 +7,9 @@
 
 ## Properties
 
-| Property | Attribute | Description     | Type     | Default     |
-| -------- | --------- | --------------- | -------- | ----------- |
-| `height` | `height`  | The last name   | `number` | `undefined` |
-| `src`    | `src`     | The first name  | `string` | `undefined` |
-| `width`  | `width`   | The middle name | `number` | `undefined` |
+| Property | Attribute | Description                                       | Type     | Default     |
+| -------- | --------- | ------------------------------------------------- | -------- | ----------- |
+| `src`    | `src`     | The url to fetch the schematic status display svg | `string` | `undefined` |
 
 
 ----------------------------------------------

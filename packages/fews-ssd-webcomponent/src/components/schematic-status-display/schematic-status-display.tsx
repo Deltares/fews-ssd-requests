@@ -15,19 +15,9 @@ import {
 })
 export class SchematicStatusDisplay {
   /**
-   * The first name
+   * The url to fetch the schematic status display svg
    */
   @Prop() src: string;
-
-  /**
-   * The middle name
-   */
-  @Prop() width: number;
-
-  /**
-   * The last name
-   */
-  @Prop() height: number;
 
   latestRequestReceived: number = new Date().getTime()
 
