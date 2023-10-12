@@ -21,6 +21,19 @@
 
     <script type="text/javascript" onload>
       let element = document.getElementById('status-display')
+      // Mock a transform request with authorization
+      async function transformRequest(request) {
+        const requestInit = {
+          headers: {
+            'Authorization': "Bearer 123"
+          },
+        }
+        const newRequest = new Request(request, requestInit)
+        return newRequest
+      }
+      element.transformRequestFn = transformRequest
+
+      // load SVG
       element.addEventListener('click', (event) => {console.log('click',event.target)})
       element.addEventListener('keydown', (event) => {console.log('keydown',event.target)}, false)
       element.addEventListener('load', (event) => { console.log('load', event.target) })

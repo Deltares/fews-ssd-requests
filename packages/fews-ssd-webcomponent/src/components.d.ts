@@ -11,6 +11,10 @@ export namespace Components {
           * The url to fetch the schematic status display svg
          */
         "src": string;
+        /**
+          * Transform request function used in the SSD Webservice Provider
+         */
+        "transformRequestFn"?: (request: Request) => Promise<Request>;
     }
 }
 declare global {
@@ -30,6 +34,10 @@ declare namespace LocalJSX {
           * The url to fetch the schematic status display svg
          */
         "src"?: string;
+        /**
+          * Transform request function used in the SSD Webservice Provider
+         */
+        "transformRequestFn"?: (request: Request) => Promise<Request>;
     }
     interface IntrinsicElements {
         "schematic-status-display": SchematicStatusDisplay;

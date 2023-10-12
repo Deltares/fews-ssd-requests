@@ -19,6 +19,11 @@ export class SchematicStatusDisplay {
    */
   @Prop() src: string;
 
+  /**
+   * Transform request function used in the SSD Webservice Provider
+   */
+  @Prop() transformRequestFn?: (request: Request) => Promise<Request>
+
   latestRequestReceived: number = new Date().getTime()
 
   panelId = ''
@@ -33,7 +38,7 @@ export class SchematicStatusDisplay {
     const params = new URL(this.src).searchParams
     this.panelId = params.get('ssd')
     const endPoint = this.src.split('ssd')[0]
-    this.ssdProvider = new SsdWebserviceProvider(endPoint)
+    this.ssdProvider = new SsdWebserviceProvider(endPoint, {transformRequestFn: this.transformRequestFn})
   }
 
   componentDidRender() {
@@ -46,7 +51,7 @@ export class SchematicStatusDisplay {
         const params = new URL(value).searchParams
         this.panelId = params.get('ssd')
         const endPoint = this.src.split('ssd')[0]
-        this.ssdProvider = new SsdWebserviceProvider(endPoint)
+        this.ssdProvider = new SsdWebserviceProvider(endPoint, {transformRequestFn: this.transformRequestFn})
         return true
       default:
         return false;
