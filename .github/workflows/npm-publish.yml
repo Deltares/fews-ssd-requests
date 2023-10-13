@@ -17,7 +17,7 @@ jobs:
           node-version: 16
       - run: ls
       - run: cd packages/fews-ssd-requests && npm i && cd ../..
-      - run: npx lerna bootstrap
+      - run: npx lerna@v6 bootstrap
 
   publish-npm:
     needs: test
@@ -29,8 +29,8 @@ jobs:
           node-version: 16
           registry-url: https://registry.npmjs.org/
       - run: cd packages/fews-ssd-requests && npm i && cd ../..
-      - run: npx lerna bootstrap
-      - run: npx lerna run build
+      - run: npx lerna@v6 bootstrap
+      - run: npx lerna@v6 run build
       - run: git reset --hard
       - run: npx lerna publish from-package -y
         env:
