@@ -5,7 +5,7 @@ FEWS Schematic Status Display library
 
 This repository contains the code for the packages:
 
-1. [fews-ssd-requests](packages/fews-ssd-request)
+1. [fews-ssd-requests](packages/fews-ssd-requests)
 2. [fews-ssd-webcomponent](packages/fews-ssd-webcomponent)
 3. [angular-example](packages/angular-example)
 

@@ -15,19 +15,14 @@ import {
 })
 export class SchematicStatusDisplay {
   /**
-   * The first name
+   * The url to fetch the schematic status display svg
    */
   @Prop() src: string;
 
   /**
-   * The middle name
+   * Transform request function used in the SSD Webservice Provider
    */
-  @Prop() width: number;
-
-  /**
-   * The last name
-   */
-  @Prop() height: number;
+  @Prop() transformRequestFn?: (request: Request) => Promise<Request>
 
   latestRequestReceived: number = new Date().getTime()
 
@@ -43,7 +38,7 @@ export class SchematicStatusDisplay {
     const params = new URL(this.src).searchParams
     this.panelId = params.get('ssd')
     const endPoint = this.src.split('ssd')[0]
-    this.ssdProvider = new SsdWebserviceProvider(endPoint)
+    this.ssdProvider = new SsdWebserviceProvider(endPoint, {transformRequestFn: this.transformRequestFn})
   }
 
   componentDidRender() {
@@ -56,7 +51,7 @@ export class SchematicStatusDisplay {
         const params = new URL(value).searchParams
         this.panelId = params.get('ssd')
         const endPoint = this.src.split('ssd')[0]
-        this.ssdProvider = new SsdWebserviceProvider(endPoint)
+        this.ssdProvider = new SsdWebserviceProvider(endPoint, {transformRequestFn: this.transformRequestFn})
         return true
       default:
         return false;

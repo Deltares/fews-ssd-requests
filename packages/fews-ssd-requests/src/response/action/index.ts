@@ -1,4 +1,3 @@
-export * from './ssdActionResponse'
-export * from './action'
-export * from './elementAction'
-export * from './duration'
+export * from './ssdActionResponse.js'
+export * from './elementAction.js'
+export * from './duration.js'

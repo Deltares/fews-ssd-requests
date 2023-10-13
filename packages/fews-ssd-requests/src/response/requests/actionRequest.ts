@@ -1,7 +1,7 @@
-import { ClickType } from "../clickType";
-import { OptionsType } from "../optionsType";
+import { ClickType } from "../clickType.js";
+import { OptionsType } from "../optionsType.js";
 
-interface ActionRequestParameters {
+export interface ActionRequest {
     panelId: string;
     objectId?: string;
     clickType: ClickType;
@@ -9,13 +9,3 @@ interface ActionRequestParameters {
     options?: OptionsType[];
     config?: boolean
 }
-
-export interface ActionWithConfigRequest extends ActionRequestParameters{
-    config: true
-}
-
-export interface ActionWithoutConfigRequest extends ActionRequestParameters{
-    config?: false
-}
-
-export type ActionRequest = ActionWithConfigRequest | ActionWithoutConfigRequest

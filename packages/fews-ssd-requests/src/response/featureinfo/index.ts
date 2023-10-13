@@ -1,1 +1,1 @@
-export * from './ssdFeatureInfoResponse'
+export * from './ssdFeatureInfoResponse.js'

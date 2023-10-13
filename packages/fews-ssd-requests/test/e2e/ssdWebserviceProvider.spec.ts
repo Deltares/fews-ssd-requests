@@ -1,5 +1,5 @@
 import { SsdWebserviceProvider } from "../../src/ssdWebserviceProvider";
-import {ActionRequest, ActionWithoutConfigRequest} from "../../src/response/requests/actionRequest.js";
+import {ActionRequest} from "../../src/response/requests/actionRequest";
 import { ClickType } from "../../src/response/clickType";
 import 'cross-fetch/polyfill';
 
@@ -198,9 +198,9 @@ describe("ssd", function () {
         // get the panel SVG
         const url = provider.urlForPanel(panelName, new Date(panelDate));
         const svgFromUrl = await provider.getSvg(url);
-        const actionRequest: ActionWithoutConfigRequest = {
+        const actionRequest: ActionRequest = {
             panelId: panelName,
-            objectId: 'label_T_HengeloBoven',
+            objectId: 'label_T_Bommenede_b',
             clickType: "LEFTSINGLECLICK"
         };
         const elementAction = await provider.getAction(actionRequest);

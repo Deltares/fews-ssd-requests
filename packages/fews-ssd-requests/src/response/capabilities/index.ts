@@ -1,1 +1,1 @@
-export * from './ssdCapabilitiesResponse'
+export * from './ssdCapabilitiesResponse.js'

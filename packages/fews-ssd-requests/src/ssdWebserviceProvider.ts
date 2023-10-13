@@ -3,70 +3,67 @@
  * Schematic Status Display (SSD) data and process it
  */
 
-import { getUrlForAction } from "./requestbuilder/getUrlForAction";
-import type { ActionRequest, ActionWithoutConfigRequest, ActionWithConfigRequest } from "./response/requests/actionRequest";
-import { ElementAction } from "./response/action/elementAction";
-import { FEWS_NAMESPACE } from "./response/FEWS_NAME_SPACE";
-import { CapabilitiesParsers } from "./parser/capabilitiesParsers";
+import { getUrlForAction } from "./requestbuilder/getUrlForAction.js";
+import type { ActionRequest } from "./response/requests/actionRequest.js";
+import { ElementAction } from "./response/action/elementAction.js";
+import { FEWS_NAMESPACE } from "./response/FEWS_NAME_SPACE.js";
+import { CapabilitiesParsers } from "./parser/capabilitiesParsers.js";
 import { TimeSeriesResponse as FewsPiTimeSeriesResponse } from '@deltares/fews-pi-requests'
-import { SvgElementParser } from "./parser/svgElementParser";
-import {PiRestService, RequestOptions} from "@deltares/fews-web-oc-utils";
+import { SvgElementParser } from "./parser/svgElementParser.js";
+import {PiRestService, RequestOptions, type TransformRequestFunction} from "@deltares/fews-web-oc-utils";
 import {
-    Action,
-    ActionWithConfig,
     ExcludeGroups,
     ExcludeGroupsDisplayName,
     SsdActionsResponse,
     SsdGetCapabilitiesResponse
-} from "@/response";
+} from "./response/index.js";
 
 
 export class SsdWebserviceProvider {
-    private ssdUrl: URL
-    private piUrl: URL
+    private _ssdUrl: URL
+    private _piUrl: URL
     private readonly SSD_ENDPOINT = 'ssd'
     private readonly PI_ENDPOINT = ''
+    private piWebservice: PiRestService
+    private ssdWebservice: PiRestService
 
     /**
      * Constructor for SsdWebserviceProvider
      *
      * @param url the base url where the SSD servive is available
+     * @param {Object} [options] Optional constructor options
+     * @param {TransformRequestFunction} [options.transformRequestFn] A function that can be used to modify the Request
+     * before it is sent to the server. This function takes a Request as a parameter and returns the modified Request.
+     * If this option is not specified, the Request will be sent as is.
      */
-    constructor(url: string) {
+    constructor(url: string, options: {transformRequestFn?: TransformRequestFunction} = {}) {
         if (!url.endsWith('/')) {
             url += '/'
         }
-        this.ssdUrl = new URL(this.SSD_ENDPOINT, url)
-        this.piUrl = new URL(this.PI_ENDPOINT, url)
+        this._ssdUrl = new URL(this.SSD_ENDPOINT, url)
+        this._piUrl = new URL(this.PI_ENDPOINT, url)
+        this.piWebservice = new PiRestService(this.getPiUrl(), options.transformRequestFn)
+        this.ssdWebservice = new PiRestService(this.getSSDUrl(), options.transformRequestFn)
     }
 
     /**
      * Get the base url for SSD requests
      */
     private getSSDUrl(): string {
-        return this.ssdUrl.toString()
+        return this._ssdUrl.toString()
     }
 
     /**
      * Get the base url for PI requests
      */
     private getPiUrl(): string {
-        return this.piUrl.toString()
-    }
-
-    /**
-     * Get the url to retrieve SSD capabilities
-     */
-    private getUrlForCapabilities(): string {
-        const request = '?request=GetCapabilities&format=application/json'
-        return encodeURI(this.getSSDUrl() + request)
+        return this._piUrl.toString()
     }
 
     public async getSvg(url: string): Promise<SVGElement> {
-        const webservice = new PiRestService(this.getSSDUrl());
         const requestOptions = new RequestOptions();
         requestOptions.relativeUrl = false;
-        const svgResponse = await webservice.getDataWithParser(url, requestOptions, new SvgElementParser());
+        const svgResponse = await this.ssdWebservice.getDataWithParser(url, requestOptions, new SvgElementParser());
         if (svgResponse.responseCode != 200) {
             throw new Error(svgResponse.errorMessage);
         }
@@ -77,34 +74,24 @@ export class SsdWebserviceProvider {
      * Retrieve the SSD actions for a specific SVG element on a specific panel
      * Raises an error if the element is not part of the FEWS namespace
      */
-    public getActionFromElement(element: SVGElement, actionRequest: ActionWithConfigRequest): Promise<ElementAction>
-    public getActionFromElement(element: SVGElement, actionRequest: ActionWithoutConfigRequest): Promise<ElementAction>
-    public getActionFromElement(element: SVGElement, actionRequest: ActionRequest): Promise<unknown> {
+    public async getActionFromElement(element: SVGElement, actionRequest: ActionRequest): Promise<ElementAction> {
         const objectId = element.getAttributeNS(FEWS_NAMESPACE, "id")
         if (objectId == null) {
             throw new Error(`No element with 'fews:id=${objectId}] present`)
         }
         actionRequest.objectId = objectId;
-        if ( actionRequest.config === true) {
-            const promise = this.getAction(actionRequest as ActionWithConfigRequest);
-            return promise.then((action) => {
-                return {id: objectId, action: action}
-            })
-        } else {
-            const promise = this.getAction(actionRequest as ActionWithoutConfigRequest);
-            return promise.then((action) => {
-                return {id: objectId, action: action}
-            })
-        }
+        const promise = this.getAction(actionRequest as ActionRequest);
+        return promise.then((action) => {
+            return {id: objectId, action: action}
+        })
     }
 
     /**
      * Retrieve a PI timeseries using the request path supplied in a action
      */
     public async fetchPiRequest(request: string): Promise<FewsPiTimeSeriesResponse> {
-        const webservice = new PiRestService(this.getPiUrl());
         request = request.startsWith("/") ? request : "/" + request;
-        const result = await webservice.getData<FewsPiTimeSeriesResponse>(request);
+        const result = await this.piWebservice.getData<FewsPiTimeSeriesResponse>(request);
         if (result.responseCode != 200) {
             throw new Error(result.errorMessage);
         }
@@ -114,12 +101,9 @@ export class SsdWebserviceProvider {
     /**
      * Retrieve the SSD actions for a specific object id on a specific panel
      */
-    public async getAction(actionRequest: ActionWithoutConfigRequest): Promise<Action>
-    public async getAction(actionRequest: ActionWithConfigRequest): Promise<ActionWithConfig>
-    public async getAction(actionRequest: ActionRequest): Promise<unknown> {
+    public async getAction(actionRequest: ActionRequest): Promise<SsdActionsResponse> {
         const url = getUrlForAction(actionRequest);
-        const webservice = new PiRestService(this.getSSDUrl());
-        const result = await webservice.getData<SsdActionsResponse>(url);
+        const result = await this.ssdWebservice.getData<SsdActionsResponse>(url);
         if (result.responseCode != 200) {
             throw new Error(result.errorMessage);
         }
@@ -142,9 +126,8 @@ export class SsdWebserviceProvider {
         const excludedGroupsNames: string[] = excludeGroups.displayGroups.map((group: ExcludeGroupsDisplayName) => {
             return group.name
         });
-        const webservice = new PiRestService(this.getSSDUrl());
         const parser = new CapabilitiesParsers(excludedGroupsNames);
-        const result = await webservice.getDataWithParser<SsdGetCapabilitiesResponse>("?request=GetCapabilities&format=application/json", new RequestOptions(), parser);
+        const result = await this.ssdWebservice.getDataWithParser<SsdGetCapabilitiesResponse>("?request=GetCapabilities&format=application/json", new RequestOptions(), parser);
         if (result.responseCode != 200) {
             throw new Error(result.errorMessage);
         }

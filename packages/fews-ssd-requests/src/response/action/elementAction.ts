@@ -1,14 +1,9 @@
 /**
  * Interface for the response when retrieving an action for an SVG element
  */
-import { Action, ActionWithConfig } from "./action";
+import { SsdActionsResponse } from "./ssdActionResponse.js";
 
 export interface ElementAction {
     id: string;
-    action: Action;
-}
-
-export interface ElementActionWithConfig {
-    id: string;
-    action: ActionWithConfig;
+    action: SsdActionsResponse;
 }

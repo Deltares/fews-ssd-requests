@@ -8,17 +8,13 @@ import { HTMLStencilElement, JSXBase } from "@stencil/core/internal";
 export namespace Components {
     interface SchematicStatusDisplay {
         /**
-          * The last name
-         */
-        "height": number;
-        /**
-          * The first name
+          * The url to fetch the schematic status display svg
          */
         "src": string;
         /**
-          * The middle name
+          * Transform request function used in the SSD Webservice Provider
          */
-        "width": number;
+        "transformRequestFn"?: (request: Request) => Promise<Request>;
     }
 }
 declare global {
@@ -35,17 +31,13 @@ declare global {
 declare namespace LocalJSX {
     interface SchematicStatusDisplay {
         /**
-          * The last name
-         */
-        "height"?: number;
-        /**
-          * The first name
+          * The url to fetch the schematic status display svg
          */
         "src"?: string;
         /**
-          * The middle name
+          * Transform request function used in the SSD Webservice Provider
          */
-        "width"?: number;
+        "transformRequestFn"?: (request: Request) => Promise<Request>;
     }
     interface IntrinsicElements {
         "schematic-status-display": SchematicStatusDisplay;
