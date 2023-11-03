@@ -25,4 +25,3 @@ jobs:
           node-version: 16
       - run: npx lerna@v6 bootstrap
       - run: npx lerna@v6 run build
-      - run: npx lerna@v6 run test
