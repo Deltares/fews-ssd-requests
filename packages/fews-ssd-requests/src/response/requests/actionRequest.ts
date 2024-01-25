@@ -8,4 +8,6 @@ export interface ActionRequest {
     timeZero?: string;
     options?: OptionsType[];
     config?: boolean
+    useDisplayUnits?: boolean,
+    convertDatum?: boolean,
 }

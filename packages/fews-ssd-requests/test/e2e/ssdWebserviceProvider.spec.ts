@@ -209,4 +209,78 @@ describe("ssd", function () {
         expect(timeSeries).toMatchObject(timeseriesFormat);
 
     });
+
+
+    it("retrieves timeseries with useDisplayUnits and convertDatum equal to true", async function () {
+        // download a real timeseries that exists in the capabilities
+        // first get the capabilities
+        const provider = new SsdWebserviceProvider(baseUrl);
+        const capabilities = await provider.getCapabilities();
+        // from the capabilities get info for a panel
+        const group = capabilities.displayGroups[0];
+        const panel = group.displayPanels[0];
+        const panelName = panel.name;
+        let panelDate: string = (new Date()).toISOString();
+        if (panel.dimension) {
+            const panelPeriod = panel.dimension.period;
+            if (panelPeriod === undefined) throw Error("invalid period")
+            panelDate = panelPeriod?.split("/")[0];
+        }
+        const convertDatum = true
+        const useDisplayUnits = true
+
+        const actionRequest: ActionRequest = {
+            panelId: panelName,
+            objectId: 'label_T_Bommenede_b',
+            clickType: "LEFTSINGLECLICK",
+            useDisplayUnits,
+            convertDatum,
+        };
+        const elementAction = await provider.getAction(actionRequest);
+        const request2 = elementAction.results[0].requests[0].request;
+        const requestUrl = new URL(request2, 'http://dum.my');
+        expect(requestUrl.searchParams.get('useDisplayUnits')).toMatch(useDisplayUnits.toString());
+        expect(requestUrl.searchParams.get('convertDatum')).toMatch(convertDatum.toString());
+        const timeSeries = await provider.fetchPiRequest(request2);
+        expect(timeSeries).toMatchObject(timeseriesFormat);
+
+    });
+
+    it("retrieves timeseries with useDisplayUnits and convertDatum equal to false", async function () {
+        // download a real timeseries that exists in the capabilities
+        // first get the capabilities
+        const provider = new SsdWebserviceProvider(baseUrl);
+        const capabilities = await provider.getCapabilities();
+        // from the capabilities get info for a panel
+        const group = capabilities.displayGroups[0];
+        const panel = group.displayPanels[0];
+        const panelName = panel.name;
+        let panelDate: string = (new Date()).toISOString();
+        if (panel.dimension) {
+            const panelPeriod = panel.dimension.period;
+            if (panelPeriod === undefined) throw Error("invalid period")
+            panelDate = panelPeriod?.split("/")[0];
+        }
+        const convertDatum = false
+        const useDisplayUnits = false
+
+        const actionRequest: ActionRequest = {
+            panelId: panelName,
+            objectId: 'label_T_Bommenede_b',
+            clickType: "LEFTSINGLECLICK",
+            useDisplayUnits,
+            convertDatum,
+        };
+        const elementAction = await provider.getAction(actionRequest);
+        const request2 = elementAction.results[0].requests[0].request;
+        const requestUrl = new URL(request2, 'http://dum.my');
+        expect(requestUrl.searchParams.get('useDisplayUnits')).toMatch(useDisplayUnits.toString());
+        expect(requestUrl.searchParams.get('convertDatum')).toMatch(convertDatum.toString());
+        const timeSeries = await provider.fetchPiRequest(request2);
+        expect(timeSeries).toMatchObject(timeseriesFormat);
+
+    });
+
+
+
 });
