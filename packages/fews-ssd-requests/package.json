@@ -39,10 +39,10 @@
     "sonar": "sonar-scanner -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_TOKEN -Dsonar.projectKey=$SONAR_KEY -Dsonar.projectName='Delft-FEWS Web OC SSD Requests'"
   },
   "dependencies": {
-    "@deltares/fews-web-oc-utils": "^0.2.1-alpha.1"
+    "@deltares/fews-web-oc-utils": "^1.0.0"
   },
   "devDependencies": {
-    "@deltares/fews-pi-requests": "^0.5.3",
+    "@deltares/fews-pi-requests": "^1.0.0",
     "@types/jest": "27.0.0",
     "@types/jsdom": "^16.2.14",
     "@typescript-eslint/eslint-plugin": "^2.18.0",
