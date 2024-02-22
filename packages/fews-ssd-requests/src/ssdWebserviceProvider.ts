@@ -20,8 +20,8 @@ import {
 
 
 export class SsdWebserviceProvider {
-    private _ssdUrl: URL
-    private _piUrl: URL
+    private _ssdUrl: string
+    private _piUrl: string
     private readonly SSD_ENDPOINT = 'ssd'
     private readonly PI_ENDPOINT = ''
     private piWebservice: PiRestService
@@ -40,24 +40,10 @@ export class SsdWebserviceProvider {
         if (!url.endsWith('/')) {
             url += '/'
         }
-        this._ssdUrl = new URL(this.SSD_ENDPOINT, url)
-        this._piUrl = new URL(this.PI_ENDPOINT, url)
-        this.piWebservice = new PiRestService(this.getPiUrl(), options.transformRequestFn)
-        this.ssdWebservice = new PiRestService(this.getSSDUrl(), options.transformRequestFn)
-    }
-
-    /**
-     * Get the base url for SSD requests
-     */
-    private getSSDUrl(): string {
-        return this._ssdUrl.toString()
-    }
-
-    /**
-     * Get the base url for PI requests
-     */
-    private getPiUrl(): string {
-        return this._piUrl.toString()
+        this._ssdUrl = url + this.SSD_ENDPOINT
+        this._piUrl = url + this.PI_ENDPOINT
+        this.piWebservice = new PiRestService(this._piUrl, options.transformRequestFn)
+        this.ssdWebservice = new PiRestService(this._ssdUrl, options.transformRequestFn)
     }
 
     public async getSvg(url: string): Promise<SVGElement> {
@@ -116,7 +102,7 @@ export class SsdWebserviceProvider {
     public urlForPanel(panelName: string, date: Date): string {
         const dateString = date.toISOString().split('.')[0] + 'Z'
         const request = '?request=GetDisplay&ssd=' + panelName + '&time=' + dateString
-        return encodeURI(this.getSSDUrl() + request)
+        return encodeURI(this._ssdUrl + request)
     }
 
     /**
