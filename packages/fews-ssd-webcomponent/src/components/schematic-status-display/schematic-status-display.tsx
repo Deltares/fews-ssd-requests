@@ -93,8 +93,12 @@ export class SchematicStatusDisplay {
     if (xmlDoc) {
       target.insertBefore(xmlDoc, target.children[0])
       const svg = target.children[0] as SVGElement
+      const initialWidth = svg.getAttribute('width')
+      const initialHeight = svg.getAttribute('height')
       svg.setAttribute('width', '100%')
       svg.setAttribute('height', '100%')
+      if (!svg.hasAttribute('viewBox')) svg.setAttribute('viewBox', `0 0 ${initialWidth} ${initialHeight}`)
+
       svg.addEventListener('click', (event) => { if (event.currentTarget === event.target) event.stopPropagation() })
       addLeftClickAction(svg, this.dispatch.bind(this))
       addKeyDownListener(svg, ['Enter'], this.dispatch.bind(this))
