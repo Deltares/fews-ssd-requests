@@ -17,10 +17,8 @@
     "jsxFactory": "h"
   },
   "include": [
-    "src/**/*.ts",
-    "src/**/*.tsx",
-    "test/**/*.ts",
-    "test/**/*.tsx"
+    "src",
+    "test"
   ],
   "exclude": [
     "node_modules"
