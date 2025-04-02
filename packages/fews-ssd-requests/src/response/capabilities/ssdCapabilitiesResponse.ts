@@ -12,6 +12,7 @@ export interface SsdGetCapabilitiesResponse {
 export interface SsdDisplayGroup {
   name: string;
   title: string;
+  timeSliderActive?: boolean;
   displayPanels: SsdDisplayPanel[];
 }
 export interface SsdDisplayPanel {

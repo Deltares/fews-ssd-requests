@@ -16,7 +16,8 @@ export interface SsdActionsResponse {
   results: SsdActionResult[];
 }
 export interface SsdActionResult {
-  type: "PI" | "SSD" | "PDF" | "URL" | "WMS";
+  type: "PI" | "SSD" | "PDF" | "URL" | "WMS" | "WEBOC_DASHBOARD";
+  actionId?: string;
   title?: string;
   /**
    * SsdActionRequests
