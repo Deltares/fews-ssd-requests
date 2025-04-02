@@ -5,7 +5,8 @@ import {
   addLeftClickAction,
   ClickType,
   getUrlForAction,
-  SsdWebserviceProvider
+  SsdWebserviceProvider,
+  ActionRequest
 } from '@deltares/fews-ssd-requests'
 
 @Component({
@@ -58,32 +59,37 @@ export class SchematicStatusDisplay {
     }
   }
 
-  async dispatch(event: PointerEvent) {
-    let element = event.target as SVGElement | HTMLElement
-    while(!element.getAttributeNS(FEWS_NAMESPACE, 'click')) {
-      element = element.parentElement
-    }
-
-    const clickType = ClickType.LEFTSINGLECLICK
-    const objectId = element.getAttributeNS(FEWS_NAMESPACE, 'id')
-    const request = {
+  private getClickRequest(element: SVGElement | HTMLElement, clickType: ClickType): ActionRequest {
+    const objectId = element.getAttributeNS(FEWS_NAMESPACE, 'id');
+    return {
       panelId: this.panelId,
       objectId,
       clickType,
       config: true
-    } as const
-    const action = await this.ssdProvider.getAction(request)
+    }
+  }
 
+  private async handleAction(request: ActionRequest) {
+    const action = await this.ssdProvider.getAction(request);
     const detail = {
       panelId: this.panelId,
-      objectId,
-      clickType,
+      objectId: request.objectId,
+      clickType: request.clickType,
       relativeUrl: encodeURI(getUrlForAction(request)),
       results: action.results
+    };
+    this.el.dispatchEvent(new CustomEvent('action', { detail }));
+  }
+
+  async dispatch(event: PointerEvent) {
+    let element = event.target as SVGElement | HTMLElement;
+    while (!element.getAttributeNS(FEWS_NAMESPACE, 'click')) {
+      element = element.parentElement;
     }
-    this.el.dispatchEvent(new CustomEvent('action', {
-      detail
-    }))
+
+    const clickTypes = [ClickType.LEFTSINGLECLICK, ClickType.WEBOCDASHBOARD];
+    const requests = clickTypes.map(clickType => this.getClickRequest(element, clickType));
+    await Promise.all(requests.map(request => this.handleAction(request)));
   }
 
   async loadSvg() {
