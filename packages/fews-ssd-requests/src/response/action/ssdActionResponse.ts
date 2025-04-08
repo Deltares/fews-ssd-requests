@@ -18,16 +18,28 @@ export interface SsdActionsResponse {
 export interface SsdActionResult {
   type: "PI" | "SSD" | "PDF" | "URL" | "WMS" | "WEBOC_DASHBOARD";
   actionId?: string;
+  map?: SsdActionResultMap;
+  charts?: SsdActionResultCharts;
   title?: string;
   /**
    * SsdActionRequests
    */
-  requests: SsdActionRequest[];
+  requests?: SsdActionRequest[];
   config?: ActionRequestConfig;
+}
+export interface SsdActionResultMap {
+  locationId: string;
+}
+export interface SsdActionResultCharts {
+  displayId: string;
+  chartsLocationId: string;
 }
 export interface SsdActionRequest {
   key?: string;
   request: string;
+  historyRequest?: string;
+  editRequest?: string;
+  editPermissions?: ("values" | "comments" | "flags")[];
 }
 export interface ActionRequestConfig {
   timeSeriesDisplay: TimeSeriesDisplayConfig;
@@ -39,12 +51,35 @@ export interface TimeSeriesDisplayConfig {
   error?: string;
   title?: string;
   forecastLegend?: string;
+  plotId?: string;
+  index?: number;
+  period?: SsdActionPeriod;
   subplots?: TimeSeriesDisplaySubplot[];
+}
+export interface SsdActionPeriod {
+  startDate: SsdActionsPeriodDate;
+  endDate: SsdActionsPeriodDate;
+}
+/**
+ * Date
+ */
+export interface SsdActionsPeriodDate {
+  /**
+   * Date
+   */
+  date: string;
+  /**
+   * Time
+   */
+  time: string;
 }
 export interface TimeSeriesDisplaySubplot {
   items: TimeSeriesDisplaySubplotItem[];
 }
 export interface TimeSeriesDisplaySubplotItem {
+  visibleInLegend?: boolean;
+  visibleInPlot?: boolean;
+  visibleInTable?: boolean;
   type: string;
   legend?: string;
   color?: string;
