@@ -17,7 +17,7 @@ export interface SsdDisplayGroup {
 }
 export interface SsdDisplayPanel {
   name: string;
-  title: string;
+  title: string | null;
   dimension?: SsdDisplayPanelDimension;
 }
 export interface SsdDisplayPanelDimension {
