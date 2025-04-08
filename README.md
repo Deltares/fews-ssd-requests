@@ -11,7 +11,19 @@ This repository contains the code for the packages:
 
 The packages are managed using [lerna](https://lerna.js.org/).
 
-Bootstrap the packages, installing all their dependencies and linking any cross-dependencies.
+Bootstrap the packages, installing all their dependencies and linking any cross-dependencies
 ```
 npx lerna bootstrap
 ```
+
+Run commands with (e.g. build)
+```
+npx lenra run build
+```
+
+After merging some commits to main you can create a new release with
+```
+npx lerna version (major|minor|patch)
+```
+> [!warning] 
+> Immediately pushes the created commit and tag
