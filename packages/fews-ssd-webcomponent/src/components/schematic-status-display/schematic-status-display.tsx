@@ -79,8 +79,9 @@ export class SchematicStatusDisplay {
 
   async dispatch(event: PointerEvent) {
     let element = event.target as SVGElement | HTMLElement;
-    while (!element.getAttributeNS(FEWS_NAMESPACE, 'click')) {
+    while (element && !element.getAttributeNS(FEWS_NAMESPACE, 'click')) {
       element = element.parentElement;
+      if (!element) return;
     }
 
     const clickTypes = [ClickType.LEFTSINGLECLICK, ClickType.WEBOCDASHBOARD];
@@ -104,8 +105,12 @@ export class SchematicStatusDisplay {
       svg.addEventListener('click', (event) => { if (event.currentTarget === event.target) event.stopPropagation() })
       addLeftClickAction(svg, this.dispatch.bind(this))
       addKeyDownListener(svg, ['Enter'], this.dispatch.bind(this))
-      if ( target.children.length > 1) target.removeChild(target.children[1])
+      if (target.children.length > 1) target.removeChild(target.children[1])
       this.el.dispatchEvent(new UIEvent('load'))
     }
+  }
+
+  render() {
+    return null;
   }
 }
