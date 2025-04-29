@@ -51,8 +51,13 @@ export class SchematicStatusDisplay {
     this.ssdProvider = new SsdWebserviceProvider(endPoint, {transformRequestFn: this.transformRequestFn})
   }
 
+  private hasLoaded = false;
+
   componentDidRender() {
-    this.loadSvg()
+    if (!this.hasLoaded && this.ssdProvider) {
+      this.hasLoaded = true;
+      this.loadSvg();
+    }
   }
 
   private getClickRequest(element: SVGElement | HTMLElement, clickType: ClickType): ActionRequest {
@@ -108,9 +113,5 @@ export class SchematicStatusDisplay {
       if (target.children.length > 1) target.removeChild(target.children[1])
       this.el.dispatchEvent(new UIEvent('load'))
     }
-  }
-
-  render() {
-    return null;
   }
 }
