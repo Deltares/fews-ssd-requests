@@ -19,6 +19,6 @@ export const config: Config = {
     },
   ],
   testing: {
-    browserHeadless: true,
+    browserHeadless: 'shell', // Updated to use the new headless mode
   },
 };
