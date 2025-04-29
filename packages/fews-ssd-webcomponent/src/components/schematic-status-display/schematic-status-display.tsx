@@ -1,4 +1,4 @@
-import { Component, Prop, Element } from '@stencil/core'
+import { Component, Prop, Element, Watch } from '@stencil/core'
 import {
   FEWS_NAMESPACE,
   addKeyDownListener,
@@ -32,10 +32,19 @@ export class SchematicStatusDisplay {
 
   @Element() el: HTMLElement;
 
-  // @Event() clickEmitter: EventEmitter<PointerEvent>;
+  // Watch for changes to the src property
+  @Watch('src')
+  srcChanged(newValue: string) {
+    const params = new URL(newValue).searchParams
+    this.panelId = params.get('ssd')
+    const endPoint = newValue.split('ssd')[0]
+    this.ssdProvider = new SsdWebserviceProvider(endPoint, {transformRequestFn: this.transformRequestFn})
+    // Reload SVG when src changes
+    this.loadSvg()
+  }
 
   connectedCallback() {
-    if ( this.src === undefined ) return
+    if (this.src === undefined) return
     const params = new URL(this.src).searchParams
     this.panelId = params.get('ssd')
     const endPoint = this.src.split('ssd')[0]
@@ -44,19 +53,6 @@ export class SchematicStatusDisplay {
 
   componentDidRender() {
     this.loadSvg()
-  }
-
-  componentShouldUpdate(value, _old, prop) {
-    switch (prop) {
-      case 'src':
-        const params = new URL(value).searchParams
-        this.panelId = params.get('ssd')
-        const endPoint = this.src.split('ssd')[0]
-        this.ssdProvider = new SsdWebserviceProvider(endPoint, {transformRequestFn: this.transformRequestFn})
-        return true
-      default:
-        return false;
-    }
   }
 
   private getClickRequest(element: SVGElement | HTMLElement, clickType: ClickType): ActionRequest {
@@ -112,5 +108,4 @@ export class SchematicStatusDisplay {
       this.el.dispatchEvent(new UIEvent('load'))
     }
   }
-
 }
