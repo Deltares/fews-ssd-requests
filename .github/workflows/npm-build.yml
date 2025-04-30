@@ -23,5 +23,5 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: 16
-      - run: npx lerna@v6 bootstrap
-      - run: npx lerna@v6 run build
+      - run: npm ci
+      - run: npx lerna run build

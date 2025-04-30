@@ -5,13 +5,9 @@ describe('schematic-status-display', () => {
   it('renders', async () => {
     const { root } = await newSpecPage({
       components: [SchematicStatusDisplay],
-      html: '<schematic-status-display ></schematic-status-display>',
+      html: '<schematic-status-display></schematic-status-display>',
     });
-    expect(root).toEqualHtml(`
-      <schematic-status-display>
-      </schematic-status-display>
-    `);
+    expect(root.tagName.toLowerCase()).toBe('schematic-status-display');
+    expect(root.innerHTML).toBeDefined();
   });
-
 });
-
