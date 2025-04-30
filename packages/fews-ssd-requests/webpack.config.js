@@ -1,10 +1,10 @@
 import * as path from 'path';
-import { fileURLToPath } from "url"
+import { fileURLToPath } from "url";
 
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = path.dirname(__filename)
 
-const config = {
+export default {
   mode: 'production',
   entry: './lib/esm/index.js',
   output: {
@@ -22,7 +22,6 @@ const config = {
   plugins: [
   ],
   module: {
+    rules: []
   },
-}
-
-export default config
+};

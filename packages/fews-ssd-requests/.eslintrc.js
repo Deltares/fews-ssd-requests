@@ -1,20 +1,23 @@
 module.exports = {
   root: true,
   env: {
-    node: true
+    node: true,
+    browser: true
   },
-  parser: '@typescript-eslint/parser', // Specifies the ESLint parser
+  parser: '@typescript-eslint/parser',
   plugins: [
-      '@typescript-eslint',
+    '@typescript-eslint',
   ],
   extends: [
-    'plugin:@typescript-eslint/recommended', // Uses the recommended rules from the @typescript-eslint/eslint-plugin  ],
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended'
   ],
-    parserOptions: {
-    ecmaVersion: 2020
+  parserOptions: {
+    ecmaVersion: 2022,
+    sourceType: 'module'
   },
   rules: {
-    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'warn',
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'warn'
   }
 }
