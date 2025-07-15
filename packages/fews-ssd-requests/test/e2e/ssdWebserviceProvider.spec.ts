@@ -134,7 +134,7 @@ describe("ssd", function () {
         }
         // get the panel SVG
         const url = provider.urlForPanel(panelName, new Date(panelDate));
-        expect(url).toContain("http://localhost:8080/FewsWebServices/ssd?request=GetDisplay&ssd=coastal_flooding&time=2025-03-13T12:00:00Z");
+        expect(url).toContain("/FewsWebServices/ssd?request=GetDisplay&ssd=coastal_flooding&time=2025-03-13T12:00:00Z");
         const svg = await provider.getSvg(url);
         expect(svg).toBeDefined();
     });
@@ -142,7 +142,6 @@ describe("ssd", function () {
     it("retrieve svg", async function () {
         const provider = new SsdWebserviceProvider(baseUrl);
         const ssdName = "coastal_flooding";
-        // http://localhost:8080/FewsWebServices/ssd?request=GetDisplay&ssd=coastal_flooding&time=2025-03-13T13:00:00Z
         const url = baseUrl + apiEndpoint + "?request=GetDisplay&ssd=" + ssdName + "&time=2025-03-13T13:00:00Z";
         const svg = await provider.getSvg(url);
         expect(svg).toBeDefined();
