@@ -25,6 +25,19 @@ npm run lint
 npm run test
 ```
 
+### Run End-to-End tests
+
+For e2e tests a docker container with a Delft-FEWS Web Service is required.
+Make sure the docker container is running with the correct date and time.
+
+# the docker container can be run with: 
+
+docker run --rm --pull=always -p 8080:8080 -e FAKETIME="2025-03-14 10:00:00" -e JAVA_OPTS="-Xms512m -Xmx4068m -DTEST_PAGE_ENABLED=true"  delftfewsregistry.azurecr.io/deltares/delft-fews-web-oc/202502/web-oc-web-services:latest
+
+```
+npm run e2e
+```
+
 ### User Guide
 
 This repository provides a single point of access to data for
