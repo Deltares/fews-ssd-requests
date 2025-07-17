@@ -8,8 +8,9 @@ const exclude = {
     displayGroups: []
 };
 const baseUrl = process.env.DOCKER_URL || "";
-const displayName1 = "SchematicSystemDisplay";
 
+const displayName1 = "SSD_CoastalFlooding1";
+const displayName2 = "SSD_CoastalFlooding2";
 const dimensionFormat = {
     name: expect.any(String),
     units: expect.any(String),
@@ -101,20 +102,21 @@ describe("ssd", function () {
         expect(names).toContain(displayName1);
     });
 
-    // it("retrieves capabilities with exclude groups", async function () {
-    //     const excludeGroup = {
-    //         displayGroups: [
-    //             {name: displayName1}
-    //         ]
-    //     };
-    //     const provider = new SsdWebserviceProvider(baseUrl);
-    //     const promise = provider.getCapabilities(excludeGroup);
-    //     const capabilities = await promise;
-    //     expect(capabilities).toMatchObject(capabilitiesFormat);
-    //
-    //     const names = capabilities.displayGroups.map(x => x.name);
-    //     expect(names).not.toContain(displayName2);
-    // });
+    it("retrieves capabilities with exclude groups", async function () {
+        const excludeGroup = {
+            displayGroups: [
+                {name: displayName1}
+            ]
+        };
+        const provider = new SsdWebserviceProvider(baseUrl);
+        const promise = provider.getCapabilities(excludeGroup);
+        const capabilities = await promise;
+        expect(capabilities).toMatchObject(capabilitiesFormat);
+
+        const names = capabilities.displayGroups.map(x => x.name);
+        expect(names).not.toContain(displayName1);
+        expect(names).toContain(displayName2);
+    });
 
     it("retrieves actions from object id", async function () {
         // download a real action that exists in the capabilities
@@ -132,16 +134,15 @@ describe("ssd", function () {
             if (panelPeriod === undefined) throw Error("invalid period")
             panelDate = panelPeriod?.split("/")[0];
         }
-        // get the panel SVG
         const url = provider.urlForPanel(panelName, new Date(panelDate));
-        expect(url).toContain("/FewsWebServices/ssd?request=GetDisplay&ssd=coastal_flooding&time=2025-03-13T12:00:00Z");
+        expect(url).toContain("FewsWebServices/ssd?request=GetDisplay&ssd=coastal_flooding1&time=2025-03-13T12:00:00Z");
         const svg = await provider.getSvg(url);
         expect(svg).toBeDefined();
     });
 
     it("retrieve svg", async function () {
         const provider = new SsdWebserviceProvider(baseUrl);
-        const ssdName = "coastal_flooding";
+        const ssdName = "coastal_flooding1";
         const url = baseUrl + apiEndpoint + "?request=GetDisplay&ssd=" + ssdName + "&time=2025-03-13T13:00:00Z";
         const svg = await provider.getSvg(url);
         expect(svg).toBeDefined();
@@ -149,7 +150,7 @@ describe("ssd", function () {
 
     it("retrieves actions from svg element", async function () {
         // first get a fresh SVG for midnight yesterday
-        const ssdName = "coastal_flooding";
+        const ssdName = "coastal_flooding1";
         const date = new Date();
         date.setDate(date.getDate() - 1);
         const yesterday = date.toISOString().split("T")[0];
@@ -163,13 +164,13 @@ describe("ssd", function () {
                 panelId: ssdName,
                 clickType: ClickType.LEFTSINGLECLICK
             };
-            // todo, once actions have been added to the SVG, add a test for the action
-            // const elementWithAction = svg.querySelector<SVGElement>('*[fews:id=Windkracht]')
-            // expect(elementWithAction).not.toBeNull();
-            // if (elementWithAction !== null) {
-            //     const { id, action } = await provider.getActionFromElement(elementWithAction, request);
-            //     expect(action).toMatchObject(actionFormat);
-            // }
+            // ButtonToTSD, LinkToUrl, ButtonToDisplayGroup, ButtonToWindMap, ButtonToFloodWarning2
+            const elementWithAction = svg.querySelector<SVGElement>('*[fews:id=ButtonToTSD]')
+            expect(elementWithAction).not.toBeNull();
+            if (elementWithAction !== null) {
+                const { id, action } = await provider.getActionFromElement(elementWithAction, request);
+                expect(action).toMatchObject(actionFormat);
+            }
         }
     });
 
@@ -193,16 +194,30 @@ describe("ssd", function () {
         const svgFromUrl = await provider.getSvg(url);
         const actionRequest: ActionRequest = {
             panelId: panelName,
-            objectId: 'label_T_Bommenede_b',
+            objectId: 'ButtonToTSD',
             clickType: "LEFTSINGLECLICK"
         };
-        // const elementAction = await provider.getAction(actionRequest);
-        // const request2 = elementAction.results[0].requests[0].request;
-        // const timeSeries = await provider.fetchPiRequest(request2);
-        // expect(timeSeries).toMatchObject(timeseriesFormat);
+        const elementAction = await provider.getAction(actionRequest);
+        //expect(elementAction?.results[0]).not.toBeNull();
+        if (
+            elementAction &&
+            Array.isArray(elementAction.results) &&
+            elementAction.results[0] &&
+            Array.isArray(elementAction.results[0].requests) &&
+            elementAction.results[0].requests[0] &&
+            elementAction.results[0].requests[0].request
+        ) {
+            const request2 = elementAction?.results[0]?.requests[0]?.request;
+            // Use request2 safely here
+            expect(request2).toBeDefined();
+            // no timeseries available in the test environment
+            // const timeSeries = await provider.fetchPiRequest(request2);
+            // expect(timeSeries).toMatchObject(timeseriesFormat);
 
+        } else {
+            fail("No request found in elementAction results");
+        }
     });
-
 
     it("retrieves timeseries with useDisplayUnits and convertDatum equal to true", async function () {
         // download a real timeseries that exists in the capabilities
@@ -224,7 +239,7 @@ describe("ssd", function () {
 
         const actionRequest: ActionRequest = {
             panelId: panelName,
-            objectId: 'label_T_Bommenede_b',
+            objectId: 'ButtonToTSD',
             clickType: "LEFTSINGLECLICK",
             useDisplayUnits,
             convertDatum,
@@ -259,7 +274,7 @@ describe("ssd", function () {
 
         const actionRequest: ActionRequest = {
             panelId: panelName,
-            objectId: 'label_T_Bommenede_b',
+            objectId: 'ButtonToTSD',
             clickType: "LEFTSINGLECLICK",
             useDisplayUnits,
             convertDatum,
