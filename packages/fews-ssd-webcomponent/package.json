@@ -22,7 +22,7 @@
   "module": "dist/index.js",
   "es2015": "dist/esm/index.mjs",
   "es2017": "dist/esm/index.mjs",
-  "types": "dist/components/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "unpkg": "dist/fews-ssd-webcomponent/fews-ssd-webcomponent.esm.js",
@@ -39,17 +39,18 @@
     "generate": "stencil generate"
   },
   "dependencies": {
+    "@deltares/fews-pi-requests": "^1.13.6",
     "@deltares/fews-ssd-requests": "^1.1.1",
-    "@stencil/core": "^2.17.4"
+    "@stencil/core": "^4.30.0"
   },
   "devDependencies": {
-    "@types/jest": "27.0.0",
-    "jest": "27.3.1",
-    "jest-cli": "27.3.1",
-    "jest-environment-jsdom": "27.3.1",
-    "jest-junit": "^13.0.0",
+    "@types/jest": "^29.5.0",
+    "jest": "^29.5.0",
+    "jest-cli": "^29.5.0",
+    "jest-environment-jsdom": "^29.5.0",
+    "jest-junit": "^16.0.0",
     "jest-teamcity-reporter": "^0.9.0",
-    "puppeteer": "^10.0.0",
-    "typescript": "^4.6.3"
+    "puppeteer": "^24.7.2",
+    "typescript": "^5.0.0"
   }
 }
