@@ -1,4 +1,4 @@
-import { Component, Prop, Element } from '@stencil/core'
+import { Component, Prop, Element, Watch } from '@stencil/core'
 import {
   FEWS_NAMESPACE,
   addKeyDownListener,
@@ -32,30 +32,31 @@ export class SchematicStatusDisplay {
 
   @Element() el: HTMLElement;
 
-  // @Event() clickEmitter: EventEmitter<PointerEvent>;
+  // Watch for changes to the src property
+  @Watch('src')
+  srcChanged(newValue: string) {
+    const params = new URL(newValue).searchParams
+    this.panelId = params.get('ssd')
+    const endPoint = newValue.split('ssd')[0]
+    this.ssdProvider = new SsdWebserviceProvider(endPoint, {transformRequestFn: this.transformRequestFn})
+    // Reload SVG when src changes
+    this.loadSvg()
+  }
 
   connectedCallback() {
-    if ( this.src === undefined ) return
+    if (this.src === undefined) return
     const params = new URL(this.src).searchParams
     this.panelId = params.get('ssd')
     const endPoint = this.src.split('ssd')[0]
     this.ssdProvider = new SsdWebserviceProvider(endPoint, {transformRequestFn: this.transformRequestFn})
   }
 
-  componentDidRender() {
-    this.loadSvg()
-  }
+  private hasLoaded = false;
 
-  componentShouldUpdate(value, _old, prop) {
-    switch (prop) {
-      case 'src':
-        const params = new URL(value).searchParams
-        this.panelId = params.get('ssd')
-        const endPoint = this.src.split('ssd')[0]
-        this.ssdProvider = new SsdWebserviceProvider(endPoint, {transformRequestFn: this.transformRequestFn})
-        return true
-      default:
-        return false;
+  componentDidRender() {
+    if (!this.hasLoaded && this.ssdProvider) {
+      this.hasLoaded = true;
+      this.loadSvg();
     }
   }
 
@@ -83,8 +84,9 @@ export class SchematicStatusDisplay {
 
   async dispatch(event: PointerEvent) {
     let element = event.target as SVGElement | HTMLElement;
-    while (!element.getAttributeNS(FEWS_NAMESPACE, 'click')) {
+    while (element && !element.getAttributeNS(FEWS_NAMESPACE, 'click')) {
       element = element.parentElement;
+      if (!element) return;
     }
 
     const clickTypes = [ClickType.LEFTSINGLECLICK, ClickType.WEBOCDASHBOARD];
@@ -108,9 +110,8 @@ export class SchematicStatusDisplay {
       svg.addEventListener('click', (event) => { if (event.currentTarget === event.target) event.stopPropagation() })
       addLeftClickAction(svg, this.dispatch.bind(this))
       addKeyDownListener(svg, ['Enter'], this.dispatch.bind(this))
-      if ( target.children.length > 1) target.removeChild(target.children[1])
+      if (target.children.length > 1) target.removeChild(target.children[1])
       this.el.dispatchEvent(new UIEvent('load'))
     }
   }
-
 }

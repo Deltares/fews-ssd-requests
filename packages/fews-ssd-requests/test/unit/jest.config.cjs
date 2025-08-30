@@ -5,7 +5,10 @@ module.exports = {
       '^(\\.{1,2}/.*)\\.js$': '$1',
     },
     transform: {
-        '^.+\\.[tj]sx?$': ['ts-jest', { useESM: true } ]
+        '^.+\\.[tj]sx?$': ['ts-jest', { 
+            useESM: true,
+            tsconfig: '../../tsconfig.json'
+        }]
     },
     testRegex: "\.spec\.(ts|tsx|js)$",
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
