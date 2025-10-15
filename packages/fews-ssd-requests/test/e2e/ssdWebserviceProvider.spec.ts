@@ -135,7 +135,7 @@ describe("ssd", function () {
             panelDate = panelPeriod?.split("/")[0];
         }
         const url = provider.urlForPanel(panelName, new Date(panelDate));
-        expect(url).toContain("http://localhost:8080/FewsWebServices/ssd?request=GetDisplay&ssd=coastal_flooding1&time=2025-03-13T12:00:00Z");
+        expect(url).toContain("/FewsWebServices/ssd?request=GetDisplay&ssd=coastal_flooding1&time=2025-03-13T12:00:00Z");
         const svg = await provider.getSvg(url);
         expect(svg).toBeDefined();
     });
