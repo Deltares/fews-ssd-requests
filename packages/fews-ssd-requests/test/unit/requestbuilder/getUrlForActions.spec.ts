@@ -1,10 +1,8 @@
 import { getUrlForAction } from "../../../src/requestbuilder/getUrlForAction";
 import { ActionRequest } from "../../../src/response/requests/actionRequest";
 
-const apiEndpoint = "ssd";
 describe('action request test', () => {
     it("gives the correct url to an action", function () {
-        const baseUrl = process.env.TEST_URL || "";
         const panelId = "SomePanelId";
         const objectId = "SomeObjectId";
         const actionRequest = {} as ActionRequest;
@@ -16,7 +14,6 @@ describe('action request test', () => {
         expect(url).toEqual(expected);
     });
     it("gives the correct url to an action with convertDatum", function () {
-        const baseUrl = process.env.TEST_URL || "";
         const panelId = "SomePanelId";
         const objectId = "SomeObjectId";
         const actionRequest = {
@@ -30,7 +27,6 @@ describe('action request test', () => {
         expect(url).toEqual(expected);
     });
     it("gives the correct url to an action with useDisplayUnits", function () {
-        const baseUrl = process.env.TEST_URL || "";
         const panelId = "SomePanelId";
         const objectId = "SomeObjectId";
         const actionRequest = {
