@@ -198,25 +198,10 @@ describe("ssd", function () {
             clickType: "LEFTSINGLECLICK"
         };
         const elementAction = await provider.getAction(actionRequest);
-        //expect(elementAction?.results[0]).not.toBeNull();
-        if (
-            elementAction &&
-            Array.isArray(elementAction.results) &&
-            elementAction.results[0] &&
-            Array.isArray(elementAction.results[0].requests) &&
-            elementAction.results[0].requests[0] &&
-            elementAction.results[0].requests[0].request
-        ) {
-            const request2 = elementAction?.results[0]?.requests[0]?.request;
-            // Use request2 safely here
-            expect(request2).toBeDefined();
-            // no timeseries available in the test environment
-            // const timeSeries = await provider.fetchPiRequest(request2);
-            // expect(timeSeries).toMatchObject(timeseriesFormat);
-
-        } else {
-            fail("No request found in elementAction results");
-        }
+        const request2 = elementAction.results[0].requests?.[0].request;
+        if (request2 === undefined) throw Error("no request found")
+        const timeSeries = await provider.fetchPiRequest(request2);
+        expect(timeSeries).toMatchObject(timeseriesFormat);
     });
 
     it("retrieves timeseries with useDisplayUnits and convertDatum equal to true", async function () {
@@ -244,13 +229,14 @@ describe("ssd", function () {
             useDisplayUnits,
             convertDatum,
         };
-        // const elementAction = await provider.getAction(actionRequest);
-        // const request2 = elementAction.results[0].requests[0].request;
-        // const requestUrl = new URL(request2, 'http://dum.my');
-        // expect(requestUrl.searchParams.get('useDisplayUnits')).toMatch(useDisplayUnits.toString());
-        // expect(requestUrl.searchParams.get('convertDatum')).toMatch(convertDatum.toString());
-        // const timeSeries = await provider.fetchPiRequest(request2);
-        // expect(timeSeries).toMatchObject(timeseriesFormat);
+        const elementAction = await provider.getAction(actionRequest);
+        const request2 = elementAction.results[0].requests?.[0].request;
+        if (request2 === undefined) throw Error("no request found")
+        const requestUrl = new URL(request2, 'http://dum.my');
+        expect(requestUrl.searchParams.get('useDisplayUnits')).toMatch(useDisplayUnits.toString());
+        expect(requestUrl.searchParams.get('convertDatum')).toMatch(convertDatum.toString());
+        const timeSeries = await provider.fetchPiRequest(request2);
+        expect(timeSeries).toMatchObject(timeseriesFormat);
 
     });
 
@@ -279,13 +265,14 @@ describe("ssd", function () {
             useDisplayUnits,
             convertDatum,
         };
-        // const elementAction = await provider.getAction(actionRequest);
-        // const request2 = elementAction.results[0].requests[0].request;
-        // const requestUrl = new URL(request2, 'http://dum.my');
-        // expect(requestUrl.searchParams.get('useDisplayUnits')).toMatch(useDisplayUnits.toString());
-        // expect(requestUrl.searchParams.get('convertDatum')).toMatch(convertDatum.toString());
-        // const timeSeries = await provider.fetchPiRequest(request2);
-        // expect(timeSeries).toMatchObject(timeseriesFormat);
+        const elementAction = await provider.getAction(actionRequest);
+        const request2 = elementAction.results[0].requests?.[0].request;
+        if (request2 === undefined) throw Error("no request found")
+        const requestUrl = new URL(request2, 'http://dum.my');
+        expect(requestUrl.searchParams.get('useDisplayUnits')).toMatch(useDisplayUnits.toString());
+        expect(requestUrl.searchParams.get('convertDatum')).toMatch(convertDatum.toString());
+        const timeSeries = await provider.fetchPiRequest(request2);
+        expect(timeSeries).toMatchObject(timeseriesFormat);
 
     });
 
