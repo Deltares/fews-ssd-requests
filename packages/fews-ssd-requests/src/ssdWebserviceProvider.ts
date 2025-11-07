@@ -94,7 +94,6 @@ export class SsdWebserviceProvider {
   public async fetchPiRequest(
     request: string
   ): Promise<FewsPiTimeSeriesResponse> {
-    request = request.startsWith("/") ? request : "/" + request;
     const result = await this.piWebservice.getData<FewsPiTimeSeriesResponse>(
       request
     );
