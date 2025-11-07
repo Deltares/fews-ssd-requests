@@ -1,4 +1,3 @@
-import 'cross-fetch/polyfill';
 import { datesFromPeriod } from "../../../src/utils";
 import { describe, expect, it } from 'vitest';
 

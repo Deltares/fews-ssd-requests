@@ -1,7 +1,6 @@
 import { SsdWebserviceProvider } from "../../src/ssdWebserviceProvider";
 import {ActionRequest} from "../../src/response/requests/actionRequest";
 import { ClickType } from "../../src/response/clickType";
-import 'cross-fetch/polyfill';
 import { describe, expect, it } from 'vitest';
 
 const apiEndpoint = "ssd";

@@ -2,7 +2,6 @@ import { ClickCallbackFunction } from "../../src/utils/clickCallbackFunction";
 import { SsdWebserviceProvider } from "../../src/ssdWebserviceProvider";
 import { FEWS_NAMESPACE } from "../../src/response/FEWS_NAME_SPACE";
 import { addLeftClickAction } from "../../src/utils/addLeftClickAction";
-import "cross-fetch/polyfill";
 import { describe, expect, it } from 'vitest';
 
 const baseUrl = import.meta.env.VITE_DOCKER_URL || "";
