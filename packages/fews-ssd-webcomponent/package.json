@@ -39,9 +39,9 @@
     "generate": "stencil generate"
   },
   "dependencies": {
-    "@deltares/fews-pi-requests": "^1.13.6",
+    "@deltares/fews-pi-requests": "^1.22.0",
     "@deltares/fews-ssd-requests": "^1.1.1",
-    "@stencil/core": "^4.30.0"
+    "@stencil/core": "^4.38.3"
   },
   "devDependencies": {
     "@types/jest": "^29.5.0",

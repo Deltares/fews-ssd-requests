@@ -2,12 +2,11 @@ import { ClickCallbackFunction } from "../../src/utils/clickCallbackFunction";
 import { SsdWebserviceProvider } from "../../src/ssdWebserviceProvider";
 import { FEWS_NAMESPACE } from "../../src/response/FEWS_NAME_SPACE";
 import { addLeftClickAction } from "../../src/utils/addLeftClickAction";
-import "cross-fetch/polyfill";
+import { describe, expect, it } from 'vitest';
 
-const baseUrl = process.env.DOCKER_URL || "";
+const baseUrl = import.meta.env.VITE_DOCKER_URL || "";
 
 describe("datesFromPeriod", function () {
-  beforeEach(() => jest.setTimeout(10 * 1000));
 
   it("works", async function () {
     const ssdName = "coastal_flooding1";
@@ -24,6 +23,7 @@ describe("datesFromPeriod", function () {
       "&time=" +
       yesterday +
       "T00:00:00Z";
+
     const svg = await provider.getSvg(url);
 
     let callbackCounter = 0;
@@ -33,7 +33,8 @@ describe("datesFromPeriod", function () {
       callbackCounter += 1;
       expect(event.target).toBeDefined();
       if (event.target) {
-        expect(event.target.toString()).toMatch(/SVGElement/);
+        const svgElement = event.target as SVGElement;
+        expect(svgElement instanceof SVGElement).toBeTruthy();
       }
     };
     addLeftClickAction(svg, callback);

@@ -1,8 +1,7 @@
-import 'cross-fetch/polyfill';
 import { datesFromPeriod } from "../../../src/utils";
+import { describe, expect, it } from 'vitest';
 
 describe("datesFromPeriod", function () {
-    beforeEach(() => jest.setTimeout(10 * 1000))
 
     it("works for 1 minute period strings", function () {
         const start = "2021-01-01T08:50:00Z";

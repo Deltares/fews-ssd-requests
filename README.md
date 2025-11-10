@@ -15,7 +15,7 @@ The packages are managed using [lerna](https://lerna.js.org/). Dependencies are 
 Install all packages, installing all their dependencies and linking any cross-dependencies
 
 ```
-npm ci
+npm install
 ```
 
 Run commands with (e.g. build)

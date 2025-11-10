@@ -11,26 +11,26 @@ jobs:
   test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
         with:
-          node-version: 16
+          node-version: 22
       - run: ls
-      - run: npx lerna@v6 bootstrap
-      - run: npx lerna@v6 run build
+      - run: npx lerna bootstrap
+      - run: npx lerna run build
 
   publish-npm:
     needs: test
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v1
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v6
         with:
-          node-version: 16
+          node-version: 22
           registry-url: https://registry.npmjs.org/
-      - run: npx lerna@v6 bootstrap
-      - run: npx lerna@v6 run build
+      - run: npx lerna bootstrap
+      - run: npx lerna run build
       - run: git reset --hard
-      - run: npx lerna@v6 publish from-package -y
+      - run: npx lerna publish from-package -y
         env:
           NODE_AUTH_TOKEN: ${{secrets.npm_token}}

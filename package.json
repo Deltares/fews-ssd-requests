@@ -1,11 +1,14 @@
 {
   "name": "root",
-  "private": false,
+  "private": true,
   "workspaces": [
-    "packages/*"
+    "packages/fews-ssd-requests",
+    "packages/fews-ssd-webcomponent"
   ],
   "devDependencies": {
-    "lerna": "^8.2.2"
+    "lerna": "^9.0.0"
   },
-  "version": "0.2.7"
+  "volta": {
+    "node": "22.21.1"
+  }
 }

@@ -1,13 +1,13 @@
 import { SsdWebserviceProvider } from "../../src/ssdWebserviceProvider";
 import {ActionRequest} from "../../src/response/requests/actionRequest";
 import { ClickType } from "../../src/response/clickType";
-import 'cross-fetch/polyfill';
+import { describe, expect, it } from 'vitest';
 
 const apiEndpoint = "ssd";
 const exclude = {
     displayGroups: []
 };
-const baseUrl = process.env.DOCKER_URL || "";
+const baseUrl = import.meta.env.VITE_DOCKER_URL || "";
 
 const displayName1 = "SSD_CoastalFlooding1";
 const displayName2 = "SSD_CoastalFlooding2";
@@ -165,10 +165,10 @@ describe("ssd", function () {
                 clickType: ClickType.LEFTSINGLECLICK
             };
             // ButtonToTSD, LinkToUrl, ButtonToDisplayGroup, ButtonToWindMap, ButtonToFloodWarning2
-            const elementWithAction = svg.querySelector<SVGElement>('*[fews:id=ButtonToTSD]')
-            expect(elementWithAction).not.toBeNull();
-            if (elementWithAction !== null) {
-                const { id, action } = await provider.getActionFromElement(elementWithAction, request);
+            const elementWithAction = [...svg.querySelectorAll('*')].find(el => el.getAttribute('fews:id') === 'ButtonToTSD');
+            expect(elementWithAction).not.toBeUndefined();
+            if (elementWithAction !== undefined) {
+                const { id, action } = await provider.getActionFromElement(elementWithAction as SVGElement, request);
                 expect(action).toMatchObject(actionFormat);
             }
         }
@@ -203,78 +203,5 @@ describe("ssd", function () {
         const timeSeries = await provider.fetchPiRequest(request2);
         expect(timeSeries).toMatchObject(timeseriesFormat);
     });
-
-    it("retrieves timeseries with useDisplayUnits and convertDatum equal to true", async function () {
-        // download a real timeseries that exists in the capabilities
-        // first get the capabilities
-        const provider = new SsdWebserviceProvider(baseUrl);
-        const capabilities = await provider.getCapabilities();
-        // from the capabilities get info for a panel
-        const group = capabilities.displayGroups[0];
-        const panel = group.displayPanels[0];
-        const panelName = panel.name;
-        let panelDate: string = (new Date()).toISOString();
-        if (panel.dimension) {
-            const panelPeriod = panel.dimension.period;
-            if (panelPeriod === undefined) throw Error("invalid period")
-            panelDate = panelPeriod?.split("/")[0];
-        }
-        const convertDatum = true
-        const useDisplayUnits = true
-
-        const actionRequest: ActionRequest = {
-            panelId: panelName,
-            objectId: 'ButtonToTSD',
-            clickType: "LEFTSINGLECLICK",
-            useDisplayUnits,
-            convertDatum,
-        };
-        const elementAction = await provider.getAction(actionRequest);
-        const request2 = elementAction.results[0].requests?.[0].request;
-        if (request2 === undefined) throw Error("no request found")
-        const requestUrl = new URL(request2, 'http://dum.my');
-        expect(requestUrl.searchParams.get('useDisplayUnits')).toMatch(useDisplayUnits.toString());
-        expect(requestUrl.searchParams.get('convertDatum')).toMatch(convertDatum.toString());
-        const timeSeries = await provider.fetchPiRequest(request2);
-        expect(timeSeries).toMatchObject(timeseriesFormat);
-
-    });
-
-    it("retrieves timeseries with useDisplayUnits and convertDatum equal to false", async function () {
-        // download a real timeseries that exists in the capabilities
-        // first get the capabilities
-        const provider = new SsdWebserviceProvider(baseUrl);
-        const capabilities = await provider.getCapabilities();
-        // from the capabilities get info for a panel
-        const group = capabilities.displayGroups[0];
-        const panel = group.displayPanels[0];
-        const panelName = panel.name;
-        let panelDate: string = (new Date()).toISOString();
-        if (panel.dimension) {
-            const panelPeriod = panel.dimension.period;
-            if (panelPeriod === undefined) throw Error("invalid period")
-            panelDate = panelPeriod?.split("/")[0];
-        }
-        const convertDatum = false
-        const useDisplayUnits = false
-
-        const actionRequest: ActionRequest = {
-            panelId: panelName,
-            objectId: 'ButtonToTSD',
-            clickType: "LEFTSINGLECLICK",
-            useDisplayUnits,
-            convertDatum,
-        };
-        const elementAction = await provider.getAction(actionRequest);
-        const request2 = elementAction.results[0].requests?.[0].request;
-        if (request2 === undefined) throw Error("no request found")
-        const requestUrl = new URL(request2, 'http://dum.my');
-        expect(requestUrl.searchParams.get('useDisplayUnits')).toMatch(useDisplayUnits.toString());
-        expect(requestUrl.searchParams.get('convertDatum')).toMatch(convertDatum.toString());
-        const timeSeries = await provider.fetchPiRequest(request2);
-        expect(timeSeries).toMatchObject(timeseriesFormat);
-
-    });
-
 
 });

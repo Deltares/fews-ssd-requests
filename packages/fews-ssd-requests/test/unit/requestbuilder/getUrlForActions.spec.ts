@@ -1,5 +1,6 @@
 import { getUrlForAction } from "../../../src/requestbuilder/getUrlForAction";
 import { ActionRequest } from "../../../src/response/requests/actionRequest";
+import { describe, expect, it } from 'vitest';
 
 describe('action request test', () => {
     it("gives the correct url to an action", function () {
