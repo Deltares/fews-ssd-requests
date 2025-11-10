@@ -16,7 +16,7 @@ jobs:
         with:
           node-version: 22
       - run: ls
-      - run: npx lerna bootstrap
+      - run: npm ci
       - run: npx lerna run build
 
   publish-npm:
@@ -28,7 +28,7 @@ jobs:
         with:
           node-version: 22
           registry-url: https://registry.npmjs.org/
-      - run: npx lerna bootstrap
+      - run: npm ci
       - run: npx lerna run build
       - run: git reset --hard
       - run: npx lerna publish from-package -y
