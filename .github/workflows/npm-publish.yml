@@ -3,6 +3,10 @@
 
 name: Node.js Package
 
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
+
 on:
   release:
     types: [created]
@@ -32,5 +36,4 @@ jobs:
       - run: npx lerna run build
       - run: git reset --hard
       - run: npx lerna publish from-package -y
-        env:
-          NODE_AUTH_TOKEN: ${{secrets.npm_token}}
+
