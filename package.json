@@ -3,8 +3,7 @@
   "private": true,
   "workspaces": [
     "packages/fews-ssd-requests",
-    "packages/fews-ssd-webcomponent",
-    "packages/angular-example"
+    "packages/fews-ssd-webcomponent"
   ],
   "devDependencies": {
     "lerna": "^9.0.0"
