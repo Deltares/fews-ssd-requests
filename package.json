@@ -8,5 +8,8 @@
   ],
   "devDependencies": {
     "lerna": "^9.0.0"
+  },
+  "volta": {
+    "node": "22.21.1"
   }
 }
