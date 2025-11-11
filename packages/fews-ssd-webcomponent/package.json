@@ -10,14 +10,6 @@
     "FEWS",
     "Schematic Status Display web component"
   ],
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Deltares/fews-ssd-requests",
-    "directory": "packages/fews-ssd-webcomponent"
-  },
-  "publishConfig": {
-    "access": "public"
-  },
   "license": "MIT",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
@@ -53,5 +45,18 @@
     "jest-teamcity-reporter": "^0.9.0",
     "puppeteer": "^24.7.2",
     "typescript": "^5.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Deltares/fews-ssd-requests",
+    "directory": "packages/fews-ssd-webcomponent"
+  },
+  "bugs": {
+    "url": "https://github.com/Deltares/fews-ssd-requests/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "rc",
+    "registry": "https://registry.npmjs.org"
   }
 }

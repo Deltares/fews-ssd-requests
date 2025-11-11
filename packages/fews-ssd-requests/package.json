@@ -10,9 +10,6 @@
     "FEWS",
     "Schematic Status Display Service"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "license": "MIT",
   "private": false,
   "type": "module",
@@ -29,7 +26,7 @@
     "lint": "eslint",
     "lint:fix": "eslint --fix",
     "test:unit": "vitest run test/unit",
-    "test:e2e": "vitest run test/e2e",
+    "test:e2e": "vitest run test/e2e --config vitest.config.e2e.ts",
     "test": "vitest",
     "json2ts-pi": "curl https://fewsdocs.deltares.nl/webservices/ssd/schemas/ssd/pi_ssd_get_action.json | json2ts > src/response/action/ssdActionResponse.ts & curl https://fewsdocs.deltares.nl/webservices/ssd/schemas/ssd/pi_ssd_get_capabilities.json | json2ts > src/response/capabilities/ssdCapabilitiesResponse.ts & curl https://fewsdocs.deltares.nl/webservices/ssd/schemas/ssd/pi_ssd_get_feature_info.json | json2ts > src/response/featureinfo/ssdFeatureInfoResponse.ts",
     "sonar": "sonar-scanner -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_TOKEN -Dsonar.projectKey=$SONAR_KEY -Dsonar.projectName='Delft-FEWS Web OC SSD Requests'"
@@ -61,5 +58,10 @@
   },
   "bugs": {
     "url": "https://github.com/Deltares/fews-ssd-requests/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "rc",
+    "registry": "https://registry.npmjs.org"
   }
 }
