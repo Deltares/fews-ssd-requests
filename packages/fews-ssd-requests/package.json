@@ -10,9 +10,6 @@
     "FEWS",
     "Schematic Status Display Service"
   ],
-  "publishConfig": {
-    "access": "public"
-  },
   "license": "MIT",
   "private": false,
   "type": "module",
@@ -61,5 +58,10 @@
   },
   "bugs": {
     "url": "https://github.com/Deltares/fews-ssd-requests/issues"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "rc",
+    "registry": "https://registry.npmjs.org"
   }
 }
