@@ -48,7 +48,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/Deltares/fews-ssd-requests",
+    "url": "https://github.com/Deltares/fews-ssd-requests.git",
     "directory": "packages/fews-ssd-webcomponent"
   },
   "bugs": {

@@ -20,6 +20,9 @@
       "types": "./dist/index.d.ts"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "build": "tsc && vite build",
     "doc": "typedoc --out doc src",
@@ -53,7 +56,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Deltares/fews-ssd-requests",
+    "url": "git+https://github.com/Deltares/fews-ssd-requests.git",
     "directory": "packages/fews-ssd-requests"
   },
   "bugs": {
