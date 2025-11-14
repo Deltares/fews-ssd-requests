@@ -1,6 +1,6 @@
 {
   "name": "@deltares/fews-ssd-webcomponent",
-  "version": "2.0.0-rc.2",
+  "version": "2.0.0-rc.3",
   "description": "Web component for FEWS Schematic Status Display",
   "author": {
     "name": "Werner Kramer",
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@deltares/fews-pi-requests": "^2.0.0-beta.1",
-    "@deltares/fews-ssd-requests": "^2.0.0-rc.2",
+    "@deltares/fews-ssd-requests": "^2.0.0-rc.3",
     "@stencil/core": "^4.38.3"
   },
   "devDependencies": {
