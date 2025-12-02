@@ -18,6 +18,9 @@ export const config: Config = {
       serviceWorker: null, // disable service workers
     },
   ],
+  extras: {
+    enableImportInjection: true
+  },
   testing: {
     browserHeadless: 'shell', // Updated to use the new headless mode
   },
