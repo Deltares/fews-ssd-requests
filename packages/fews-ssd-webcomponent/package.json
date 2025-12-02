@@ -13,12 +13,25 @@
   "license": "MIT",
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
-  "es2015": "dist/esm/index.mjs",
-  "es2017": "dist/esm/index.mjs",
   "types": "dist/types/index.d.ts",
   "collection": "dist/collection/collection-manifest.json",
   "collection:main": "dist/collection/index.js",
   "unpkg": "dist/fews-ssd-webcomponent/fews-ssd-webcomponent.esm.js",
+  "exports": {
+    ".": {
+      "import": "./dist/fews-ssd-webcomponent/fews-ssd-webcomponent.esm.js",
+      "require": "./dist/fews-ssd-webcomponent/fews-ssd-webcomponent.cjs.js"
+    },
+    "./schematic-status-display": {
+      "import": "./dist/components/schematic-status-display.js",
+      "types": "./dist/components/schematic-status-display.d.ts"
+    },
+    "./loader": {
+      "import": "./loader/index.js",
+      "require": "./loader/index.cjs",
+      "types": "./loader/index.d.ts"
+    }
+  },
   "private": false,
   "files": [
     "dist/",
