@@ -82,7 +82,7 @@ export class SsdWebserviceProvider {
       throw new Error(`No element with 'fews:id=${objectId}] present`);
     }
     actionRequest.objectId = objectId;
-    const promise = this.getAction(actionRequest as ActionRequest);
+    const promise = this.getAction(actionRequest);
     return promise.then((action) => {
       return { id: objectId, action: action };
     });
