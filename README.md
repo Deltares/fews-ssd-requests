@@ -23,6 +23,12 @@ Run commands with (e.g. build)
 npm run build:packages
 ```
 
+Create a new release
+
+```
+npm version x.y.z --workspaces --include-workspace-root=false
+```
+
 Publish all workspace packages with
 
 ```
