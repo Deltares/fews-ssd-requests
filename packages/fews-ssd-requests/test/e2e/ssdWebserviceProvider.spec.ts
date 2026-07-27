@@ -8,6 +8,7 @@ const exclude = {
     displayGroups: []
 };
 const baseUrl = import.meta.env.VITE_DOCKER_URL || "";
+const topologyNodeButtonId = import.meta.env.VITE_TOPOLOGY_NODE_BUTTON_ID || "ButtonToTopologyNode";
 
 const displayName1 = "SSD_CoastalFlooding1";
 const displayName2 = "SSD_CoastalFlooding2";
@@ -170,6 +171,23 @@ describe("ssd", function () {
                 expect(action).toMatchObject(actionFormat);
             }
         }
+    });
+
+    it("retrieves topology-node click action from object id", async function () {
+        const provider = new SsdWebserviceProvider(baseUrl);
+        const actionRequest: ActionRequest = {
+            panelId: "coastal_flooding1",
+            objectId: topologyNodeButtonId,
+            clickType: ClickType.LEFTSINGLECLICK,
+        };
+
+        const elementAction = await provider.getAction(actionRequest);
+        const topologyAction = elementAction.results.find(
+            (result) => result.type === "SELECT_TOPOLOGY_NODE_BY_ID"
+        );
+
+        expect(topologyAction).toBeDefined();
+        expect(topologyAction?.requests?.[0]?.request).toEqual(expect.any(String));
     });
 
     it("retrieves timeseries", async function () {

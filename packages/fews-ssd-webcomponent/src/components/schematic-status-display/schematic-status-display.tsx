@@ -80,6 +80,20 @@ export class SchematicStatusDisplay {
       results: action.results
     };
     this.el.dispatchEvent(new CustomEvent('action', { detail }));
+
+    // Web OC specific event for topology navigation by node id.
+    for (const result of action.results) {
+      if (result.type !== 'SELECT_TOPOLOGY_NODE_BY_ID') continue;
+      const nodeId = result.requests?.[0]?.request;
+      if (!nodeId) continue;
+      this.el.dispatchEvent(new CustomEvent('selectTopologyNode', {
+        detail: {
+          panelId: this.panelId,
+          objectId: request.objectId,
+          nodeId,
+        }
+      }));
+    }
   }
 
   async dispatch(event: PointerEvent) {
