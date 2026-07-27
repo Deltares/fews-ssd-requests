@@ -25,7 +25,7 @@ export class SchematicStatusDisplay {
    */
   @Prop() transformRequestFn?: (request: Request) => Promise<Request>
 
-  latestRequestReceived: number = new Date().getTime()
+  latestRequestReceived: number = Date.now()
 
   panelId = ''
   ssdProvider!: SsdWebserviceProvider
