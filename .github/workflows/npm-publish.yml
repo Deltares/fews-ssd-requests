@@ -4,7 +4,6 @@
 name: Node.js Package
 
 permissions:
-  id-token: write  # Required for OIDC
   contents: read
 
 on:
@@ -26,6 +25,8 @@ jobs:
   publish-npm:
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write  # Required for OIDC
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v6
