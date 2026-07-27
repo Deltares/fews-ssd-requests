@@ -125,13 +125,13 @@ export class SsdWebserviceProvider {
    * Retrieve the SSD capabilities
    */
   public async getCapabilities(
-    excludeGroups: ExcludeGroups = { displayGroups: [] }
+    excludeGroups?: ExcludeGroups
   ): Promise<SsdGetCapabilitiesResponse> {
-    const excludedGroupsNames: string[] = excludeGroups.displayGroups.map(
+    const excludedGroupsNames: string[] = excludeGroups?.displayGroups.map(
       (group: ExcludeGroupsDisplayName) => {
         return group.name;
       }
-    );
+    ) || [];
     const parser = new CapabilitiesParsers(excludedGroupsNames);
     const result =
       await this.ssdWebservice.getDataWithParser<SsdGetCapabilitiesResponse>(
