@@ -70,7 +70,7 @@ describe("ssd", function () {
         let panelDate: string = (new Date()).toISOString();
         if (panel.dimension) {
             const panelPeriod = panel.dimension.period;
-            if (panelPeriod === undefined) throw Error("invalid period")
+            if (panelPeriod === undefined) throw new Error("invalid period")
             panelDate = panelPeriod.split("/")[0];
         }
         const url = provider.urlForPanel(panelName, new Date(panelDate));
@@ -131,7 +131,7 @@ describe("ssd", function () {
         let panelDate: string = (new Date()).toISOString();
         if (panel.dimension) {
             const panelPeriod = panel.dimension.period;
-            if (panelPeriod === undefined) throw Error("invalid period")
+            if (panelPeriod === undefined) throw new Error("invalid period")
             panelDate = panelPeriod?.split("/")[0];
         }
         const url = provider.urlForPanel(panelName, new Date(panelDate));
@@ -186,7 +186,7 @@ describe("ssd", function () {
         let panelDate: string = (new Date()).toISOString();
         if (panel.dimension) {
             const panelPeriod = panel.dimension.period;
-            if (panelPeriod === undefined) throw Error("invalid period")
+            if (panelPeriod === undefined) throw new Error("invalid period")
             panelDate = panelPeriod?.split("/")[0];
         }
         // get the panel SVG
@@ -199,7 +199,7 @@ describe("ssd", function () {
         };
         const elementAction = await provider.getAction(actionRequest);
         const request2 = elementAction.results[0].requests?.[0].request;
-        if (request2 === undefined) throw Error("no request found")
+        if (request2 === undefined) throw new Error("no request found")
         const timeSeries = await provider.fetchPiRequest(request2);
         expect(timeSeries).toMatchObject(timeseriesFormat);
     });
