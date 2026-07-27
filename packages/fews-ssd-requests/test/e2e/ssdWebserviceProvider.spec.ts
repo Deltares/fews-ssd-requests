@@ -149,11 +149,9 @@ describe("ssd", function () {
     })
 
     it("retrieves actions from svg element", async function () {
-        // first get a fresh SVG for midnight yesterday
         const ssdName = "coastal_flooding1";
         const date = new Date();
         date.setDate(date.getDate() - 1);
-        const yesterday = date.toISOString().split("T")[0];
         const provider = new SsdWebserviceProvider(baseUrl);
         const requestUrl = baseUrl + apiEndpoint + "?request=GetDisplay&ssd=" + ssdName + "&time=2025-03-13T13:00:00Z";
         const svg = await provider.getSvg(requestUrl);
