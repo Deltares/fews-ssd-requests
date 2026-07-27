@@ -5,7 +5,7 @@ module.exports = {
         '^.+\\.ts?$': 'ts-jest',
         "^.+\\.svg$": "jest-transform-stub",
     },
-    testRegex: "\.spec\.(ts|tsx|js)$",
+    testRegex: ".spec.(ts|tsx|js)$",
     moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
     reporters: [ "default", "jest-junit" ],
     "testResultsProcessor": "jest-teamcity-reporter",
