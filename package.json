@@ -5,6 +5,10 @@
     "packages/fews-ssd-requests",
     "packages/fews-ssd-webcomponent"
   ],
+  "scripts": {
+    "build:packages": "lerna run build",
+    "publish:packages": "npx lerna publish from-package -y"
+  },
   "devDependencies": {
     "lerna": "^9.0.0"
   },
