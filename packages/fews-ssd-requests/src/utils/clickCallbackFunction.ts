@@ -1,3 +1,1 @@
-export interface ClickCallbackFunction {
-    (event: Event): void;
-}
+export type ClickCallbackFunction = (event: Event) => void;

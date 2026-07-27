@@ -25,7 +25,7 @@ export class SchematicStatusDisplay {
    */
   @Prop() transformRequestFn?: (request: Request) => Promise<Request>
 
-  latestRequestReceived: number = new Date().getTime()
+  latestRequestReceived: number = Date.now()
 
   panelId = ''
   ssdProvider!: SsdWebserviceProvider
@@ -124,7 +124,7 @@ export class SchematicStatusDisplay {
       svg.addEventListener('click', (event) => { if (event.currentTarget === event.target) event.stopPropagation() })
       addLeftClickAction(svg, this.dispatch.bind(this))
       addKeyDownListener(svg, ['Enter'], this.dispatch.bind(this))
-      if (target.children.length > 1) target.removeChild(target.children[1])
+      if (target.children.length > 1) { target.children[1].remove() }
       this.el.dispatchEvent(new UIEvent('load'))
     }
   }
