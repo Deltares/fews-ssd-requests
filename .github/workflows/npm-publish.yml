@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 24
       - run: ls
-      - run: npm ci
+      - run: npm ci --ignore-scripts
       - run: npm run build:packages
 
   publish-npm:
@@ -32,7 +32,7 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
-      - run: npm ci
+      - run: npm ci --ignore-scripts
       - run: npm run build:packages
       - run: git reset --hard
       - run: npm run publish:packages
