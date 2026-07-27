@@ -23,12 +23,12 @@ import {
 } from "./response/index.js";
 
 export class SsdWebserviceProvider {
-  private _ssdUrl: string;
-  private _piUrl: string;
+  private readonly _ssdUrl: string;
+  private readonly _piUrl: string;
   private readonly SSD_ENDPOINT = "ssd";
   private readonly PI_ENDPOINT = "";
-  private piWebservice: PiRestService;
-  private ssdWebservice: PiRestService;
+  private readonly piWebservice: PiRestService;
+  private readonly ssdWebservice: PiRestService;
 
   /**
    * Constructor for SsdWebserviceProvider
@@ -125,13 +125,13 @@ export class SsdWebserviceProvider {
    * Retrieve the SSD capabilities
    */
   public async getCapabilities(
-    excludeGroups: ExcludeGroups = { displayGroups: [] }
+    excludeGroups?: ExcludeGroups
   ): Promise<SsdGetCapabilitiesResponse> {
-    const excludedGroupsNames: string[] = excludeGroups.displayGroups.map(
+    const excludedGroupsNames: string[] = excludeGroups?.displayGroups.map(
       (group: ExcludeGroupsDisplayName) => {
         return group.name;
       }
-    );
+    ) || [];
     const parser = new CapabilitiesParsers(excludedGroupsNames);
     const result =
       await this.ssdWebservice.getDataWithParser<SsdGetCapabilitiesResponse>(
