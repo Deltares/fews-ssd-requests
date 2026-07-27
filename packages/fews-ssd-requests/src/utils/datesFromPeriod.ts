@@ -34,7 +34,7 @@ function parseIso8601Duration(iso8601Duration: string): Duration | undefined {
  * NOTE: the returned value ignores the years & months in the duration object
  */
 function durationToMillis(duration: Duration | undefined): number {
-    if (!duration) return NaN
+    if (!duration) return Number.NaN
     const days = duration.weeks * 7 + duration.days;
     const hours = days * 24 + duration.hours;
     const minutes = hours * 60 + duration.minutes;
