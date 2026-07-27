@@ -45,7 +45,7 @@
     "generate": "stencil generate"
   },
   "dependencies": {
-    "@deltares/fews-pi-requests": "^2.0.0-beta.1",
+    "@deltares/fews-pi-requests": "^3.0.1",
     "@deltares/fews-ssd-requests": "^2.0.0-rc.3",
     "@stencil/core": "^4.43.5"
   },
