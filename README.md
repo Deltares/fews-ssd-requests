@@ -9,7 +9,7 @@ This repository contains the code for the packages:
 1. [fews-ssd-requests](packages/fews-ssd-requests)
 2. [fews-ssd-webcomponent](packages/fews-ssd-webcomponent)
 
-The packages are managed using [lerna](https://lerna.js.org/). Dependencies are managed using npm workspaces
+The packages are managed using native npm workspaces.
 
 Install all packages, installing all their dependencies and linking any cross-dependencies
 
@@ -20,14 +20,11 @@ npm install
 Run commands with (e.g. build)
 
 ```
-npx lenra run build
+npm run build:packages
 ```
 
-After merging some commits to main you can create a new release with
+Publish all workspace packages with
 
 ```
-npx lerna version (major|minor|patch)
+npm run publish:packages
 ```
-
-> [!warning]
-> Immediately pushes the created commit and tag
