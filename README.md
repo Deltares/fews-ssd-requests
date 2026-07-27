@@ -8,7 +8,6 @@ This repository contains the code for the packages:
 
 1. [fews-ssd-requests](packages/fews-ssd-requests)
 2. [fews-ssd-webcomponent](packages/fews-ssd-webcomponent)
-3. [angular-example](packages/angular-example)
 
 The packages are managed using [lerna](https://lerna.js.org/). Dependencies are managed using npm workspaces
 
