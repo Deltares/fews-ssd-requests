@@ -3,7 +3,7 @@ import {SsdGetCapabilitiesResponse} from "../response/index.js";
 
 
 export class CapabilitiesParsers implements ResponseParser<SsdGetCapabilitiesResponse> {
-    private excludedGroups: string[];
+    private readonly excludedGroups: string[];
 
     constructor(excludedGroups: string[]) {
         this.excludedGroups = excludedGroups;

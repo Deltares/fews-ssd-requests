@@ -23,12 +23,12 @@ import {
 } from "./response/index.js";
 
 export class SsdWebserviceProvider {
-  private _ssdUrl: string;
-  private _piUrl: string;
+  private readonly _ssdUrl: string;
+  private readonly _piUrl: string;
   private readonly SSD_ENDPOINT = "ssd";
   private readonly PI_ENDPOINT = "";
-  private piWebservice: PiRestService;
-  private ssdWebservice: PiRestService;
+  private readonly piWebservice: PiRestService;
+  private readonly ssdWebservice: PiRestService;
 
   /**
    * Constructor for SsdWebserviceProvider
