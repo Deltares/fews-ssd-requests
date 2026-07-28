@@ -23,14 +23,22 @@ Run commands with (e.g. build)
 npm run build:packages
 ```
 
-Create a new release
+## Create a new Release
+
+Create a new version X.Y.Z for all workspaces:
 
 ```
-npm version x.y.z --workspaces --include-workspace-root=false
+npm version X.Y.Z --workspaces --include-workspace-root=false
 ```
 
-Publish all workspace packages with
+This does not commit the changes to Git, you have to do add and commit them manually.
+ 
+Then push the changes and tags to the remote:
 
 ```
-npm run publish:packages
+git push
+git push origin vX.Y.Z
 ```
+ 
+On GitHub, draft a new release at [Releases · Deltares/fews-ssd-requests](https://github.com). 
+Check that the GitHub Action successfully builds the release and publishes it to npmjs.org.
