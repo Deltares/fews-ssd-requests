@@ -1,3 +1,4 @@
 export function isBelowVersion(minVersion: string): boolean {
-    return (process.env.FEWS_VERSION ?? "") < minVersion;
+    const fewsVersion = import.meta.env.VITE_FEWS_VERSION ?? globalThis.process?.env?.FEWS_VERSION ?? "";
+    return fewsVersion < minVersion;
 }
