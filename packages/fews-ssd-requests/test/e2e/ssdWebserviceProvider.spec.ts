@@ -8,7 +8,6 @@ const exclude = {
     displayGroups: []
 };
 const baseUrl = import.meta.env.VITE_DOCKER_URL || "";
-const topologyNodeButtonId = import.meta.env.VITE_TOPOLOGY_NODE_BUTTON_ID || "ButtonToTopologyNode";
 
 const displayName1 = "SSD_CoastalFlooding1";
 const displayName2 = "SSD_CoastalFlooding2";
@@ -174,13 +173,14 @@ describe("ssd", function () {
     });
 
     it("retrieves topology-node click action from object id", async function () {
+        const ssdName = "coastal_flooding1";
+        const topologyNodeButtonId = "ButtonToTopologyNodeId";
         const provider = new SsdWebserviceProvider(baseUrl);
         const actionRequest: ActionRequest = {
-            panelId: "coastal_flooding1",
+            panelId: ssdName,
             objectId: topologyNodeButtonId,
             clickType: ClickType.LEFTSINGLECLICK,
         };
-
         const elementAction = await provider.getAction(actionRequest);
         const topologyAction = elementAction.results.find(
             (result) => result.type === "SELECT_TOPOLOGY_NODE_BY_ID"
