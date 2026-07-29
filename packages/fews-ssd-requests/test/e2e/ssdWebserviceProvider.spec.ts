@@ -176,21 +176,18 @@ describe("ssd", function () {
         const ssdName = "coastal_flooding1";
         const topologyNodeButtonId = "ButtonToTopologyNodeId";
         const provider = new SsdWebserviceProvider(baseUrl);
-        // expect(svg).toBeDefined();
-        // if (svg !== undefined) {
-            const actionRequest: ActionRequest = {
-                panelId: ssdName,
-                objectId: topologyNodeButtonId,
-                clickType: ClickType.LEFTSINGLECLICK,
-            };
-            const elementAction = await provider.getAction(actionRequest);
-            const topologyAction = elementAction.results.find(
-                (result) => result.type === "SELECT_TOPOLOGY_NODE_BY_ID"
-            );
+        const actionRequest: ActionRequest = {
+            panelId: ssdName,
+            objectId: topologyNodeButtonId,
+            clickType: ClickType.LEFTSINGLECLICK,
+        };
+        const elementAction = await provider.getAction(actionRequest);
+        const topologyAction = elementAction.results.find(
+            (result) => result.type === "SELECT_TOPOLOGY_NODE_BY_ID"
+        );
 
-            expect(topologyAction).toBeDefined();
-            expect(topologyAction?.requests?.[0]?.request).toEqual(expect.any(String));
-        // }
+        expect(topologyAction).toBeDefined();
+        expect(topologyAction?.requests?.[0]?.request).toEqual(expect.any(String));
     });
 
     it("retrieves timeseries", async function () {
