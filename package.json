@@ -7,7 +7,9 @@
   ],
   "scripts": {
     "build:packages": "npm run build --workspaces --if-present",
-    "publish:packages": "npm publish --workspaces"
+    "publish:packages": "npm publish --workspaces",
+    "test:unit": "npm run test:unit --workspaces --if-present",
+    "test:e2e": "npm run test:e2e --workspaces --if-present"
   },
   "volta": {
     "node": "22.21.1"
