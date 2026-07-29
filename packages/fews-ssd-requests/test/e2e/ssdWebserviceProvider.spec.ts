@@ -2,6 +2,7 @@ import { SsdWebserviceProvider } from "../../src/ssdWebserviceProvider";
 import {ActionRequest} from "../../src/response/requests/actionRequest";
 import { ClickType } from "../../src/response/clickType";
 import { describe, expect, it } from 'vitest';
+import { isBelowVersion } from './utils/versionUtils';
 
 const apiEndpoint = "ssd";
 const exclude = {
@@ -172,7 +173,7 @@ describe("ssd", function () {
         }
     });
 
-    it("retrieves topology-node click action from object id", async function () {
+    it.skipIf(isBelowVersion("202502"))("retrieves topology-node click action from object id", async function () {
         const ssdName = "coastal_flooding1";
         const topologyNodeButtonId = "ButtonToTopologyNodeId";
         const provider = new SsdWebserviceProvider(baseUrl);
