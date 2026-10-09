@@ -45,19 +45,19 @@
     "generate": "stencil generate"
   },
   "dependencies": {
-    "@deltares/fews-pi-requests": "^3.0.1",
+    "@deltares/fews-pi-requests": "^3.4.0",
     "@deltares/fews-ssd-requests": "^2.0.0-rc.3",
-    "@stencil/core": "^4.43.5"
+    "@stencil/core": "^4.45.0"
   },
   "devDependencies": {
     "@types/jest": "^30.0.0",
-    "jest": "^30.4.2",
-    "jest-cli": "^30.4.2",
-    "jest-environment-jsdom": "^30.4.1",
+    "jest": "^30.5.1",
+    "jest-cli": "^30.5.1",
+    "jest-environment-jsdom": "^30.5.1",
     "jest-junit": "^17.0.0",
     "jest-teamcity-reporter": "^0.9.0",
-    "puppeteer": "^25.4.0",
-    "typescript": "^5.9.3"
+    "puppeteer": "^25.11.0",
+    "typescript": "^6.0.3"
   },
   "repository": {
     "type": "git",
