@@ -22,18 +22,20 @@ const ssdSchemas = [
 ]
 
 const generateTypes = async (schemas) => {
-  for (const schema of schemas) {
-    try {
-      const response = await fetch(schema.url)
-      const data = await response.json()
-      const ts = await compile(data, schema.output, {
-        bannerComment: config.message,
-      })
-      fs.writeFileSync(schema.output, ts)
-    } catch (error) {
-      console.error(`Error processing file ${schema.url}: ${error}`)
-    }
-  }
+  await Promise.all(
+    schemas.map(async (schema) => {
+      try {
+        const response = await fetch(schema.url)
+        const data = await response.json()
+        const ts = await compile(data, schema.output, {
+          bannerComment: config.message,
+        })
+        fs.writeFileSync(schema.output, ts)
+      } catch (error) {
+        console.error(`Error processing file ${schema.url}: ${error}`)
+      }
+    }),
+  )
 }
 
 const type = process.argv[2]
