@@ -40,7 +40,7 @@ export class SchematicStatusDisplay {
     const endPoint = newValue.split('ssd')[0]
     this.ssdProvider = new SsdWebserviceProvider(endPoint, {transformRequestFn: this.transformRequestFn})
     // Reload SVG when src changes
-    this.loadSvg()
+    void this.loadSvg()
   }
 
   connectedCallback() {
@@ -56,7 +56,7 @@ export class SchematicStatusDisplay {
   componentDidRender() {
     if (!this.hasLoaded && this.ssdProvider) {
       this.hasLoaded = true;
-      this.loadSvg();
+      void this.loadSvg();
     }
   }
 
