@@ -26,4 +26,5 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npm run build:packages
       - run: npm run test:unit
-
+      - run: npx playwright install --with-deps chromium
+      - run: npm run test:e2e --workspace @deltares/fews-ssd-webcomponent
