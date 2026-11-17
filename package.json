@@ -22,7 +22,11 @@
     "vite": "npm:@voidzero-dev/vite-plus-core@8.3.8000",
     "vitest": "5.1.0"
   },
-  "volta": {
-    "node": "22.21.1"
+  "devEngines": {
+    "packageManager": {
+      "name": "npm",
+      "version": "11.19.1",
+      "onFail": "download"
+    }
   }
 }
