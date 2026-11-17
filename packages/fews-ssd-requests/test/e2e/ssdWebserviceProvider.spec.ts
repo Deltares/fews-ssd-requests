@@ -12,6 +12,19 @@ const baseUrl = import.meta.env.VITE_DOCKER_URL || "";
 
 const displayName1 = "SSD_CoastalFlooding1";
 const displayName2 = "SSD_CoastalFlooding2";
+
+async function getFirstPanelUrl(provider: SsdWebserviceProvider): Promise<string> {
+  const capabilities = await provider.getCapabilities();
+  const panel = capabilities.displayGroups[0].displayPanels[0];
+  let panelDate = new Date().toISOString();
+  if (panel.dimension) {
+    const panelPeriod = panel.dimension.period;
+    if (panelPeriod === undefined) throw new Error("invalid period");
+    panelDate = panelPeriod.split("/")[0];
+  }
+  return provider.urlForPanel(panel.name, new Date(panelDate));
+}
+
 const dimensionFormat = {
   name: expect.any(String),
   units: expect.any(String),
@@ -63,18 +76,7 @@ describe("ssd", function () {
   it("gives the correct url to a panel, with download check", async function () {
     // download a real panel that exists in the capabilities
     const provider = new SsdWebserviceProvider(baseUrl);
-    const promise = provider.getCapabilities();
-    const capabilities = await promise;
-    const group = capabilities.displayGroups[0];
-    const panel = group.displayPanels[0];
-    const panelName = panel.name;
-    let panelDate: string = new Date().toISOString();
-    if (panel.dimension) {
-      const panelPeriod = panel.dimension.period;
-      if (panelPeriod === undefined) throw new Error("invalid period");
-      panelDate = panelPeriod.split("/")[0];
-    }
-    const url = provider.urlForPanel(panelName, new Date(panelDate));
+    const url = await getFirstPanelUrl(provider);
     const svg = provider.getSvg(url);
     expect(svg).toBeDefined();
   });
@@ -119,19 +121,8 @@ describe("ssd", function () {
     // download a real action that exists in the capabilities
     // first get the capabilities
     const provider = new SsdWebserviceProvider(baseUrl);
-    const promise = provider.getCapabilities();
-    const capabilities = await promise;
     // from the capabilities get info for a panel
-    const group = capabilities.displayGroups[0];
-    const panel = group.displayPanels[0];
-    const panelName = panel.name;
-    let panelDate: string = new Date().toISOString();
-    if (panel.dimension) {
-      const panelPeriod = panel.dimension.period;
-      if (panelPeriod === undefined) throw new Error("invalid period");
-      panelDate = panelPeriod?.split("/")[0];
-    }
-    const url = provider.urlForPanel(panelName, new Date(panelDate));
+    const url = await getFirstPanelUrl(provider);
     expect(url).toContain(
       "/FewsWebServices/ssd?request=GetDisplay&ssd=coastal_flooding1&time=2025-03-13T12:00:00Z",
     );
