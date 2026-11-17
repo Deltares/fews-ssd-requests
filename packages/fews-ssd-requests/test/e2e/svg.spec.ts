@@ -2,12 +2,11 @@ import { ClickCallbackFunction } from "../../src/utils/clickCallbackFunction";
 import { SsdWebserviceProvider } from "../../src/ssdWebserviceProvider";
 import { FEWS_NAMESPACE } from "../../src/response/FEWS_NAME_SPACE";
 import { addLeftClickAction } from "../../src/utils/addLeftClickAction";
-import { describe, expect, it } from 'vitest';
+import { describe, expect, it } from "vite-plus/test";
 
 const baseUrl = import.meta.env.VITE_DOCKER_URL || "";
 
 describe("datesFromPeriod", function () {
-
   it("works", async function () {
     const ssdName = "coastal_flooding1";
     const apiEndpoint = "ssd";

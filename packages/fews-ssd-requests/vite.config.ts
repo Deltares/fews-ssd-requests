@@ -1,18 +1,18 @@
-import { resolve } from 'node:path'
+import { resolve } from "node:path";
 
-import { defineConfig } from 'vite'
+import { defineConfig } from "vite-plus";
 
 function resolveRelativePath(relative: string): string {
-  return resolve(__dirname, relative)
+  return resolve(__dirname, relative);
 }
 
 export default defineConfig({
   build: {
     lib: {
-      entry: resolveRelativePath('src/index.ts'),
-      formats: ['es'],
-      name: 'fews-ssd-requests',
-      fileName: 'fews-ssd-requests'
+      entry: resolveRelativePath("src/index.ts"),
+      formats: ["es"],
+      name: "fews-ssd-requests",
+      fileName: "fews-ssd-requests",
     },
-  }
-})
+  },
+});

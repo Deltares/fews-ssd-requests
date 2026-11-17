@@ -1,4 +1,4 @@
-import { describe, expect, it } from "vitest";
+import { describe, expect, it } from "vite-plus/test";
 import { parseSsdActionResult } from "../../../../src/response/action/parsedSsdAction";
 import type { SsdActionResult } from "../../../../src/response/action/ssdActionResponse";
 
