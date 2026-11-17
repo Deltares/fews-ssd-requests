@@ -18,6 +18,13 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
+          # Auto-caching runs `npm config get cache` in the repo, which fails npm's devEngines
+          # check before the pinned npm version is installed.
+          package-manager-cache: false
+      - name: Install npm version pinned in package.json#devEngines
+        run: |
+          NPM_VERSION=$(node -p "require('./package.json').devEngines.packageManager.version")
+          cd "$RUNNER_TEMP" && npm install -g "npm@$NPM_VERSION"
       - run: ls
       - run: npm ci --ignore-scripts
       - run: npm run build:packages
@@ -32,6 +39,13 @@ jobs:
       - uses: actions/setup-node@v6
         with:
           node-version: 24
+          # Auto-caching runs `npm config get cache` in the repo, which fails npm's devEngines
+          # check before the pinned npm version is installed.
+          package-manager-cache: false
+      - name: Install npm version pinned in package.json#devEngines
+        run: |
+          NPM_VERSION=$(node -p "require('./package.json').devEngines.packageManager.version")
+          cd "$RUNNER_TEMP" && npm install -g "npm@$NPM_VERSION"
       - run: npm ci --ignore-scripts
       - run: npm run build:packages
       - run: git reset --hard

@@ -1,6 +1,6 @@
 {
   "name": "@deltares/fews-ssd-webcomponent",
-  "version": "2.0.0",
+  "version": "3.0.0-rc.0",
   "private": false,
   "description": "Web component for FEWS Schematic Status Display",
   "keywords": [
@@ -59,7 +59,7 @@
   },
   "dependencies": {
     "@deltares/fews-pi-requests": "^4.0.0-rc.0",
-    "@deltares/fews-ssd-requests": "^2.0.0-rc.3",
+    "@deltares/fews-ssd-requests": "^3.0.0-rc.0",
     "@stencil/core": "^4.45.4"
   },
   "devDependencies": {
