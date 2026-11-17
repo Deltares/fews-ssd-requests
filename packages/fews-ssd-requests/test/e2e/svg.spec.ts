@@ -27,7 +27,6 @@ describe("datesFromPeriod", function () {
 
     let callbackCounter = 0;
     let callback: ClickCallbackFunction;
-    // eslint-disable-next-line prefer-const
     callback = function (event: Event) {
       callbackCounter += 1;
       expect(event.target).toBeDefined();

@@ -39,8 +39,10 @@
   "scripts": {
     "build": "vp build && tsc -p tsconfig.build.json",
     "doc": "typedoc --out doc src",
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
+    "lint": "vp lint",
+    "lint:fix": "vp lint --fix",
+    "format": "vp fmt",
+    "format:check": "vp fmt --check",
     "test:unit": "vp test run test/unit",
     "test:e2e": "vp test run test/e2e --config vitest.config.e2e.ts",
     "test": "npm run test:unit && npm run test:e2e",
@@ -54,12 +56,10 @@
   "devDependencies": {
     "@types/node": "^24.12.2",
     "@vitest/browser-playwright": "5.1.0",
-    "eslint": "^10.10.0",
     "json-schema-to-typescript": "^16.0.0",
     "playwright": "*",
     "typedoc": "^0.28.20",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.70.0",
     "vite": "npm:@voidzero-dev/vite-plus-core@8.3.8000",
     "vite-plus": "1.7.0",
     "vitest": "5.1.0"

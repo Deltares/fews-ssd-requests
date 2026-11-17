@@ -6,6 +6,10 @@
     "packages/fews-ssd-webcomponent"
   ],
   "scripts": {
+    "lint": "vp lint packages/fews-ssd-requests",
+    "lint:fix": "vp lint packages/fews-ssd-requests --fix",
+    "format": "vp fmt",
+    "format:check": "vp fmt --check",
     "build:packages": "npm run build --workspaces --if-present",
     "publish:packages": "npm publish --workspaces",
     "test:unit": "npm run test:unit --workspaces --if-present",
