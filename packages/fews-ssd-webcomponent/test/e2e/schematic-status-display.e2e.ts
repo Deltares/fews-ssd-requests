@@ -1,11 +1,10 @@
-import { newE2EPage } from '@stencil/core/testing';
+import { render } from '@stencil/vitest'
+import { describe, expect, it } from 'vite-plus/test'
+import '../../src/components/schematic-status-display/schematic-status-display'
 
 describe('schematic-status-display', () => {
   it('renders', async () => {
-    const page = await newE2EPage();
-
-    await page.setContent('<schematic-status-display></schematic-status-display>');
-    const element = await page.find('schematic-status-display');
-    expect(element).toHaveClass('hydrated');
-  });
-});
+    const { root } = await render('<schematic-status-display></schematic-status-display>')
+    expect(root).toHaveClass('hydrated')
+  })
+})

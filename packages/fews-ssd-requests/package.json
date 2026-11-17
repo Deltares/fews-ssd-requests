@@ -57,7 +57,7 @@
     "@types/node": "^24.12.2",
     "@vitest/browser-playwright": "5.1.0",
     "json-schema-to-typescript": "^16.0.0",
-    "playwright": "*",
+    "playwright": "1.63.0",
     "typedoc": "^0.28.20",
     "typescript": "^6.0.3",
     "vite": "npm:@voidzero-dev/vite-plus-core@8.3.8000",

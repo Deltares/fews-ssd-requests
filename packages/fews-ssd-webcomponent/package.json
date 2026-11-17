@@ -40,8 +40,10 @@
   "scripts": {
     "build": "stencil build --docs",
     "start": "stencil build --dev --watch --serve",
-    "test": "stencil test --spec --e2e",
-    "test.watch": "stencil test --spec --e2e --watchAll",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test:unit": "vp test run --config vitest.config.mts --project unit",
+    "test:e2e": "vp test run --config vitest.config.mts --project browser",
+    "test.watch": "vp test watch --config vitest.config.mts --project unit",
     "generate": "stencil generate"
   },
   "dependencies": {
@@ -50,13 +52,7 @@
     "@stencil/core": "^4.45.0"
   },
   "devDependencies": {
-    "@types/jest": "^30.0.0",
-    "jest": "^30.5.1",
-    "jest-cli": "^30.5.1",
-    "jest-environment-jsdom": "^30.5.1",
-    "jest-junit": "^17.0.0",
-    "jest-teamcity-reporter": "^0.9.0",
-    "puppeteer": "^25.11.0",
+    "@stencil/vitest": "^1.16.2",
     "typescript": "^6.0.3"
   },
   "repository": {
