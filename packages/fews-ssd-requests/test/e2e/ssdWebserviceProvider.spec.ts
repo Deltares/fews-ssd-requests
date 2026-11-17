@@ -1,224 +1,222 @@
 import { SsdWebserviceProvider } from "../../src/ssdWebserviceProvider";
-import {ActionRequest} from "../../src/response/requests/actionRequest";
+import { ActionRequest } from "../../src/response/requests/actionRequest";
 import { ClickType } from "../../src/response/clickType";
-import { describe, expect, it } from 'vitest';
-import { isBelowVersion } from './utils/versionUtils';
+import { describe, expect, it } from "vite-plus/test";
+import { isBelowVersion } from "./utils/versionUtils";
 
 const apiEndpoint = "ssd";
 const exclude = {
-    displayGroups: []
+  displayGroups: [],
 };
 const baseUrl = import.meta.env.VITE_DOCKER_URL || "";
 
 const displayName1 = "SSD_CoastalFlooding1";
 const displayName2 = "SSD_CoastalFlooding2";
+
+async function getFirstPanelUrl(provider: SsdWebserviceProvider): Promise<string> {
+  const capabilities = await provider.getCapabilities();
+  const panel = capabilities.displayGroups[0].displayPanels[0];
+  let panelDate = new Date().toISOString();
+  if (panel.dimension) {
+    const panelPeriod = panel.dimension.period;
+    if (panelPeriod === undefined) throw new Error("invalid period");
+    panelDate = panelPeriod.split("/")[0];
+  }
+  return provider.urlForPanel(panel.name, new Date(panelDate));
+}
+
 const dimensionFormat = {
-    name: expect.any(String),
-    units: expect.any(String),
-    default: expect.any(String),
-    period: expect.any(String)
+  name: expect.any(String),
+  units: expect.any(String),
+  default: expect.any(String),
+  period: expect.any(String),
 };
 const displayPanelFormat = {
-    name: expect.any(String),
-    title: expect.any(String),
-    dimension: expect.objectContaining(dimensionFormat)
+  name: expect.any(String),
+  title: expect.any(String),
+  dimension: expect.objectContaining(dimensionFormat),
 };
 const displayGroupFormat = {
-    name: expect.any(String),
-    title: expect.any(String),
-    displayPanels: expect.arrayContaining([expect.objectContaining(displayPanelFormat)])
+  name: expect.any(String),
+  title: expect.any(String),
+  displayPanels: expect.arrayContaining([expect.objectContaining(displayPanelFormat)]),
 };
 const capabilitiesFormat = {
-    title: expect.any(String),
-    displayGroups: expect.arrayContaining([expect.objectContaining(displayGroupFormat)])
+  title: expect.any(String),
+  displayGroups: expect.arrayContaining([expect.objectContaining(displayGroupFormat)]),
 };
 
 const actionResultRequestFormat = {
-    request: expect.any(String)
+  request: expect.any(String),
 };
 const actionResultFormat = {
-    type: expect.any(String),
-    requests: expect.arrayContaining([expect.objectContaining(actionResultRequestFormat)])
+  type: expect.any(String),
+  requests: expect.arrayContaining([expect.objectContaining(actionResultRequestFormat)]),
 };
 const actionFormat = {
-    results: expect.arrayContaining([expect.objectContaining(actionResultFormat)])
+  results: expect.arrayContaining([expect.objectContaining(actionResultFormat)]),
 };
 
 const timeseriesFormat = {
-    version: expect.any(String),
-    timeZone: expect.any(String),
-    timeSeries: expect.any(Object)
+  version: expect.any(String),
+  timeZone: expect.any(String),
+  timeSeries: expect.any(Object),
 };
 
 describe("ssd", function () {
-    it("gives the correct url to a panel", function () {
-        const provider = new SsdWebserviceProvider(baseUrl);
-        const panel = "SomePanelName";
-        const today = "2021-01-01T12:34:56Z";
-        const url = provider.urlForPanel(panel, new Date(today));
-        const expected = baseUrl + apiEndpoint + "?request=GetDisplay&ssd=" + panel + "&time=" + today;
-        expect(url).toEqual(expected);
-    });
+  it("gives the correct url to a panel", function () {
+    const provider = new SsdWebserviceProvider(baseUrl);
+    const panel = "SomePanelName";
+    const today = "2021-01-01T12:34:56Z";
+    const url = provider.urlForPanel(panel, new Date(today));
+    const expected = baseUrl + apiEndpoint + "?request=GetDisplay&ssd=" + panel + "&time=" + today;
+    expect(url).toEqual(expected);
+  });
 
-    it("gives the correct url to a panel, with download check", async function () {
-        // download a real panel that exists in the capabilities
-        const provider = new SsdWebserviceProvider(baseUrl);
-        const promise = provider.getCapabilities();
-        const capabilities = await promise;
-        const group = capabilities.displayGroups[0];
-        const panel = group.displayPanels[0];
-        const panelName = panel.name;
-        let panelDate: string = (new Date()).toISOString();
-        if (panel.dimension) {
-            const panelPeriod = panel.dimension.period;
-            if (panelPeriod === undefined) throw new Error("invalid period")
-            panelDate = panelPeriod.split("/")[0];
-        }
-        const url = provider.urlForPanel(panelName, new Date(panelDate));
-        const svg = provider.getSvg(url);
-        expect(svg).toBeDefined();
-    });
+  it("gives the correct url to a panel, with download check", async function () {
+    // download a real panel that exists in the capabilities
+    const provider = new SsdWebserviceProvider(baseUrl);
+    const url = await getFirstPanelUrl(provider);
+    const svg = provider.getSvg(url);
+    expect(svg).toBeDefined();
+  });
 
+  it("retrieves capabilities with default excludeGroups argument", async function () {
+    const provider = new SsdWebserviceProvider(baseUrl);
+    const promise = provider.getCapabilities();
+    const capabilities = await promise;
+    expect(capabilities).toMatchObject(capabilitiesFormat);
 
-    it("retrieves capabilities with default excludeGroups argument", async function () {
-        const provider = new SsdWebserviceProvider(baseUrl);
-        const promise = provider.getCapabilities();
-        const capabilities = await promise;
-        expect(capabilities).toMatchObject(capabilitiesFormat);
+    // check that 'displayName1' is in the results
+    const names = capabilities.displayGroups.map((x) => x.name);
+    expect(names).toContain(displayName1);
+  });
 
-        // check that 'displayName1' is in the results
-        const names = capabilities.displayGroups.map(x => x.name);
-        expect(names).toContain(displayName1);
+  it("retrieves capabilities with empty excludeGroups argument", async function () {
+    const provider = new SsdWebserviceProvider(baseUrl);
+    const promise = provider.getCapabilities(exclude);
+    const capabilities = await promise;
+    expect(capabilities).toMatchObject(capabilitiesFormat);
 
-    });
+    // check that 'displayName1' and 'displayName1' are in the results
+    const names = capabilities.displayGroups.map((x) => x.name);
+    expect(names).toContain(displayName1);
+  });
 
-    it("retrieves capabilities with empty excludeGroups argument", async function () {
-        const provider = new SsdWebserviceProvider(baseUrl);
-        const promise = provider.getCapabilities(exclude);
-        const capabilities = await promise;
-        expect(capabilities).toMatchObject(capabilitiesFormat);
+  it("retrieves capabilities with exclude groups", async function () {
+    const excludeGroup = {
+      displayGroups: [{ name: displayName1 }],
+    };
+    const provider = new SsdWebserviceProvider(baseUrl);
+    const promise = provider.getCapabilities(excludeGroup);
+    const capabilities = await promise;
+    expect(capabilities).toMatchObject(capabilitiesFormat);
 
-        // check that 'displayName1' and 'displayName1' are in the results
-        const names = capabilities.displayGroups.map(x => x.name);
-        expect(names).toContain(displayName1);
-    });
+    const names = capabilities.displayGroups.map((x) => x.name);
+    expect(names).not.toContain(displayName1);
+    expect(names).toContain(displayName2);
+  });
 
-    it("retrieves capabilities with exclude groups", async function () {
-        const excludeGroup = {
-            displayGroups: [
-                {name: displayName1}
-            ]
-        };
-        const provider = new SsdWebserviceProvider(baseUrl);
-        const promise = provider.getCapabilities(excludeGroup);
-        const capabilities = await promise;
-        expect(capabilities).toMatchObject(capabilitiesFormat);
+  it("retrieves actions from object id", async function () {
+    // download a real action that exists in the capabilities
+    // first get the capabilities
+    const provider = new SsdWebserviceProvider(baseUrl);
+    // from the capabilities get info for a panel
+    const url = await getFirstPanelUrl(provider);
+    expect(url).toContain(
+      "/FewsWebServices/ssd?request=GetDisplay&ssd=coastal_flooding1&time=2025-03-13T12:00:00Z",
+    );
+    const svg = await provider.getSvg(url);
+    expect(svg).toBeDefined();
+  });
 
-        const names = capabilities.displayGroups.map(x => x.name);
-        expect(names).not.toContain(displayName1);
-        expect(names).toContain(displayName2);
-    });
+  it("retrieve svg", async function () {
+    const provider = new SsdWebserviceProvider(baseUrl);
+    const ssdName = "coastal_flooding1";
+    const url =
+      baseUrl + apiEndpoint + "?request=GetDisplay&ssd=" + ssdName + "&time=2025-03-13T13:00:00Z";
+    const svg = await provider.getSvg(url);
+    expect(svg).toBeDefined();
+  });
 
-    it("retrieves actions from object id", async function () {
-        // download a real action that exists in the capabilities
-        // first get the capabilities
-        const provider = new SsdWebserviceProvider(baseUrl);
-        const promise = provider.getCapabilities();
-        const capabilities = await promise;
-        // from the capabilities get info for a panel
-        const group = capabilities.displayGroups[0];
-        const panel = group.displayPanels[0];
-        const panelName = panel.name;
-        let panelDate: string = (new Date()).toISOString();
-        if (panel.dimension) {
-            const panelPeriod = panel.dimension.period;
-            if (panelPeriod === undefined) throw new Error("invalid period")
-            panelDate = panelPeriod?.split("/")[0];
-        }
-        const url = provider.urlForPanel(panelName, new Date(panelDate));
-        expect(url).toContain("/FewsWebServices/ssd?request=GetDisplay&ssd=coastal_flooding1&time=2025-03-13T12:00:00Z");
-        const svg = await provider.getSvg(url);
-        expect(svg).toBeDefined();
-    });
-
-    it("retrieve svg", async function () {
-        const provider = new SsdWebserviceProvider(baseUrl);
-        const ssdName = "coastal_flooding1";
-        const url = baseUrl + apiEndpoint + "?request=GetDisplay&ssd=" + ssdName + "&time=2025-03-13T13:00:00Z";
-        const svg = await provider.getSvg(url);
-        expect(svg).toBeDefined();
-    })
-
-    it("retrieves actions from svg element", async function () {
-        const ssdName = "coastal_flooding1";
-        const date = new Date();
-        date.setDate(date.getDate() - 1);
-        const provider = new SsdWebserviceProvider(baseUrl);
-        const requestUrl = baseUrl + apiEndpoint + "?request=GetDisplay&ssd=" + ssdName + "&time=2025-03-13T13:00:00Z";
-        const svg = await provider.getSvg(requestUrl);
-        expect(svg).toBeDefined();
-        if (svg !== undefined) {
-            const provider = new SsdWebserviceProvider(baseUrl);
-            const request: ActionRequest = {
-                panelId: ssdName,
-                clickType: ClickType.LEFTSINGLECLICK
-            };
-            // ButtonToTSD, LinkToUrl, ButtonToDisplayGroup, ButtonToWindMap, ButtonToFloodWarning2
-            const elementWithAction = [...svg.querySelectorAll('*')].find(el => el.getAttribute('fews:id') === 'ButtonToTSD');
-            expect(elementWithAction).not.toBeUndefined();
-            if (elementWithAction !== undefined) {
-                const { id, action } = await provider.getActionFromElement(elementWithAction as SVGElement, request);
-                expect(action).toMatchObject(actionFormat);
-            }
-        }
-    });
-
-    it.skipIf(isBelowVersion("202502"))("retrieves topology-node click action from object id", async function () {
-        const ssdName = "coastal_flooding1";
-        const topologyNodeButtonId = "ButtonToTopologyNodeId";
-        const provider = new SsdWebserviceProvider(baseUrl);
-        const actionRequest: ActionRequest = {
-            panelId: ssdName,
-            objectId: topologyNodeButtonId,
-            clickType: ClickType.LEFTSINGLECLICK,
-        };
-        const elementAction = await provider.getAction(actionRequest);
-        const topologyAction = elementAction.results.find(
-            (result) => result.type === "SELECT_TOPOLOGY_NODE_BY_ID"
+  it("retrieves actions from svg element", async function () {
+    const ssdName = "coastal_flooding1";
+    const date = new Date();
+    date.setDate(date.getDate() - 1);
+    const provider = new SsdWebserviceProvider(baseUrl);
+    const requestUrl =
+      baseUrl + apiEndpoint + "?request=GetDisplay&ssd=" + ssdName + "&time=2025-03-13T13:00:00Z";
+    const svg = await provider.getSvg(requestUrl);
+    expect(svg).toBeDefined();
+    if (svg !== undefined) {
+      const provider = new SsdWebserviceProvider(baseUrl);
+      const request: ActionRequest = {
+        panelId: ssdName,
+        clickType: ClickType.LEFTSINGLECLICK,
+      };
+      // ButtonToTSD, LinkToUrl, ButtonToDisplayGroup, ButtonToWindMap, ButtonToFloodWarning2
+      const elementWithAction = [...svg.querySelectorAll("*")].find(
+        (el) => el.getAttribute("fews:id") === "ButtonToTSD",
+      );
+      expect(elementWithAction).not.toBeUndefined();
+      if (elementWithAction !== undefined) {
+        const { id, action } = await provider.getActionFromElement(
+          elementWithAction as SVGElement,
+          request,
         );
+        expect(action).toMatchObject(actionFormat);
+      }
+    }
+  });
 
-        expect(topologyAction).toBeDefined();
-        expect(topologyAction?.requests?.[0]?.request).toEqual(expect.any(String));
-    });
+  it.skipIf(isBelowVersion("202502"))(
+    "retrieves topology-node click action from object id",
+    async function () {
+      const ssdName = "coastal_flooding1";
+      const topologyNodeButtonId = "ButtonToTopologyNodeId";
+      const provider = new SsdWebserviceProvider(baseUrl);
+      const actionRequest: ActionRequest = {
+        panelId: ssdName,
+        objectId: topologyNodeButtonId,
+        clickType: ClickType.LEFTSINGLECLICK,
+      };
+      const elementAction = await provider.getAction(actionRequest);
+      const topologyAction = elementAction.results.find(
+        (result) => result.type === "SELECT_TOPOLOGY_NODE_BY_ID",
+      );
 
-    it("retrieves timeseries", async function () {
-        // download a real timeseries that exists in the capabilities
-        // first get the capabilities
-        const provider = new SsdWebserviceProvider(baseUrl);
-        const capabilities = await provider.getCapabilities();
-        // from the capabilities get info for a panel
-        const group = capabilities.displayGroups[0];
-        const panel = group.displayPanels[0];
-        const panelName = panel.name;
-        let panelDate: string = (new Date()).toISOString();
-        if (panel.dimension) {
-            const panelPeriod = panel.dimension.period;
-            if (panelPeriod === undefined) throw new Error("invalid period")
-            panelDate = panelPeriod?.split("/")[0];
-        }
-        // get the panel SVG
-        const url = provider.urlForPanel(panelName, new Date(panelDate));
-        const svgFromUrl = await provider.getSvg(url);
-        const actionRequest: ActionRequest = {
-            panelId: panelName,
-            objectId: 'ButtonToTSD',
-            clickType: "LEFTSINGLECLICK"
-        };
-        const elementAction = await provider.getAction(actionRequest);
-        const request2 = elementAction.results[0].requests?.[0].request;
-        if (request2 === undefined) throw new Error("no request found")
-        const timeSeries = await provider.fetchPiRequest(request2);
-        expect(timeSeries).toMatchObject(timeseriesFormat);
-    });
+      expect(topologyAction).toBeDefined();
+      expect(topologyAction?.requests?.[0]?.request).toEqual(expect.any(String));
+    },
+  );
 
+  it("retrieves timeseries", async function () {
+    // download a real timeseries that exists in the capabilities
+    // first get the capabilities
+    const provider = new SsdWebserviceProvider(baseUrl);
+    const capabilities = await provider.getCapabilities();
+    // from the capabilities get info for a panel
+    const group = capabilities.displayGroups[0];
+    const panel = group.displayPanels[0];
+    const panelName = panel.name;
+    let panelDate: string = new Date().toISOString();
+    if (panel.dimension) {
+      const panelPeriod = panel.dimension.period;
+      if (panelPeriod === undefined) throw new Error("invalid period");
+      panelDate = panelPeriod?.split("/")[0];
+    }
+    // get the panel SVG
+    const url = provider.urlForPanel(panelName, new Date(panelDate));
+    const svgFromUrl = await provider.getSvg(url);
+    const actionRequest: ActionRequest = {
+      panelId: panelName,
+      objectId: "ButtonToTSD",
+      clickType: "LEFTSINGLECLICK",
+    };
+    const elementAction = await provider.getAction(actionRequest);
+    const request2 = elementAction.results[0].requests?.[0].request;
+    if (request2 === undefined) throw new Error("no request found");
+    const timeSeries = await provider.fetchPiRequest(request2);
+    expect(timeSeries).toMatchObject(timeseriesFormat);
+  });
 });

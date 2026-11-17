@@ -6,10 +6,21 @@
     "packages/fews-ssd-webcomponent"
   ],
   "scripts": {
+    "lint": "vp lint packages/fews-ssd-requests",
+    "lint:fix": "vp lint packages/fews-ssd-requests --fix",
+    "format": "vp fmt",
+    "format:check": "vp fmt --check",
     "build:packages": "npm run build --workspaces --if-present",
     "publish:packages": "npm publish --workspaces",
     "test:unit": "npm run test:unit --workspaces --if-present",
     "test:e2e": "npm run test:e2e --workspaces --if-present"
+  },
+  "devDependencies": {
+    "vite-plus": "1.7.0"
+  },
+  "overrides": {
+    "vite": "npm:@voidzero-dev/vite-plus-core@8.3.8000",
+    "vitest": "5.1.0"
   },
   "volta": {
     "node": "22.21.1"

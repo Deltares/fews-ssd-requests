@@ -1,17 +1,28 @@
 {
   "name": "@deltares/fews-ssd-requests",
   "version": "2.0.0",
+  "private": false,
   "description": "Library for making requests to the FEWS SSD webservice",
-  "author": {
-    "name": "Werner Kramer",
-    "email": "werner.kramer@deltares.nl"
-  },
   "keywords": [
     "FEWS",
     "Schematic Status Display Service"
   ],
+  "bugs": {
+    "url": "https://github.com/Deltares/fews-ssd-requests/issues"
+  },
   "license": "MIT",
-  "private": false,
+  "author": {
+    "name": "Werner Kramer",
+    "email": "werner.kramer@deltares.nl"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Deltares/fews-ssd-requests.git",
+    "directory": "packages/fews-ssd-requests"
+  },
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "module": "./dist/fews-ssd-requests.js",
   "exports": {
@@ -20,16 +31,20 @@
       "types": "./dist/index.d.ts"
     }
   },
-  "files": [
-    "dist"
-  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org",
+    "tag": "rc"
+  },
   "scripts": {
-    "build": "vite build && tsc -p tsconfig.build.json",
+    "build": "vp build && tsc -p tsconfig.build.json",
     "doc": "typedoc --out doc src",
-    "lint": "eslint",
-    "lint:fix": "eslint --fix",
-    "test:unit": "vitest run test/unit",
-    "test:e2e": "vitest run test/e2e --config vitest.config.e2e.ts",
+    "lint": "vp lint",
+    "lint:fix": "vp lint --fix",
+    "format": "vp fmt",
+    "format:check": "vp fmt --check",
+    "test:unit": "vp test run test/unit",
+    "test:e2e": "vp test run test/e2e --config vitest.config.e2e.ts",
     "test": "npm run test:unit && npm run test:e2e",
     "json2ts": "node scripts/generateTypes.js ssd",
     "sonar": "sonar-scanner -Dsonar.host.url=$SONAR_URL -Dsonar.login=$SONAR_TOKEN -Dsonar.projectKey=$SONAR_KEY -Dsonar.projectName='Delft-FEWS Web OC SSD Requests'"
@@ -40,29 +55,16 @@
   },
   "devDependencies": {
     "@types/node": "^24.12.2",
-    "@vitest/browser-playwright": "^5.0.1",
-    "eslint": "^10.10.0",
+    "@vitest/browser-playwright": "5.1.0",
     "json-schema-to-typescript": "^16.0.0",
+    "playwright": "*",
     "typedoc": "^0.28.20",
     "typescript": "^6.0.3",
-    "typescript-eslint": "^8.70.0",
-    "vite": "^8.3.0",
-    "vitest": "^5.0.1"
+    "vite": "npm:@voidzero-dev/vite-plus-core@8.3.8000",
+    "vite-plus": "1.7.0",
+    "vitest": "5.1.0"
   },
   "engines": {
     "node": ">=22.0.0"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Deltares/fews-ssd-requests.git",
-    "directory": "packages/fews-ssd-requests"
-  },
-  "bugs": {
-    "url": "https://github.com/Deltares/fews-ssd-requests/issues"
-  },
-  "publishConfig": {
-    "access": "public",
-    "tag": "rc",
-    "registry": "https://registry.npmjs.org"
   }
 }

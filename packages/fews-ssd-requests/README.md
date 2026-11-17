@@ -15,9 +15,14 @@ npm run serve
 npm run build
 ```
 
-### Lints and fixes files
+### Lints files with Oxlint
 ```
 npm run lint
+```
+
+### Formats files with Oxfmt
+```
+npm run format
 ```
 
 ### Run Unit tests
