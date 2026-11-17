@@ -4,6 +4,9 @@ import { stencilVitestPlugin } from '@stencil/vitest/plugin'
 
 export default defineVitestConfig({
   stencilConfig: './stencil.config.ts',
+  optimizeDeps: {
+    include: ['@stencil/core/internal/client'],
+  },
   test: {
     projects: [
       {
