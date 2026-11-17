@@ -1,21 +1,32 @@
 {
   "name": "@deltares/fews-ssd-webcomponent",
   "version": "2.0.0",
+  "private": false,
   "description": "Web component for FEWS Schematic Status Display",
-  "author": {
-    "name": "Werner Kramer",
-    "email": "werner.kramer@deltares.nl"
-  },
   "keywords": [
     "FEWS",
     "Schematic Status Display web component"
   ],
+  "bugs": {
+    "url": "https://github.com/Deltares/fews-ssd-requests/issues"
+  },
   "license": "MIT",
+  "author": {
+    "name": "Werner Kramer",
+    "email": "werner.kramer@deltares.nl"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Deltares/fews-ssd-requests.git",
+    "directory": "packages/fews-ssd-webcomponent"
+  },
+  "files": [
+    "dist/",
+    "loader/"
+  ],
   "main": "dist/index.cjs.js",
   "module": "dist/index.js",
   "types": "dist/types/index.d.ts",
-  "collection": "dist/collection/collection-manifest.json",
-  "collection:main": "dist/collection/index.js",
   "unpkg": "dist/fews-ssd-webcomponent/fews-ssd-webcomponent.esm.js",
   "exports": {
     ".": {
@@ -32,11 +43,11 @@
       "types": "./loader/index.d.ts"
     }
   },
-  "private": false,
-  "files": [
-    "dist/",
-    "loader/"
-  ],
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org",
+    "tag": "rc"
+  },
   "scripts": {
     "build": "stencil build --docs",
     "start": "stencil build --dev --watch --serve",
@@ -53,19 +64,12 @@
   },
   "devDependencies": {
     "@stencil/vitest": "^1.16.2",
-    "typescript": "^6.0.3"
+    "@vitest/browser-playwright": "5.1.0",
+    "playwright": "*",
+    "typescript": "^6.0.3",
+    "vite": "npm:@voidzero-dev/vite-plus-core@8.3.8000",
+    "vitest": "5.1.0"
   },
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Deltares/fews-ssd-requests.git",
-    "directory": "packages/fews-ssd-webcomponent"
-  },
-  "bugs": {
-    "url": "https://github.com/Deltares/fews-ssd-requests/issues"
-  },
-  "publishConfig": {
-    "access": "public",
-    "tag": "rc",
-    "registry": "https://registry.npmjs.org"
-  }
+  "collection": "dist/collection/collection-manifest.json",
+  "collection:main": "dist/collection/index.js"
 }
