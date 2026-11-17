@@ -20,14 +20,17 @@ jobs:
 
     steps:
       - uses: actions/checkout@v5
-      # setup-vp installs the npm version pinned in package.json#devEngines;
-      # the npm bundled with setup-node does not match it and fails npm's devEngines check.
-      - uses: voidzero-dev/setup-vp@v1.22.0
+      - uses: actions/setup-node@v6
         with:
           node-version: ${{ matrix.node-version }}
-          cache: true
-          run-install: |
-            args: ['--frozen-lockfile', '--ignore-scripts']
+          # Auto-caching runs `npm config get cache` in the repo, which fails npm's devEngines
+          # check before the pinned npm version is installed.
+          package-manager-cache: false
+      - name: Install npm version pinned in package.json#devEngines
+        run: |
+          NPM_VERSION=$(node -p "require('./package.json').devEngines.packageManager.version")
+          cd "$RUNNER_TEMP" && npm install -g "npm@$NPM_VERSION"
+      - run: npm ci --ignore-scripts
       - run: npm run build:packages
       - run: npm run test:unit
       - run: ./node_modules/.bin/playwright install --with-deps chromium
